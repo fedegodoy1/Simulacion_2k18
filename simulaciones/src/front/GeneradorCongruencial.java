@@ -57,7 +57,8 @@ public class GeneradorCongruencial extends javax.swing.JFrame
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         _scpNumerosAleatorios = new javax.swing.JScrollPane();
         _tblNumerosAleatorios = new javax.swing.JTable();
@@ -77,41 +78,49 @@ public class GeneradorCongruencial extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         _tblNumerosAleatorios.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null}
             },
-            new String [] {
+            new String []
+            {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         _scpNumerosAleatorios.setViewportView(_tblNumerosAleatorios);
 
         _btnSiguiente.setText("Siguiente Numero");
-        _btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        _btnSiguiente.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 _btnSiguienteActionPerformed(evt);
             }
         });
 
         _btnChiCuadrado.setText("Test Chi Cuadrado");
-        _btnChiCuadrado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        _btnChiCuadrado.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 _btnChiCuadradoActionPerformed(evt);
             }
         });
 
-        _cboIntervalos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5", "10", "20" }));
+        _cboIntervalos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5", "10", "15", "20" }));
 
         jLabel1.setText("Seleccione cantidad de");
 
         jLabel2.setText("intervalos");
 
         _btnVolver.setText("Volver");
-        _btnVolver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        _btnVolver.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 _btnVolverActionPerformed(evt);
             }
         });
@@ -120,8 +129,10 @@ public class GeneradorCongruencial extends javax.swing.JFrame
         jLabel4.setText("A:");
 
         _txtA.setEditable(false);
-        _txtA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        _txtA.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 _txtAActionPerformed(evt);
             }
         });
@@ -130,8 +141,10 @@ public class GeneradorCongruencial extends javax.swing.JFrame
         jLabel5.setText("B:");
 
         _txtB.setEditable(false);
-        _txtB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        _txtB.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 _txtBActionPerformed(evt);
             }
         });
