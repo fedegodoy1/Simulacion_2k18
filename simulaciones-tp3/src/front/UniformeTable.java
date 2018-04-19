@@ -94,7 +94,7 @@ public class UniformeTable extends javax.swing.JFrame {
 
         jLabel4.setText("Ejecutar prueba de Chi Cuadrado");
 
-        cmb_intervalo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5", "10", "20" }));
+        cmb_intervalo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5", "10", "15", "20" }));
         cmb_intervalo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_intervaloActionPerformed(evt);

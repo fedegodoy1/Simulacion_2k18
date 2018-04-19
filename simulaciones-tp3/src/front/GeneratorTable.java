@@ -105,7 +105,7 @@ public class GeneratorTable extends javax.swing.JFrame {
 
         jLabel3.setText("Ejecutar prueba de chi cuadrado");
 
-        cmb_intervalo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5", "10", "20" }));
+        cmb_intervalo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5", "10", "15", "20" }));
 
         jLabel4.setText("Cantidad de intervalos");
 
