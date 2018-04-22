@@ -62,7 +62,6 @@ public class Main extends javax.swing.JFrame {
         });
 
         btn_poisson.setText("Poisson");
-        btn_poisson.setEnabled(false);
         btn_poisson.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_poissonActionPerformed(evt);
@@ -99,7 +98,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(btn_exponencial)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_poisson)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();

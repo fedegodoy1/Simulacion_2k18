@@ -82,8 +82,8 @@ public class ExponencialTestTable extends javax.swing.JFrame {
                 formatEstadistico.format(estadistico)
             });
         }
-        
-        agregarTablaAcumulada();
+        agregarTablaAcumulada2();
+        //agregarTablaAcumulada();
         
         String valoresGenerados = obtenerValoresGeneradosParaMostrar(this.numsAleatorios);
         txt_valoresGenerados.setText(valoresGenerados);
@@ -419,6 +419,121 @@ public class ExponencialTestTable extends javax.swing.JFrame {
         return probabilidad*N;
     }
 
+    
+    private void agregarTablaAcumulada2() {
+        if (algunaFrecuenciaEsperadaMenorA5()){
+            DefaultTableModel tmAgrupado = (DefaultTableModel) _tablaAcumulada.getModel();
+            TableModel tmOriginal = (DefaultTableModel) _tabla.getModel();
+            
+            DecimalFormat formatterEstadistico = new DecimalFormat("0.000");
+            
+            float frecEspAcumulada = 0;
+            float frecEsperadaActual = 0;
+            float frecObsAcumulada = 0;
+            float frecObsActual = 0;
+            float estadisticoTotal = 0;
+                        
+            float columnaHasta = 0;
+            
+            for (int i = (tmOriginal.getRowCount() - 1) ; i >= 0; i--) {
+                if (tmOriginal.getValueAt(i, COL_FREC_ESP) instanceof String)
+                {
+                    String frecEsperada = (String) tmOriginal.getValueAt(i, COL_FREC_ESP);
+                    if (frecEsperada.indexOf(',') > 0)
+                    {
+                        frecEsperadaActual = Float.parseFloat(frecEsperada.replace(',', '.'));
+                    }
+                    else
+                    {
+                        frecEsperadaActual = Float.parseFloat(frecEsperada);
+                    }
+                    
+                    frecEspAcumulada += frecEsperadaActual;
+                    if (tmOriginal.getValueAt(i, COL_FREC_OBS) instanceof Float)
+                    {
+                        frecObsActual = (float) tmOriginal.getValueAt(i, COL_FREC_OBS);
+                    }
+                    else
+                    {
+                        throw new NullPointerException("La frecuencia Observada no era FLOAT!!!");
+                    }
+                
+                    frecObsAcumulada += frecObsActual;
+                    
+                    if(columnaHasta == 0) {
+                        String aux = (String) tmOriginal.getValueAt(i, COL_HASTA);
+                        columnaHasta = Float.parseFloat(aux.replace(',', '.'));
+                    }
+                    
+                    if (frecEspAcumulada >= 5) 
+                    {
+                        double estadisticoPruebaAcumActual = estadisticoPrueba(frecObsAcumulada, frecEspAcumulada);
+                        estadisticoTotal += estadisticoPruebaAcumActual;
+                        //poner Probabilidad a N/A xq no se usa aca
+                        tmAgrupado.addRow(new Object[]{tmOriginal.getValueAt(i, COL_DESDE), 
+                            columnaHasta,
+                            frecObsAcumulada,
+                            "N/A",
+                            frecEspAcumulada,
+                            formatterEstadistico.format(estadisticoPruebaAcumActual)});
+                        columnaHasta = 0;
+                        frecEspAcumulada = 0;
+                        frecObsAcumulada = 0;
+                    } else {
+                        if(i == 0 && tmAgrupado.getRowCount() > 0) {
+                            
+                            int filaAUnir = tmAgrupado.getRowCount() - 1;
+                            //actualizo intervalo (DESDE)
+                            tmAgrupado.setValueAt(tmOriginal.getValueAt(i, COL_DESDE), filaAUnir, COL_DESDE);
+                            
+                            //frec observada
+                            tmAgrupado.setValueAt(frecObsAcumulada + obtenerValorEnFloat(tmAgrupado.getValueAt(filaAUnir, COL_FREC_OBS)), filaAUnir, COL_FREC_OBS);
+                            
+                            //frec esperada
+                            tmAgrupado.setValueAt(frecEspAcumulada + obtenerValorEnFloat(tmAgrupado.getValueAt(filaAUnir, COL_FREC_ESP)), filaAUnir, COL_FREC_ESP);
+
+                            frecObsActual = (float) tmAgrupado.getValueAt(filaAUnir, COL_FREC_OBS);
+                            frecEsperadaActual = (float) tmAgrupado.getValueAt(filaAUnir, COL_FREC_ESP);
+
+
+                            estadisticoTotal -= obtenerValorEnFloat(tmAgrupado.getValueAt((tmAgrupado.getRowCount() - 1), COL_ESTAD));
+
+                            double estadistico = estadisticoPrueba(frecObsActual, frecEsperadaActual);
+                            tmAgrupado.setValueAt(formatterEstadistico.format(estadistico), filaAUnir, COL_ESTAD);
+                            estadisticoTotal += estadistico;
+
+                            break;
+                        } else if (i == 0 && tmAgrupado.getRowCount() <= 0) {
+                            
+                            //Esto significa q no hay como actualizar xq la tabla nunca tuvo ninguna fila, asiq agregarla es la opcion.
+                            double estadisticoPruebaAcumActual = estadisticoPrueba(frecObsAcumulada, frecEspAcumulada);
+                            estadisticoTotal += estadisticoPruebaAcumActual;
+                            //poner Probabilidad a N/A xq no se usa aca
+                            tmAgrupado.addRow(new Object[]{tmOriginal.getValueAt(0, COL_DESDE), 
+                                columnaHasta, 
+                                frecObsAcumulada,
+                                "N/A",
+                                frecEspAcumulada,
+                                formatterEstadistico.format(estadisticoPruebaAcumActual)});
+                        }
+                    }
+                }
+            }
+            if(tmAgrupado.getRowCount() == 1) {
+                _gradosLib_agrupado.setText("1");
+            } else {
+                _gradosLib_agrupado.setText("" + gradosLibertad(tmAgrupado.getRowCount()));
+            }
+            
+            int aMover = tmAgrupado.getRowCount() - 1;
+            for (int j = 0; j < tmAgrupado.getRowCount(); j++)
+            {
+                tmAgrupado.moveRow(aMover, aMover, j);
+            }
+            txt_nuevo_estadistico.setText("" + formatterEstadistico.format(estadisticoTotal));
+        }
+    }
+            
     private void agregarTablaAcumulada()
     {
         if (algunaFrecuenciaEsperadaMenorA5())
@@ -434,7 +549,7 @@ public class ExponencialTestTable extends javax.swing.JFrame {
             float frecObsActual = 0;
             float estadisticoTotal = 0;
             int filaConElHasta = tmOriginal.getRowCount() - 1;
-
+            
             for (int i = (tmOriginal.getRowCount() - 1) ; i >= 0; i--) 
             {
                 if (tmOriginal.getValueAt(i, COL_FREC_ESP) instanceof String)
@@ -484,7 +599,7 @@ public class ExponencialTestTable extends javax.swing.JFrame {
                     
                     int filaAUnir = tmAgrupado.getRowCount() - 1;
                     //actualizo intervalo (HASTA)
-                    tmAgrupado.setValueAt(tmOriginal.getValueAt(i, COL_HASTA), filaAUnir, COL_HASTA);
+                    tmAgrupado.setValueAt(tmOriginal.getValueAt(i, COL_DESDE), filaAUnir, COL_DESDE);
                     //frec observada
 
                     tmAgrupado.setValueAt(frecObsAcumulada + obtenerValorEnFloat(tmAgrupado.getValueAt(filaAUnir, COL_FREC_OBS)), filaAUnir, COL_FREC_OBS);
@@ -523,7 +638,7 @@ public class ExponencialTestTable extends javax.swing.JFrame {
             {
                 tmAgrupado.moveRow(aMover, aMover, j);
             }
-            _gradosLib_agrupado.setText("" + gradosLibertad(tmAgrupado.getRowCount()));
+                _gradosLib_agrupado.setText("" + gradosLibertad(tmAgrupado.getRowCount()));
             txt_nuevo_estadistico.setText("" + formatterEstadistico.format(estadisticoTotal));
         }
     }
