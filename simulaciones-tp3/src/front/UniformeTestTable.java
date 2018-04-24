@@ -91,7 +91,7 @@ public class UniformeTestTable extends javax.swing.JFrame {
                 }
             }
             _gradosLib_agrupado.setText("" + gradosLibertad(tm2.getRowCount()));
-            txt_nuevo_estadistico.setText("" + c.format(estadisticoTotal));
+            txt_nuevo_estadistico.setText("" + c.format(estadisticoPruebaTotal((DefaultTableModel) tablaFE.getModel())));
         }
 
 //        agregarHistograma(intervalos, uniformeValues);
@@ -107,16 +107,16 @@ public class UniformeTestTable extends javax.swing.JFrame {
     }
 
     public double estadisticoPruebaTotal(DefaultTableModel tm) {
-        DecimalFormat c = new DecimalFormat("0.000");
         int paraTabla = 4;
         //si es la primer tabla suma los de la columna 4, si es la segunda tabla suma los de la columna 3
         if (tm.getColumnCount() == 4) {
             paraTabla = 3;
         }
         double res = 0;
-        String output;
         for (int i = 0; i < tm.getRowCount(); i++) {
-          // output += (String)tm.getValueAt(i, paraTabla);
+          Double estadistico = 0.0;
+          estadistico = Double.parseDouble((String)tm.getValueAt(i, paraTabla));
+          res += estadistico;
         }
         return res;
     }
