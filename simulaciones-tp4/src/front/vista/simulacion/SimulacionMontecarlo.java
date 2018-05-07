@@ -34,6 +34,7 @@ public class SimulacionMontecarlo extends javax.swing.JFrame {
         calculator.tablas(this, cant, desde, hasta, cantRondas, puntosPrimerTiro, puntosSegundoTiro, valorASuperar);
         setLocationRelativeTo(null);
         resultado_txt.setText(Double.toString((double)calculator.cantidadExperimentosValidos()/(double)cant));
+        calculator.volver();
     }
 
     /**

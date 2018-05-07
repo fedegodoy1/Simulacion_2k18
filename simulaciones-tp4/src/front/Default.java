@@ -172,12 +172,13 @@ public class Default extends javax.swing.JFrame {
     }
     
     public void comenzar(){
-         if ((cantSim_txt.getText() != "" && desde_txt.getText() != "" && hasta_txt.getText() != "") && (Integer.parseInt(cantSim_txt.getText()) > 0 && Integer.parseInt(desde_txt.getText()) > 0 && Integer.parseInt(hasta_txt.getText()) > 0) && (Integer.parseInt(desde_txt.getText()) < Integer.parseInt(hasta_txt.getText())) && (Integer.parseInt(hasta_txt.getText()) < Integer.parseInt(cantSim_txt.getText()))) {
-            this.setVisible(false);
+         if ((cantSim_txt.getText() != "" && desde_txt.getText() != "" && hasta_txt.getText() != "") && (Integer.parseInt(cantSim_txt.getText()) > 0 && Integer.parseInt(desde_txt.getText()) > 0 && Integer.parseInt(hasta_txt.getText()) > 0) && (Integer.parseInt(desde_txt.getText()) < Integer.parseInt(hasta_txt.getText())) && (Integer.parseInt(hasta_txt.getText()) <= Integer.parseInt(cantSim_txt.getText()))) {
             if (cantRondas == 0) {
                 controller.iniciar(Integer.parseInt(cantSim_txt.getText()), Integer.parseInt(desde_txt.getText()), Integer.parseInt(hasta_txt.getText()));
+                this.setVisible(false);
             } else {
                 controller.iniciarEspecífico(Integer.parseInt(cantSim_txt.getText()), Integer.parseInt(desde_txt.getText()), Integer.parseInt(hasta_txt.getText()), cantRondas, puntosPrimerTiro, puntosSegundoTiro, valorASuperar);
+                this.setVisible(false);
             }
         }
     }
