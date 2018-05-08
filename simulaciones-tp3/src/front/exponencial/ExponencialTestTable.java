@@ -30,7 +30,7 @@ public class ExponencialTestTable extends javax.swing.JFrame {
     private final static int COL_FREC_ESP = 4;
     private final static int COL_ESTAD = 5;
 
-    private final float media;
+//    private final float media;
 
     private final float lambda;
     
@@ -58,8 +58,10 @@ public class ExponencialTestTable extends javax.swing.JFrame {
         controller = cont;
         float[][] matrizFrecuencia = Calculator.matrizFrecuencia(ordenadosValues, rango, cantIntervalos, minimo);
         N = Integer.parseInt(datosDistribucion[0]);
-        media = Float.parseFloat(datosDistribucion[1]);
-        lambda = (float) 1/media;
+//        media = Float.parseFloat(datosDistribucion[1]);
+//        lambda = (float) 1/media;
+        lambda = Float.parseFloat(datosDistribucion[1]);
+//        lambda = (float) 1/media;
         
 
         initComponents();
