@@ -149,7 +149,8 @@ public class TestTable extends javax.swing.JFrame {
 
     public double estadisticoPrueba(int[][] response, int frecEsp, int loop) {
         double res = 0;//(Math.pow((response[i][1]-frecEsp),2))/frecEsp;
-        res = (double) (Math.pow(response[loop][1] - frecEsp, 2)) / frecEsp;
+        int frecObsIdx = 1;
+        res = (double) (Math.pow(response[loop][frecObsIdx] - frecEsp, 2)) / frecEsp;
         return res;
     }
 

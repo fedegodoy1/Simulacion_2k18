@@ -22,7 +22,7 @@ public class TestCongruencial extends javax.swing.JFrame {
     int contador;
     float[] valoresGenerados;
     int cantIntervalos;
-    int frecEsp;
+    float frecEsp;
 
     public TestCongruencial(Controller cont, int cantIntervalos, float rango, JTable finaltable) {
         controller = cont;
@@ -37,7 +37,7 @@ public class TestCongruencial extends javax.swing.JFrame {
 
         float[] vec = obtenerValoresGeneradosEnTabla(finaltable);
 
-        frecEsp = (int) vec.length / cantIntervalos;
+        frecEsp = (float) vec.length / cantIntervalos;
 
         int[][] response = matrizFrecuencia(vec, cantIntervalos);
         double rangoM;
@@ -181,13 +181,13 @@ public class TestCongruencial extends javax.swing.JFrame {
         return m;
     }
 
-    public double estadisticoPrueba(int[][] response, int frecEsp, int loop) {
+    public double estadisticoPrueba(int[][] response, float frecEsp, int loop) {
         double res = 0;//(Math.pow((response[i][1]-frecEsp),2))/frecEsp;
         res = (double) (Math.pow(response[loop][1] - frecEsp, 2)) / frecEsp;
         return res;
     }
 
-    public double estadisticoPruebaTotal(int[][] response, int frecEsp) {
+    public double estadisticoPruebaTotal(int[][] response, float frecEsp) {
         double res = 0, a = 0;//(Math.pow((response[i][1]-frecEsp),2))/frecEsp;
         for (int i = 0; i < response.length; i++) {
             a += (double) (Math.pow(response[i][1] - frecEsp, 2)) / frecEsp;
