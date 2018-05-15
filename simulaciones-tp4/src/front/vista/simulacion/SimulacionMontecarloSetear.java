@@ -6,6 +6,9 @@
 package front.vista.simulacion;
 
 import front.vista.simulacion.exception.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import objects.Calculator;
@@ -27,8 +30,18 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
     int valorSuperar=0;
     Calculator calculator = new Calculator();
     boolean valuesSet = false;
+    private int COL_PROB = 1;
+    private int COL_P_ACUM = 2;
+    private List<JTable> listaTablas = new ArrayList<>();
+    private List<Float> listaProbDefault = new ArrayList<>();
+    private int _10primerTiroDefault;
+    private int _10seguntoTiroDefault;
+    private int _rondasDefault;
+    private int _valorSuperarDefault;
+
     
-    public void setEspecificos(int cantRondas, int puntosPrimerTiro, int puntosSegundoTiro, int valorASuperar) {
+    public void setEspecificos(int cantRondas, int puntosPrimerTiro, int puntosSegundoTiro, int valorASuperar) 
+    {
         this.cantRondas = cantRondas;
         this.puntaje10PrimerTiro = puntosPrimerTiro;
         this.puntaje10SegundoTiro = puntosSegundoTiro;
@@ -38,6 +51,8 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
     public SimulacionMontecarloSetear(Controller cont) {
         controller = cont;
         initComponents();
+        crearListaDeTablas();
+        prepararValoresPorDefault();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,7 +64,7 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel8 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        scpSimulacion = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPrimerTiro = new javax.swing.JTable();
@@ -63,6 +78,7 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
         _lblDespues8 = new javax.swing.JLabel();
         lblDespues9 = new javax.swing.JLabel();
         _lbl7antes = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         _scpMontecarlo = new javax.swing.JScrollPane();
         _tblMontecarlo = new javax.swing.JTable();
@@ -87,15 +103,25 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
         _btnLimpiar = new javax.swing.JButton();
         resultado_txt = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        cargarPorDefecto = new javax.swing.JButton();
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(102, 102, 102));
         jLabel8.setText("Resultados");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("TP N°4: Montecarlo");
 
-        jTabbedPane1.setPreferredSize(new java.awt.Dimension(1193, 472));
-        jTabbedPane1.setRequestFocusEnabled(false);
+        scpSimulacion.setPreferredSize(new java.awt.Dimension(1193, 472));
+        scpSimulacion.setRequestFocusEnabled(false);
 
         tblPrimerTiro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -217,7 +243,7 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
         _lblDespues8.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         _lblDespues8.setForeground(new java.awt.Color(102, 102, 102));
         _lblDespues8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        _lblDespues8.setText("Distribución - Cantidad de pinos tirados en el segundo tiro si se tiraron 8 antes");
+        _lblDespues8.setText("Distribución - Cantidad de pinos tirados en el segundo tiro si antes se tiraron 8");
 
         lblDespues9.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lblDespues9.setForeground(new java.awt.Color(102, 102, 102));
@@ -228,6 +254,8 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
         _lbl7antes.setForeground(new java.awt.Color(102, 102, 102));
         _lbl7antes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         _lbl7antes.setText("Distribución - Cantidad de pinos tirados en el segundo tiro si se tiraron 7 antes");
+
+        jLabel13.setText("La probabilidad acumulada se calcula automaticamente al guardar los cambios.");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -241,7 +269,7 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(_lblPrimerTiro))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -252,7 +280,11 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(_lbl7antes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addContainerGap(12, Short.MAX_VALUE))))
+                        .addContainerGap(32, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(311, 311, 311))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,28 +294,31 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
                     .addComponent(_lblPrimerTiro)
                     .addComponent(_lbl7antes))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(74, 74, 74)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(_lblDespues8)
                     .addComponent(lblDespues9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Distribuciones de frecuencias", jPanel1);
+        scpSimulacion.addTab("Distribuciones de frecuencias", jPanel1);
+
+        _scpMontecarlo.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         _tblMontecarlo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "# Simulación", "# Ronda", "RND1", "1° Tiro", "RND2", "2° Tiro", "Total Pinos", "Puntos totales", "Puntos acumulados", "Supera 120 (S|N)", "Acumulador Supera 120"
+                "# Simulación", "# Ronda", "RND1", "1° Tiro", "RND2", "2° Tiro", "Total Pinos", "Puntos totales", "Puntos acumulados", "Supera? (S|N)", "Acumulador Supera 120"
             }
         ) {
             Class[] types = new Class [] {
@@ -301,8 +336,25 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        _tblMontecarlo.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         _tblMontecarlo.getTableHeader().setReorderingAllowed(false);
         _scpMontecarlo.setViewportView(_tblMontecarlo);
+        if (_tblMontecarlo.getColumnModel().getColumnCount() > 0) {
+            _tblMontecarlo.getColumnModel().getColumn(0).setPreferredWidth(75);
+            _tblMontecarlo.getColumnModel().getColumn(0).setMaxWidth(75);
+            _tblMontecarlo.getColumnModel().getColumn(1).setPreferredWidth(75);
+            _tblMontecarlo.getColumnModel().getColumn(1).setMaxWidth(75);
+            _tblMontecarlo.getColumnModel().getColumn(2).setMinWidth(100);
+            _tblMontecarlo.getColumnModel().getColumn(3).setMaxWidth(75);
+            _tblMontecarlo.getColumnModel().getColumn(4).setMinWidth(100);
+            _tblMontecarlo.getColumnModel().getColumn(4).setMaxWidth(100);
+            _tblMontecarlo.getColumnModel().getColumn(5).setMaxWidth(75);
+            _tblMontecarlo.getColumnModel().getColumn(6).setMinWidth(80);
+            _tblMontecarlo.getColumnModel().getColumn(7).setMinWidth(100);
+            _tblMontecarlo.getColumnModel().getColumn(8).setMinWidth(100);
+            _tblMontecarlo.getColumnModel().getColumn(9).setMinWidth(75);
+            _tblMontecarlo.getColumnModel().getColumn(10).setMinWidth(100);
+        }
 
         _lblTituloMontecarlo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         _lblTituloMontecarlo.setForeground(new java.awt.Color(102, 102, 102));
@@ -312,50 +364,46 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1026, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(35, 35, 35)
-                    .addComponent(_scpMontecarlo, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE)
-                    .addGap(36, 36, 36)))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(_scpMontecarlo, javax.swing.GroupLayout.PREFERRED_SIZE, 982, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(429, 429, 429)
                     .addComponent(_lblTituloMontecarlo, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(429, Short.MAX_VALUE)))
+                    .addContainerGap(447, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 444, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(33, 33, 33)
-                    .addComponent(_scpMontecarlo, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
-                    .addGap(33, 33, 33)))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(_scpMontecarlo, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                .addGap(32, 32, 32))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(214, 214, 214)
                     .addComponent(_lblTituloMontecarlo)
-                    .addContainerGap(215, Short.MAX_VALUE)))
+                    .addContainerGap(157, Short.MAX_VALUE)))
         );
 
-        jTabbedPane1.addTab("Simulacion", jPanel2);
+        scpSimulacion.addTab("Simulacion", jPanel2);
 
-        _btnSimular.setText("Comenzar simulacion");
+        _btnSimular.setText("Guardar cambios y simular");
         _btnSimular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 _btnSimularActionPerformed(evt);
             }
         });
 
-        btn_set.setText("Setear valores");
+        btn_set.setText("Guardar cambios y simular");
         btn_set.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_setActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Volver");
+        jButton2.setText("Cerrar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -383,7 +431,83 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
             }
         });
 
+        resultado_txt.setEditable(false);
+        resultado_txt.setBackground(new java.awt.Color(255, 51, 51));
+        resultado_txt.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        resultado_txt.setToolTipText("Resultado de simulacion");
+
+        jLabel9.setForeground(new java.awt.Color(255, 51, 51));
         jLabel9.setText("La probabilidad de que supere es:");
+
+        jLabel10.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        jLabel10.setText("Integrantes:");
+
+        jTextArea1.setBackground(new java.awt.Color(204, 204, 204));
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Calibri Light", 0, 13)); // NOI18N
+        jTextArea1.setRows(4);
+        jTextArea1.setText("Del Rio, Lucas\nGodoy, Federico\nHefty, Nicolas\nToloza, Macarena");
+        jTextArea1.setFocusable(false);
+        jScrollPane5.setViewportView(jTextArea1);
+
+        jLabel11.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        jLabel11.setText("Ejercicio N° 24: Bowling");
+
+        jLabel12.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        jLabel12.setText("Grupo 5");
+
+        jTextArea2.setEditable(false);
+        jTextArea2.setBackground(new java.awt.Color(204, 204, 204));
+        jTextArea2.setColumns(20);
+        jTextArea2.setFont(new java.awt.Font("Calibri Light", 0, 13)); // NOI18N
+        jTextArea2.setRows(3);
+        jTextArea2.setText("Primero ingrese las probabilidades deseadas en cada tabla.\nLuego ingrese los parámetros debajo requeridos.\nSeleccione Guardar cambios y simular. ");
+        jScrollPane6.setViewportView(jTextArea2);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(104, 104, 104)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+
+        cargarPorDefecto.setText("Cargar valores por defecto");
+        cargarPorDefecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargarPorDefectoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -392,7 +516,7 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1031, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scpSimulacion, javax.swing.GroupLayout.DEFAULT_SIZE, 1049, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -401,79 +525,70 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel3))
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel7)
+                            .addComponent(jButton2))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(_txtRondas, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                            .addComponent(_txt10SegundoTiro, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                            .addComponent(_txt10PrimerTiro, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                            .addComponent(_txtValorSuperar))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(_btnLimpiar)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(_txtRondas, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                                .addComponent(_txt10SegundoTiro, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                                .addComponent(_txt10PrimerTiro, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                                .addComponent(_txtValorSuperar)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(_btnLimpiar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_set)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(_btnSimular))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(135, 135, 135)
+                                .addGap(125, 125, 125)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel4))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(_txtCantSim, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(_txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(_txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(104, 104, 104)
-                                        .addComponent(resultado_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(_txtCantSim, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(37, 37, 37)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                    .addComponent(_txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(resultado_txt)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addComponent(cargarPorDefecto, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(72, 72, 72)
+                                .addComponent(btn_set, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(_btnSimular))))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scpSimulacion, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(_txtCantSim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jLabel6))
-                                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(_txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel4)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(44, 44, 44)
-                                        .addComponent(resultado_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(_txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))))
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(_btnSimular)
-                            .addComponent(btn_set)
-                            .addComponent(jButton2)
-                            .addComponent(_btnLimpiar))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(_txtCantSim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel6))
+                                    .addGap(34, 34, 34)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(_txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel4)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(resultado_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(_txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(_txt10PrimerTiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -487,23 +602,31 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(_txtValorSuperar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jLabel7))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(_btnLimpiar)
+                    .addComponent(cargarPorDefecto)
+                    .addComponent(btn_set)
+                    .addComponent(_btnSimular))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void _btnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnSimularActionPerformed
-        if (!valuesSet)
-        {
-            //Solo para que valide que este todo
-            btn_setActionPerformed(null);
-        }
-        DefaultTableModel model = (DefaultTableModel) _tblMontecarlo.getModel();
-        model.setRowCount(0);
         try
         {
+            if (!valuesSet)
+            {
+                //Solo para que valide que este todo
+                setCheck();
+            }
+            DefaultTableModel model = (DefaultTableModel) _tblMontecarlo.getModel();
+            model.setRowCount(0);
+        
             ingresosValidos();
         }
         catch(InputException invalidInput)
@@ -511,9 +634,12 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, invalidInput.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }  
-        calculator.especificoTablas(this, Integer.parseInt(_txtCantSim.getText()), Integer.parseInt(_txtDesde.getText()), Integer.parseInt(_txtHasta.getText()), cantRondas, puntaje10PrimerTiro, puntaje10SegundoTiro, valorSuperar);
+        calculator.especificoTablas(this, Integer.parseInt(_txtCantSim.getText()), Integer.parseInt(_txtDesde.getText()),
+                Integer.parseInt(_txtHasta.getText()), cantRondas, puntaje10PrimerTiro, puntaje10SegundoTiro, valorSuperar);
         resultado_txt.setText(Double.toString((double)calculator.cantidadExperimentosValidos()/Double.parseDouble(_txtCantSim.getText())));
         calculator.volver();
+        valuesSet = false;
+        scpSimulacion.setSelectedIndex(1);
     }//GEN-LAST:event__btnSimularActionPerformed
 
     private void ingresosValidos() throws InputException
@@ -534,10 +660,134 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
         }
     }
     private void btn_setActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_setActionPerformed
-        float probAc = 0;
         
         try
         {
+            setCheck();
+            
+        }
+        catch(InputException inputInvalid)
+        {
+            JOptionPane.showMessageDialog(null, inputInvalid.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+    }//GEN-LAST:event_btn_setActionPerformed
+
+    private void _btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnLimpiarActionPerformed
+        _txt10PrimerTiro.setText("");
+        _txt10SegundoTiro.setText("");
+        _txtCantSim.setText("");
+        _txtDesde.setText("");
+        _txtHasta.setText("");
+        _txtRondas.setText("");
+        _txtValorSuperar.setText("");
+        DefaultTableModel dtm = (DefaultTableModel) _tblMontecarlo.getModel();
+        dtm.setRowCount(0);
+        limpiarTablas();
+        scpSimulacion.setSelectedIndex(0);
+    }//GEN-LAST:event__btnLimpiarActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Boton Cerrar
+        this.setVisible(false);
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void cargarPorDefectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarPorDefectoActionPerformed
+        //Popular Tablas (Probabilidades solamente)
+        popularTablasPorDefecto();
+        //Popular campos requeridos
+        popularCamposRequeridosPorDefecto();
+        //Llamar funcionalidad que valide input
+        try
+        {
+            setCheck();
+        }
+        catch (InputException invalidInput)
+        {
+            JOptionPane.showMessageDialog(null, invalidInput.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    }//GEN-LAST:event_cargarPorDefectoActionPerformed
+       
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton _btnLimpiar;
+    private javax.swing.JButton _btnSimular;
+    private javax.swing.JLabel _lbl7antes;
+    private javax.swing.JLabel _lblDespues8;
+    private javax.swing.JLabel _lblPrimerTiro;
+    private javax.swing.JLabel _lblTituloMontecarlo;
+    private javax.swing.JScrollPane _scpMontecarlo;
+    public javax.swing.JTable _tblMontecarlo;
+    private javax.swing.JTextField _txt10PrimerTiro;
+    private javax.swing.JTextField _txt10SegundoTiro;
+    private javax.swing.JTextField _txtCantSim;
+    private javax.swing.JTextField _txtDesde;
+    private javax.swing.JTextField _txtHasta;
+    private javax.swing.JTextField _txtRondas;
+    private javax.swing.JTextField _txtValorSuperar;
+    private javax.swing.JButton btn_set;
+    private javax.swing.JButton cargarPorDefecto;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JLabel lblDespues9;
+    private javax.swing.JTextField resultado_txt;
+    private javax.swing.JTabbedPane scpSimulacion;
+    public javax.swing.JTable tblDespues7;
+    public javax.swing.JTable tblDespues8;
+    public javax.swing.JTable tblDespues9;
+    public javax.swing.JTable tblPrimerTiro;
+    // End of variables declaration//GEN-END:variables
+
+    private void limpiarTablas() {
+        
+        for (JTable tabla: listaTablas)
+        {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            for(int i = 0; i < modelo.getRowCount(); i++)
+            {
+                modelo.setValueAt(null, i, COL_PROB);
+                modelo.setValueAt(null, i, COL_P_ACUM);
+            }
+        }
+    }
+
+    private void crearListaDeTablas() {
+        listaTablas.add(tblPrimerTiro);
+        listaTablas.add(tblDespues7);
+        listaTablas.add(tblDespues8);
+        listaTablas.add(tblDespues9);
+        
+    }
+
+    private void setCheck() throws InputException {
+        float probAc = 0;
+        
             for (int i = 0; i < tblPrimerTiro.getRowCount(); i++) 
             {
                 if (tblPrimerTiro.getValueAt(i, 1) != null && tblPrimerTiro.getValueAt(i, 1) instanceof Float)
@@ -626,78 +876,59 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
             }
             setEspecificos(Integer.parseInt(_txtRondas.getText()), Integer.parseInt(_txt10PrimerTiro.getText()), Integer.parseInt(_txt10SegundoTiro.getText()), Integer.parseInt(_txtValorSuperar.getText()));
             valuesSet = true;
-        }
-        catch(InputException inputInvalid)
-        {
-            JOptionPane.showMessageDialog(null, inputInvalid.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    }
+
+    private void prepararValoresPorDefault() {
+        listaProbDefault.add(0.12f);
+        listaProbDefault.add(0.15f);
+        listaProbDefault.add(0.18f);
+        listaProbDefault.add(0.55f);
         
-    }//GEN-LAST:event_btn_setActionPerformed
+        listaProbDefault.add(0.02f);
+        listaProbDefault.add(0.1f);
+        listaProbDefault.add(0.45f);
+        listaProbDefault.add(0.43f);
+        
+        listaProbDefault.add(0.04f);
+        listaProbDefault.add(0.2f);
+        listaProbDefault.add(0.76f);
+        
+        listaProbDefault.add(0.06f);
+        listaProbDefault.add(0.94f);
+        
+        //Valor 10 pinos en 1r tiro: 20
+        _10primerTiroDefault = 20;
+        //Valor 10 pinos en 2o tiro: 15
+        _10seguntoTiroDefault = 15;
+        //Rondas a simular: 10
+        _rondasDefault = 10;
+        //Superar puntaje: 120
+        _valorSuperarDefault = 120;
+        
+    }
 
-    private void _btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnLimpiarActionPerformed
-        _txt10PrimerTiro.setText("");
-        _txt10SegundoTiro.setText("");
-        _txtCantSim.setText("");
-        _txtDesde.setText("");
-        _txtHasta.setText("");
-        _txtRondas.setText("");
-        _txtValorSuperar.setText("");
-        DefaultTableModel dtm = (DefaultTableModel) _tblMontecarlo.getModel();
-        dtm.setRowCount(0);
-    }//GEN-LAST:event__btnLimpiarActionPerformed
+    private void popularTablasPorDefecto() {
+        int indiceDefault = 0;
+        for (JTable tabla: listaTablas)
+        {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            for (int i = 0; i < modelo.getRowCount(); i++)
+            {
+                modelo.setValueAt(listaProbDefault.get(indiceDefault), i, COL_PROB);
+                indiceDefault++;
+            }
+        }
+    }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        controller.showMenu();
-    }//GEN-LAST:event_jButton2ActionPerformed
-    
-    /**
-     * @param args the command line arguments
-     */
-    
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton _btnLimpiar;
-    private javax.swing.JButton _btnSimular;
-    private javax.swing.JLabel _lbl7antes;
-    private javax.swing.JLabel _lblDespues8;
-    private javax.swing.JLabel _lblPrimerTiro;
-    private javax.swing.JLabel _lblTituloMontecarlo;
-    private javax.swing.JScrollPane _scpMontecarlo;
-    public javax.swing.JTable _tblMontecarlo;
-    private javax.swing.JTextField _txt10PrimerTiro;
-    private javax.swing.JTextField _txt10SegundoTiro;
-    private javax.swing.JTextField _txtCantSim;
-    private javax.swing.JTextField _txtDesde;
-    private javax.swing.JTextField _txtHasta;
-    private javax.swing.JTextField _txtRondas;
-    private javax.swing.JTextField _txtValorSuperar;
-    private javax.swing.JButton btn_set;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblDespues9;
-    private javax.swing.JTextField resultado_txt;
-    public javax.swing.JTable tblDespues7;
-    public javax.swing.JTable tblDespues8;
-    public javax.swing.JTable tblDespues9;
-    public javax.swing.JTable tblPrimerTiro;
-    // End of variables declaration//GEN-END:variables
-    
+    private void popularCamposRequeridosPorDefecto() {
+        
+        _txt10PrimerTiro.setText("" + _10primerTiroDefault);
+        _txt10SegundoTiro.setText("" + _10seguntoTiroDefault);
+        _txtRondas.setText("" + _rondasDefault);
+        _txtValorSuperar.setText("" + _valorSuperarDefault);
+        _txtCantSim.setText("" + 100);
+        _txtDesde.setText("" + 0);
+        _txtHasta.setText("" + 10);
+    }
 
 }

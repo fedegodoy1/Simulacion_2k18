@@ -9,7 +9,7 @@ import objects.Controller;
 
 /**
  *
- * @author gabrielneil
+ * @author nicolashefty
  */
 public class Default extends javax.swing.JFrame {
 

@@ -12,11 +12,11 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author gabrielneil
+ * @author nicolashefty
  */
 public class Calculator {
 
-//cantidad de simulaciones realizadas 
+    //cantidad de simulaciones realizadas 
     int cantExperimentos = 1;
 
     int acumSiSuperaLimite = 0;
@@ -26,6 +26,9 @@ public class Calculator {
     DefaultTableModel tmSegundoTiroPara8;
     DefaultTableModel tmSegundoTiroPara9;
     DefaultTableModel tmSegundoTiro;
+    
+    private static final int COL_VALOR = 0;
+    private static final int COL_P_ACUM = 2;
 
     public Calculator() {
 
@@ -150,8 +153,8 @@ public class Calculator {
     private int calculoTiro1(float rnd1) {
         int nPinosTirados = 0;
         for (int i = 0; i < tmPrimerTiro.getRowCount(); i++) {
-            if (rnd1 < (float) tmPrimerTiro.getValueAt(i, 2)) {
-                nPinosTirados = (int)tmPrimerTiro.getValueAt(i, 0);
+            if (rnd1 < (float) tmPrimerTiro.getValueAt(i, COL_P_ACUM)) {
+                nPinosTirados = (int)tmPrimerTiro.getValueAt(i, COL_VALOR);
                 break;
             }
         }
@@ -164,24 +167,24 @@ public class Calculator {
         switch (tiro1) {
             case 7:
                 for (int i = 0; i < tmSegundoTiroPara7.getRowCount(); i++) {
-                    if (rnd2 < (float) tmSegundoTiroPara7.getValueAt(i, 2)) {
-                        nPinosTirados = (int)tmSegundoTiroPara7.getValueAt(i, 0);
+                    if (rnd2 < (float) tmSegundoTiroPara7.getValueAt(i, COL_P_ACUM)) {
+                        nPinosTirados = (int)tmSegundoTiroPara7.getValueAt(i, COL_VALOR);
                         break;
                     }
                 }
                 break;
             case 8:
                 for (int i = 0; i < tmSegundoTiroPara8.getRowCount(); i++) {
-                    if (rnd2 < (float) tmSegundoTiroPara8.getValueAt(i, 2)) {
-                        nPinosTirados = (int)tmSegundoTiroPara8.getValueAt(i, 0);
+                    if (rnd2 < (float) tmSegundoTiroPara8.getValueAt(i, COL_P_ACUM)) {
+                        nPinosTirados = (int)tmSegundoTiroPara8.getValueAt(i, COL_VALOR);
                         break;
                     }
                 }
                 break;
             case 9:
                 for (int i = 0; i < tmSegundoTiroPara9.getRowCount(); i++) {
-                    if (rnd2 < (float) tmSegundoTiroPara9.getValueAt(i, 2)) {
-                        nPinosTirados = (int)tmSegundoTiroPara9.getValueAt(i, 0);
+                    if (rnd2 < (float) tmSegundoTiroPara9.getValueAt(i, COL_P_ACUM)) {
+                        nPinosTirados = (int)tmSegundoTiroPara9.getValueAt(i, COL_VALOR);
                         break;
                     }
                 }
