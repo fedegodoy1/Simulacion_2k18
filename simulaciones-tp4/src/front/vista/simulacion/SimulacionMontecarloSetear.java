@@ -636,8 +636,8 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
         }  
         calculator.especificoTablas(this, Integer.parseInt(_txtCantSim.getText()), Integer.parseInt(_txtDesde.getText()),
                 Integer.parseInt(_txtHasta.getText()), cantRondas, puntaje10PrimerTiro, puntaje10SegundoTiro, valorSuperar);
-        resultado_txt.setText(Double.toString((double)calculator.cantidadExperimentosValidos()/Double.parseDouble(_txtCantSim.getText())));
-        calculator.volver();
+        resultado_txt.setText(Double.toString((double)calculator.getCantidadExperimentosValidos()/Double.parseDouble(_txtCantSim.getText())));
+        calculator.limpiarValoresGlobales();
         valuesSet = false;
         scpSimulacion.setSelectedIndex(1);
     }//GEN-LAST:event__btnSimularActionPerformed
