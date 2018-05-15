@@ -84,7 +84,6 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
         _tblMontecarlo = new javax.swing.JTable();
         _lblTituloMontecarlo = new javax.swing.JLabel();
         _btnSimular = new javax.swing.JButton();
-        btn_set = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -396,13 +395,6 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
             }
         });
 
-        btn_set.setText("Guardar cambios y simular");
-        btn_set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_setActionPerformed(evt);
-            }
-        });
-
         jButton2.setText("Cerrar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -461,7 +453,7 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
         jTextArea2.setColumns(20);
         jTextArea2.setFont(new java.awt.Font("Calibri Light", 0, 13)); // NOI18N
         jTextArea2.setRows(3);
-        jTextArea2.setText("Primero ingrese las probabilidades deseadas en cada tabla.\nLuego ingrese los parámetros debajo requeridos.\nSeleccione Guardar cambios y simular. ");
+        jTextArea2.setText("Primero ingrese las probabilidades deseadas en cada tabla.\nLuego ingrese los parámetros debajo requeridos.\nSeleccione Guardar cambios y simular. \nO utilice valores por defecto seleccionando el boton para ello.");
         jScrollPane6.setViewportView(jTextArea2);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -554,8 +546,6 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(52, 52, 52)
                                 .addComponent(cargarPorDefecto, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(72, 72, 72)
-                                .addComponent(btn_set, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(_btnSimular))))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -608,7 +598,6 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(_btnLimpiar)
                     .addComponent(cargarPorDefecto)
-                    .addComponent(btn_set)
                     .addComponent(_btnSimular))
                 .addContainerGap())
         );
@@ -659,21 +648,6 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
             throw new InputException("Ingrese hasta qué simulacion quiere visualizar");
         }
     }
-    private void btn_setActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_setActionPerformed
-        
-        try
-        {
-            setCheck();
-            
-        }
-        catch(InputException inputInvalid)
-        {
-            JOptionPane.showMessageDialog(null, inputInvalid.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-    }//GEN-LAST:event_btn_setActionPerformed
-
     private void _btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnLimpiarActionPerformed
         _txt10PrimerTiro.setText("");
         _txt10SegundoTiro.setText("");
@@ -728,7 +702,6 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
     private javax.swing.JTextField _txtHasta;
     private javax.swing.JTextField _txtRondas;
     private javax.swing.JTextField _txtValorSuperar;
-    private javax.swing.JButton btn_set;
     private javax.swing.JButton cargarPorDefecto;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

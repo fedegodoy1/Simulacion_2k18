@@ -87,8 +87,6 @@
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                               <Component id="cargarPorDefecto" min="-2" pref="219" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
-                              <Component id="btn_set" min="-2" pref="208" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="_btnSimular" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -160,7 +158,6 @@
                   <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="_btnLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cargarPorDefecto" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_set" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="_btnSimular" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -657,14 +654,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btnSimularActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_set">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Guardar cambios y simular"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_setActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cerrar"/>
@@ -865,7 +854,7 @@
                   <Font name="Calibri Light" size="13" style="0"/>
                 </Property>
                 <Property name="rows" type="int" value="3"/>
-                <Property name="text" type="java.lang.String" value="Primero ingrese las probabilidades deseadas en cada tabla.&#xa;Luego ingrese los par&#xe1;metros debajo requeridos.&#xa;Seleccione Guardar cambios y simular. "/>
+                <Property name="text" type="java.lang.String" value="Primero ingrese las probabilidades deseadas en cada tabla.&#xa;Luego ingrese los par&#xe1;metros debajo requeridos.&#xa;Seleccione Guardar cambios y simular. &#xa;O utilice valores por defecto seleccionando el boton para ello."/>
               </Properties>
             </Component>
           </SubComponents>
