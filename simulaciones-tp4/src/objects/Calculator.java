@@ -5,18 +5,17 @@
  */
 package objects;
 
-import front.vista.simulacion.SimulacionMontecarlo;
 import front.vista.simulacion.SimulacionMontecarloSetear;
 import java.util.Random;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author gabrielneil
+ * @author nicolashefty
  */
 public class Calculator {
 
-//cantidad de simulaciones realizadas 
+    //cantidad de simulaciones realizadas 
     int cantExperimentos = 1;
 
     int acumSiSuperaLimite = 0;
@@ -26,51 +25,35 @@ public class Calculator {
     DefaultTableModel tmSegundoTiroPara8;
     DefaultTableModel tmSegundoTiroPara9;
     DefaultTableModel tmSegundoTiro;
+    
+    private static final int COL_VALOR = 0;
+    private static final int COL_P_ACUM = 2;
 
     public Calculator() {
 
     }
-
-    public void tablas(SimulacionMontecarlo tablaSimulacion, int cantSim, int desde, int hasta) {
-        seteoTablas(tablaSimulacion);
-
-        for (int i = 0; i < cantSim; i++) {
-            if ((i >= desde - 1 && i <= hasta - 1) || i == cantSim - 1) {
-                simulacionEnGrafico(10, 20, 15, 120);
-            } else {
-                simulacion(10, 20, 15, 120);
-            }
-        }
-        tablaSimulacion.setVisible(true);
-    }
-
-    public void tablas(SimulacionMontecarlo tablaSimulacion, int cantSim, int desde, int hasta, int cantRondas, int puntosPrimerTiro, int puntosSegundoTiro, int valorASuperar) {
-        seteoTablas(tablaSimulacion);
-
-        for (int i = 0; i < cantSim; i++) {
-            if ((i >= desde - 1 && i <= hasta - 1) || i == cantSim - 1) {
-                simulacionEnGrafico(cantRondas, puntosPrimerTiro, puntosSegundoTiro, valorASuperar);
-            } else {
-                simulacion(cantRondas, puntosPrimerTiro, puntosSegundoTiro, valorASuperar);
-            }
-        }
-        tablaSimulacion.setVisible(true);
-    }
     
-    public void especificoTablas(SimulacionMontecarloSetear tablaSimulacion, int cantSim, int desde, int hasta, int cantRondas, int puntosPrimerTiro, int puntosSegundoTiro, int valorASuperar) {
+    public void especificoTablas(SimulacionMontecarloSetear tablaSimulacion, int cantSim, 
+            int desde, int hasta, int cantRondas, int puntosPrimerTiro, int puntosSegundoTiro, int valorASuperar) 
+    {
         especificoSeteoTablas(tablaSimulacion);
 
-        for (int i = 0; i < cantSim; i++) {
-            if ((i >= desde - 1 && i <= hasta - 1) || i == cantSim - 1) {
+        for (int i = 0; i < cantSim; i++) 
+        {
+            if ((i >= desde - 1 && i <= hasta - 1) || i == cantSim - 1) 
+            {
                 simulacionEnGrafico(cantRondas, puntosPrimerTiro, puntosSegundoTiro, valorASuperar);
-            } else {
+            } 
+            else 
+            {
                 simulacion(cantRondas, puntosPrimerTiro, puntosSegundoTiro, valorASuperar);
             }
         }
     }
     
 
-    public void simulacion(int cantRondas, int puntosPrimerTiro, int puntosSegundoTiro, int valorASuperar) {
+    public void simulacion(int cantRondas, int puntosPrimerTiro, int puntosSegundoTiro, int valorASuperar) 
+    {
         Random r = new Random();
         int puntaje;
         int puntosAcum = 0;
@@ -78,25 +61,31 @@ public class Calculator {
 
         //       0       1       2          3        4         5                6                  7               8                       9            10
         // simulacion  ronda    rnd1    1erTiro     rnd2    2doTiro     totalPinosTirados   puntosTotales   puntosAcumulados    booleano superoLos120   acumuladorSiSupera120  
-        for (int i = 0; i < cantRondas; i++) {
+        for (int i = 0; i < cantRondas; i++) 
+        {
             float rnd1 = r.nextFloat();
             int tiro1 = calculoTiro1(rnd1);
 
-            if (tiro1 == 10) {
+            if (tiro1 == 10) 
+            {
                 puntaje = puntosPrimerTiro;
                 puntosAcum += puntaje;
-                if (puntosAcum >= valorASuperar && flag == false) {
+                if (puntosAcum >= valorASuperar && flag == false) 
+                {
                     acumSiSuperaLimite++;
                     flag = true;
                 }
-            } else {
+            } 
+            else 
+            {
 
                 float rnd2 = r.nextFloat();
                 int tiro2 = calculoTiro2(tiro1, rnd2);
                 int cantPinosTirados = tiro1 + tiro2;
                 puntaje = (cantPinosTirados == 10) ? puntosSegundoTiro : cantPinosTirados;
                 puntosAcum += puntaje;
-                if (puntosAcum >= valorASuperar && flag == false) {
+                if (puntosAcum >= valorASuperar && flag == false) 
+                {
                     acumSiSuperaLimite++;
                     flag = true;
                 }
@@ -106,7 +95,8 @@ public class Calculator {
         cantExperimentos++;
     }
 
-    public void simulacionEnGrafico(int cantRondas, int puntosPrimerTiro, int puntosSegundoTiro, int valorASuperar) {
+    public void simulacionEnGrafico(int cantRondas, int puntosPrimerTiro, int puntosSegundoTiro, int valorASuperar) 
+    {
         Random r = new Random();
         int contador = 1;
         int puntaje;
@@ -115,28 +105,35 @@ public class Calculator {
         
         //       0       1       2          3        4         5                6                  7               8                       9            10
         // simulacion  ronda    rnd1    1erTiro     rnd2    2doTiro     totalPinosTirados   puntosTotales   puntosAcumulados    booleano superoLos120   acumuladorSiSupera120  
-        for (int i = 0; i < cantRondas; i++) {
+        for (int i = 0; i < cantRondas; i++) 
+        {
 
             float rnd1 = r.nextFloat();
             int tiro1 = calculoTiro1(rnd1);
 
-            if (tiro1 == 10) {
+            if (tiro1 == 10) 
+            {
                 puntaje = puntosPrimerTiro;
                 puntosAcum += puntaje;
                 tm.addRow(new Object[]{cantExperimentos, contador, rnd1, tiro1, "-", "-", tiro1, puntaje, puntosAcum, (puntosAcum >= valorASuperar) ? true : false, acumSiSuperaLimite});
-                if (puntosAcum >= valorASuperar && flag == false) {
+                if (puntosAcum >= valorASuperar && flag == false) 
+                {
                     acumSiSuperaLimite++;
                     flag = true;
                 }
-            } else {
+            } 
+            else 
+            {
 
                 float rnd2 = r.nextFloat();
                 int tiro2 = calculoTiro2(tiro1, rnd2);
                 int cantPinosTirados = tiro1 + tiro2;
                 puntaje = (cantPinosTirados == 10) ? puntosSegundoTiro : cantPinosTirados;
                 puntosAcum += puntaje;
-                tm.addRow(new Object[]{cantExperimentos, contador, rnd1, tiro1, rnd2, tiro2, cantPinosTirados, puntaje, puntosAcum, (puntosAcum >= valorASuperar) ? true : false, acumSiSuperaLimite});
-                if (puntosAcum >= valorASuperar && flag == false) {
+                tm.addRow(new Object[]{cantExperimentos, contador, rnd1, tiro1, rnd2, tiro2, 
+                    cantPinosTirados, puntaje, puntosAcum, (puntosAcum >= valorASuperar) , acumSiSuperaLimite});
+                if (puntosAcum >= valorASuperar && flag == false) 
+                {
                     acumSiSuperaLimite++;
                     flag = true;
                 }
@@ -147,41 +144,52 @@ public class Calculator {
         cantExperimentos++;
     }
 
-    private int calculoTiro1(float rnd1) {
+    private int calculoTiro1(float rnd1) 
+    {
         int nPinosTirados = 0;
-        for (int i = 0; i < tmPrimerTiro.getRowCount(); i++) {
-            if (rnd1 < (float) tmPrimerTiro.getValueAt(i, 2)) {
-                nPinosTirados = (int)tmPrimerTiro.getValueAt(i, 0);
+        for (int i = 0; i < tmPrimerTiro.getRowCount(); i++) 
+        {
+            if (rnd1 < (float) tmPrimerTiro.getValueAt(i, COL_P_ACUM)) 
+            {
+                nPinosTirados = (int)tmPrimerTiro.getValueAt(i, COL_VALOR);
                 break;
             }
         }
         return nPinosTirados;
     }
 
-    private int calculoTiro2(int tiro1, float rnd2) {
+    private int calculoTiro2(int tiro1, float rnd2) 
+    {
         int nPinosTirados = 0;
 
-        switch (tiro1) {
+        switch (tiro1) 
+        {
             case 7:
-                for (int i = 0; i < tmSegundoTiroPara7.getRowCount(); i++) {
-                    if (rnd2 < (float) tmSegundoTiroPara7.getValueAt(i, 2)) {
-                        nPinosTirados = (int)tmSegundoTiroPara7.getValueAt(i, 0);
+                for (int i = 0; i < tmSegundoTiroPara7.getRowCount(); i++) 
+                {
+                    if (rnd2 < (float) tmSegundoTiroPara7.getValueAt(i, COL_P_ACUM)) 
+                    {
+                        nPinosTirados = (int)tmSegundoTiroPara7.getValueAt(i, COL_VALOR);
                         break;
                     }
                 }
                 break;
             case 8:
-                for (int i = 0; i < tmSegundoTiroPara8.getRowCount(); i++) {
-                    if (rnd2 < (float) tmSegundoTiroPara8.getValueAt(i, 2)) {
-                        nPinosTirados = (int)tmSegundoTiroPara8.getValueAt(i, 0);
+                for (int i = 0; i < tmSegundoTiroPara8.getRowCount(); i++) 
+                {
+                    if (rnd2 < (float) tmSegundoTiroPara8.getValueAt(i, COL_P_ACUM)) 
+                    {
+                        nPinosTirados = (int)tmSegundoTiroPara8.getValueAt(i, COL_VALOR);
                         break;
                     }
                 }
                 break;
             case 9:
-                for (int i = 0; i < tmSegundoTiroPara9.getRowCount(); i++) {
-                    if (rnd2 < (float) tmSegundoTiroPara9.getValueAt(i, 2)) {
-                        nPinosTirados = (int)tmSegundoTiroPara9.getValueAt(i, 0);
+                for (int i = 0; i < tmSegundoTiroPara9.getRowCount(); i++) 
+                {
+                    if (rnd2 < (float) tmSegundoTiroPara9.getValueAt(i, COL_P_ACUM)) 
+                    {
+                        nPinosTirados = (int)tmSegundoTiroPara9.getValueAt(i, COL_VALOR);
                         break;
                     }
                 }
@@ -190,15 +198,8 @@ public class Calculator {
         return nPinosTirados;
     }
 
-    private void seteoTablas(SimulacionMontecarlo tablaSimulacion) {
-        tm = (DefaultTableModel) tablaSimulacion._tblMontecarlo.getModel();
-        tmPrimerTiro = (DefaultTableModel) tablaSimulacion.tblPrimerTiro.getModel();
-        tmSegundoTiroPara7 = (DefaultTableModel) tablaSimulacion.tblDespues7.getModel();
-        tmSegundoTiroPara8 = (DefaultTableModel) tablaSimulacion.tblDespues8.getModel();
-        tmSegundoTiroPara9 = (DefaultTableModel) tablaSimulacion.tblDespues9.getModel();
-    }
-    
-    private void especificoSeteoTablas(SimulacionMontecarloSetear tablaSimulacion) {
+    private void especificoSeteoTablas(SimulacionMontecarloSetear tablaSimulacion) 
+    {
         tm = (DefaultTableModel) tablaSimulacion._tblMontecarlo.getModel();
         tmPrimerTiro = (DefaultTableModel) tablaSimulacion.tblPrimerTiro.getModel();
         tmSegundoTiroPara7 = (DefaultTableModel) tablaSimulacion.tblDespues7.getModel();
@@ -206,12 +207,14 @@ public class Calculator {
         tmSegundoTiroPara9 = (DefaultTableModel) tablaSimulacion.tblDespues9.getModel();
     }
 
-    public int cantidadExperimentosValidos() {
+    public int getCantidadExperimentosValidos() 
+    {
         return acumSiSuperaLimite;
     }
 
-    public void volver(){
-                acumSiSuperaLimite = 0;
+    public void limpiarValoresGlobales()
+    {
+        acumSiSuperaLimite = 0;
         cantExperimentos = 1;
     }
 }
