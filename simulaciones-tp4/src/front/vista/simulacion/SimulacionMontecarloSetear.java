@@ -647,6 +647,10 @@ public class SimulacionMontecarloSetear extends javax.swing.JFrame {
         {
             throw new InputException("Ingrese hasta qué simulacion quiere visualizar");
         }
+        if (Integer.parseInt(_txtHasta.getText()) <= Integer.parseInt(_txtDesde.getText()))
+        {
+            throw new InputException("Desde debe ser menor a Hasta");
+        }
     }
     private void _btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnLimpiarActionPerformed
         _txt10PrimerTiro.setText("");
