@@ -9,8 +9,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import model.VectorEstado;
 import model.VectorEstadoConstants;
+import model.VectorEstadoUI;
 
 /**
  *
@@ -18,7 +18,7 @@ import model.VectorEstadoConstants;
  */
 public final class VectorEstadoTableModel extends DefaultTableModel implements VectorEstadoConstants {
 
-    private List<VectorEstado> datos;
+    private List<VectorEstadoUI> datos;
     private List<Columna> columns;
 
     public VectorEstadoTableModel() 
