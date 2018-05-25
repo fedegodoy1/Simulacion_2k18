@@ -1,9 +1,14 @@
 package front.tablemodel;
 
+import control.ControladorSimulacion;
+import model.Configuracion;
+
 public class SetearValores extends javax.swing.JFrame {
 
+    private ControladorSimulacion controlador;
     
-    public SetearValores() {
+    public SetearValores(ControladorSimulacion controlador) {
+        this.controlador = controlador;
         initComponents();
     }
 
@@ -280,53 +285,20 @@ public class SetearValores extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_media_llegada_alumnoActionPerformed
 
     private void btn_setear_defectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_setear_defectoActionPerformed
-        txt_desde_inscripcion.setText("5");
-        txt_hasta_inscripcion.setText("8");
-        txt_desde_llegada_personal.setText("57");
-        txt_hasta_llegada_personal.setText("63");
-        txt_media_llegada_alumno.setText("2");
-        txt_media_demora_mantenimiento.setText("3");
-        txt_desviacion_demora_mantenimiento.setText("0.0027");
+        Configuracion config = Configuracion.getConfiguracionPorDefecto();
+        txt_desde_inscripcion.setText("" + config.getTiempoInscripcionDesde());
+        txt_hasta_inscripcion.setText("" + config.getTiempoInscripcionHasta());
+        txt_desde_llegada_personal.setText("" + config.getInicioMantenimientoDesde());
+        txt_hasta_llegada_personal.setText("" + config.getInicioMantenimientoHasta());
+        txt_media_llegada_alumno.setText("" + config.getMediaLlegadaAlumnos());
+        txt_media_demora_mantenimiento.setText("" + config.getTiempoMantenimientoMedio());
+        txt_desviacion_demora_mantenimiento.setText("" + config.getTiempoMantenimientoDesviacion());
     }//GEN-LAST:event_btn_setear_defectoActionPerformed
 
     private void btn_simularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simularActionPerformed
-        // ACA VA LA MAGIA
+        controlador.simular();
     }//GEN-LAST:event_btn_simularActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SetearValores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SetearValores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SetearValores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SetearValores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SetearValores().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_setear_defecto;

@@ -12,6 +12,7 @@ package model;
 public class Configuracion {
     
     private static Configuracion instancia;
+
     //Demora inscripcion desde
     //hasta
     //UNIFORME
@@ -107,6 +108,12 @@ public class Configuracion {
         {
             instancia = new Configuracion();
         }
+        return instancia;
+    }
+    
+    public static Configuracion getConfiguracionPorDefecto() 
+    {
+        instancia = new Configuracion();
         return instancia;
     }
 }

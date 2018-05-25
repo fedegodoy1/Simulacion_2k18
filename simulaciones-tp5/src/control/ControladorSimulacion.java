@@ -24,4 +24,13 @@ public class ControladorSimulacion
     {
         vistaAplicacion.setVisible(true);        
     }
+
+    public void simular() {
+        /**
+         * Ademas de simular aca vamos a actualizar la vista...
+         * onda la SetarValores tiene que proveer un metodo para 
+         * obtener el TableModel (VectorEstadoTableModel) asi 
+         * nosotros le pasamos todos los datos y le informamos que cambio la data
+         */
+    }
 }
