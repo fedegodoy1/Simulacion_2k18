@@ -6,6 +6,7 @@
 package control;
 
 import front.principal.VistaAplicacion;
+import front.tablemodel.SetearValores;
 
 /**
  *
@@ -13,14 +14,14 @@ import front.principal.VistaAplicacion;
  */
 public class ControladorSimulacion 
 {
-    VistaAplicacion vistaAplicacion;
+    SetearValores vistaAplicacion;
     
     private static VectorEstado actual;
     private static VectorEstado anterior;
     
     ControladorSimulacion()
     {
-        vistaAplicacion = new VistaAplicacion(this);
+        vistaAplicacion = new SetearValores(this);
         
     }
     public void mostrarVentanaPrincipal()

@@ -8,6 +8,8 @@ package model;
 import java.util.List;
 import objects.Alumno;
 import objects.Encargado;
+import eventos.*;
+import objects.ColaAlumnos;
 import objects.Maquina;
 
 
