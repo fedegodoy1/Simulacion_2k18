@@ -15,6 +15,9 @@ public class ControladorSimulacion
 {
     VistaAplicacion vistaAplicacion;
     
+    private static VectorEstado actual;
+    private static VectorEstado anterior;
+    
     ControladorSimulacion()
     {
         vistaAplicacion = new VistaAplicacion(this);
@@ -32,5 +35,15 @@ public class ControladorSimulacion
          * obtener el TableModel (VectorEstadoTableModel) asi 
          * nosotros le pasamos todos los datos y le informamos que cambio la data
          */
+    }
+    
+    public static VectorEstado getVectorActual()
+    {
+        return actual;
+    }
+    
+    public static VectorEstado getVectorAnterior()
+    {
+        return anterior;
     }
 }
