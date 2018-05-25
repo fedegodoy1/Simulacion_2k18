@@ -11,26 +11,24 @@ import java.util.Random;
 
 public class Distribuciones {
     
-    private static Random rnd1 = new Random();
-    private static Random rnd2 = new Random();
     private static int var = 0;
     
-    public static double calcular_uniforme(double a, double b) {
-        return a + (rnd1.nextDouble()* (b-a));
+    public static double calcular_uniforme(double a, double b, double rnd) {
+        return a + (rnd* (b-a));
     }
              
-    public static double calcular_normal(double media, double desviacion) {
+    public static double calcular_normal(double media, double desviacion, double rnd1, double rnd2) {
         
-        double raiz = sqrt((-2)* log(rnd1.nextDouble()));
+        double raiz = sqrt((-2)* log(rnd1));
         
-        double segundo_miembro = var % 2 == 0 ? cos(2*PI*rnd2.nextDouble()) : sin(2*PI*rnd2.nextDouble());
+        double segundo_miembro = var % 2 == 0 ? cos(2*PI*rnd2) : sin(2*PI*rnd2);
         var++;
         return ((raiz * segundo_miembro) * desviacion + media);
         
     }
     
-    public static double calcular_exponencial(double media) {
-        return (media*-1) * Math.log(1-rnd1.nextDouble());
+    public static double calcular_exponencial(double media, double rnd) {
+        return (media*-1) * Math.log(1-rnd);
     }
    
 }
