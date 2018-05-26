@@ -5,6 +5,7 @@
  */
 package model;
 
+import control.eventos.Evento;
 import java.util.List;
 import objects.Alumno;
 import objects.Encargado;

@@ -5,9 +5,15 @@
  */
 package control;
 
+import control.eventos.Evento;
+import eventos.FinInscripcion;
+import eventos.FinMantenimiento;
+import eventos.InicioMantenimiento;
+import eventos.LlegadaAlumno;
 import java.util.List;
 import model.VectorEstadoUI;
 import objects.Alumno;
+import objects.ColaAlumnos;
 import objects.Encargado;
 import objects.Maquina;
 
