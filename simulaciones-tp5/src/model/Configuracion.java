@@ -35,6 +35,8 @@ public class Configuracion {
     private double tiempoMantenimientoMedio;
     private double tiempoMantenimientoDesviacion;
     
+    private int minutosASimular;
+    
     private Configuracion()
     {
         this.inicioMantenimientoDesde = 57;
@@ -44,6 +46,8 @@ public class Configuracion {
         this.tiempoInscripcionHasta = 8;
         this.tiempoMantenimientoDesviacion = 0.0027;
         this.tiempoMantenimientoMedio = 3;
+        //////////////////////////////////////////////
+        this.minutosASimular = 120;
     }
 
     public double getTiempoInscripcionDesde() {
@@ -115,5 +119,14 @@ public class Configuracion {
     {
         instancia = new Configuracion();
         return instancia;
+    }
+
+    public int getMinutosASimular() {
+        return this.minutosASimular;
+    }
+    
+    public void setMinutosASimular(int minutosASimular)
+    {
+        this.minutosASimular = minutosASimular;
     }
 }

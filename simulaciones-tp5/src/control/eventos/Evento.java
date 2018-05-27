@@ -11,5 +11,12 @@ package control.eventos;
  */
 public abstract class Evento 
 {
+    public static final Evento Inicial = new EventoInicial();
+    public static final Evento FinInscripcion = new EventoFinInscripcion();
+    public static final Evento FinMantenimiento = new EventoFinMantenimiento();
+    public static final Evento InicioMantenimiento = new EventoInicioMantenimiento();
+    public static final Evento LlegadaAlumno = new EventoLlegadaAlumno();
+    public static final Evento RegresoAlumno = new EventoRegresoAlumno();
+    
     public abstract void actualizarEstadoVector();
 }

@@ -24,69 +24,147 @@ import objects.Maquina;
 public class VectorEstado implements VectorEstadoUI
 {
 
+    private double reloj;
+    
+    private Evento evento;
+    
+    private LlegadaAlumno llegadaAlumno;
+    
+    private InicioMantenimiento inicioMantenimiento;
+    
+    private FinMantenimiento finMantenimiento;
+    
+    private ColaAlumnos colaAlumnos;
+    
+    private FinInscripcion finInscripcion;
+    
+    private List<Maquina> maquinas;
+    
+    private int acumuladoInscripciones;
+    
+    private int acumuladoAlumnosQueLlegan;
+    
+    private int acumuladoAlumnosQueLleganYSeVan;
+    
+    private Encargado encargado;
+    
+    private List<Alumno> alumnos;
+    
     @Override
     public double getReloj() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return reloj;
     }
 
     @Override
     public Evento getEvento() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return evento;
     }
 
     @Override
     public LlegadaAlumno getLlegadaAlumno() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return llegadaAlumno;
     }
 
     @Override
     public InicioMantenimiento getInicioMantenimiento() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return inicioMantenimiento;
     }
 
     @Override
     public FinMantenimiento getFinMantenimiento() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return finMantenimiento;
     }
 
     @Override
     public ColaAlumnos getColaAlumnos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return colaAlumnos;
     }
 
     @Override
     public FinInscripcion getFinInscripcion() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return finInscripcion;
     }
 
     @Override
     public List<Maquina> getMaquinasList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return maquinas;
     }
 
     @Override
     public int getAcumuladoInscripciones() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return acumuladoInscripciones;
     }
 
     @Override
     public int getAcumuladoAlumnosQueLlegan() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return acumuladoAlumnosQueLlegan;
     }
 
     @Override
     public int getAcumuladoAlumnosQueLleganYSeVan() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return acumuladoAlumnosQueLleganYSeVan;
     }
 
     @Override
     public Encargado getEncargado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return encargado;
     }
 
     @Override
     public List<Alumno> getAlumnos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return alumnos;
+    }
+
+    public void setReloj(double reloj) {
+        this.reloj = reloj;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    public void setLlegadaAlumno(LlegadaAlumno llegadaAlumno) {
+        this.llegadaAlumno = llegadaAlumno;
+    }
+
+    public void setInicioMantenimiento(InicioMantenimiento inicioMantenimiento) {
+        this.inicioMantenimiento = inicioMantenimiento;
+    }
+
+    public void setFinMantenimiento(FinMantenimiento finMantenimiento) {
+        this.finMantenimiento = finMantenimiento;
+    }
+
+    public void setColaAlumnos(ColaAlumnos colaAlumnos) {
+        this.colaAlumnos = colaAlumnos;
+    }
+
+    public void setFinInscripcion(FinInscripcion finInscripcion) {
+        this.finInscripcion = finInscripcion;
+    }
+
+    public void setMaquinas(List<Maquina> maquinas) {
+        this.maquinas = maquinas;
+    }
+
+    public void setAcumuladoInscripciones(int acumuladoInscripciones) {
+        this.acumuladoInscripciones = acumuladoInscripciones;
+    }
+
+    public void setAcumuladoAlumnosQueLlegan(int acumuladoAlumnosQueLlegan) {
+        this.acumuladoAlumnosQueLlegan = acumuladoAlumnosQueLlegan;
+    }
+
+    public void setAcumuladoAlumnosQueLleganYSeVan(int acumuladoAlumnosQueLleganYSeVan) {
+        this.acumuladoAlumnosQueLleganYSeVan = acumuladoAlumnosQueLleganYSeVan;
+    }
+
+    public void setEncargado(Encargado encargado) {
+        this.encargado = encargado;
+    }
+
+    public void setAlumnos(List<Alumno> alumnos) {
+        this.alumnos = alumnos;
     }
     
 }

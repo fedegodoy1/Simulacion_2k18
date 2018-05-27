@@ -5,8 +5,12 @@
  */
 package control;
 
+import control.eventos.Evento;
 import front.principal.VistaAplicacion;
 import front.tablemodel.SetearValores;
+import java.util.ArrayList;
+import model.Configuracion;
+import objects.ColaAlumnos;
 
 /**
  *
@@ -36,6 +40,21 @@ public class ControladorSimulacion
          * obtener el TableModel (VectorEstadoTableModel) asi 
          * nosotros le pasamos todos los datos y le informamos que cambio la data
          */
+        int iteracionActual = 0;
+        inicializar();
+        int minutosASimular = Configuracion.getConfiguracion().getMinutosASimular();
+        while (iteracionActual < 1000000 || anterior.getReloj() <= minutosASimular)
+        {
+            //TODO: Mover vector "actual" a "anterior"
+            // y el actual que sea un new copiando lo que haga falta de arriba (o eso capaz en el evento)
+            Evento nuevoEvento = determinarProximoEvento();
+            nuevoEvento.actualizarEstadoVector();
+            if (seMuestra())
+            {
+                //Guardar en la lista a devolver
+            }
+        }
+        //Actualizar Vista
     }
     
     public static VectorEstado getVectorActual()
@@ -46,5 +65,21 @@ public class ControladorSimulacion
     public static VectorEstado getVectorAnterior()
     {
         return anterior;
+    }
+
+    private void inicializar() 
+    {
+        actual = new VectorEstado();
+        actual.setReloj(0);
+        actual.setEvento(Evento.Inicial);
+        actual.getEvento().actualizarEstadoVector();
+    }
+
+    private Evento determinarProximoEvento() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private boolean seMuestra() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
