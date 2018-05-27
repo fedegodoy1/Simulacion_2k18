@@ -18,5 +18,10 @@ public class EventoRegresoAlumno extends Evento
     public void actualizarEstadoVector() {
         VectorEstado actual = ControladorSimulacion.getVectorActual();
         VectorEstado anterior = ControladorSimulacion.getVectorAnterior();
+        
+        /**
+         * Borrar atributo de regreso del alumno.
+         * Hacer lo mismo q en LlegadaAlumno pero sin incrementar ACs
+         */
     }
 }

@@ -18,5 +18,14 @@ public class EventoInicioMantenimiento extends Evento
     public void actualizarEstadoVector() {
         VectorEstado actual = ControladorSimulacion.getVectorActual();
         VectorEstado anterior = ControladorSimulacion.getVectorAnterior();
+        
+        /**
+         * Inicia Ronda de mantenimiento: (Llegada mantenimiento)
+         * Ver si hay maquina libre para el encargado
+         * si hay se ocupa de mantenerla por lo que 
+         * hay q calcular el fin mantenimiento.
+         * Si no hay maquina libre se pone en estado esperando maquina libre.
+         * 
+         */
     }
 }

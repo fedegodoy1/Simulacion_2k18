@@ -18,5 +18,15 @@ public class EventoFinInscripcion extends Evento
     public void actualizarEstadoVector() {
         VectorEstado actual = ControladorSimulacion.getVectorActual();
         VectorEstado anterior = ControladorSimulacion.getVectorAnterior();
+        
+        /**
+         * Se fija si el Encargado estaba esperando maquina libre y esta maquina
+         * no fue atendida, en ese caso le toca al Encargado.
+         * Si no se fija en la cola de alumnos.
+         * Si no hay alumnos en la cola se pone libre.
+         * Actualiza ACs.
+         * 
+         * 
+         */
     }
 }
