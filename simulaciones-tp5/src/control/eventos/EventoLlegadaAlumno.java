@@ -45,6 +45,8 @@ public class EventoLlegadaAlumno extends Evento {
         double tEntreLlegada = Distribuciones.calcular_exponencial(-2, rndProxLlegada);
         double proxLlegada = tEntreLlegada + actual.getReloj();
         
+        actual.setReloj(anterior.getLlegadaAlumno().getProx_llegada());
+        
         // Se fija primero si hay alumnos en la cola y luego en base a eso calcula los tiempos de las inscripciones o acumula en la cola
         if(anterior.getColaAlumnos().getColaAlumnos() == 0) {
             List<Maquina> maquinas = anterior.getMaquinasList();
@@ -60,14 +62,16 @@ public class EventoLlegadaAlumno extends Evento {
                     
                     actual.setFinInscripcion(newFinInscripcion);
                     actual.setearFinInscripcionEnMaquina(m.getId(), finInscripcion);
+                    
                     newAlumno.setEstado(Alumno.Estado.INSCRIBIENDOSE);
+                    actual.agregarAlumnosEnInscripcion(newAlumno);
                     maquinasLibres = true;
                     break;
                 } 
             }
             if(maquinasLibres == false) {
                 newAlumno.setEstado(Alumno.Estado.ESPERANDO_MAQUINA);
-                actual.agregarAlumnoACola();
+                actual.agregarAlumnoACola(newAlumno);
                 actual.setFinInscripcion(anterior.getFinInscripcion());
             }
              
@@ -76,7 +80,7 @@ public class EventoLlegadaAlumno extends Evento {
             // Logica para cuando hay cola de 1 hasta 4
             if(anterior.getColaAlumnos().getColaAlumnos() >= 1 && anterior.getColaAlumnos().getColaAlumnos() <= 4) {
                 newAlumno.setEstado(Alumno.Estado.ESPERANDO_MAQUINA);
-                actual.agregarAlumnoACola();
+                actual.agregarAlumnoACola(newAlumno);
                 actual.setFinInscripcion(anterior.getFinInscripcion());
             }
             
@@ -111,6 +115,5 @@ public class EventoLlegadaAlumno extends Evento {
         actual.setFinMantenimiento(anterior.getFinMantenimiento());
         actual.setInicioMantenimiento(anterior.getInicioMantenimiento());
         actual.setMaquinas(anterior.getMaquinasList());
-        actual.setReloj(anterior.getLlegadaAlumno().getProx_llegada());
     }
 }

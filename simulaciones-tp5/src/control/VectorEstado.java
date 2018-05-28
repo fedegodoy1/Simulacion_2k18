@@ -50,6 +50,10 @@ public class VectorEstado implements VectorEstadoUI
     
     private List<Alumno> alumnos;
     
+    private List<Alumno> alumnosInscribiendose;
+    
+    private List<Alumno> alumnosEnCola;
+    
     @Override
     public double getReloj() {
         return reloj;
@@ -171,7 +175,8 @@ public class VectorEstado implements VectorEstadoUI
         alumnos.add(a);
     }
     
-    public void agregarAlumnoACola() {
+    public void agregarAlumnoACola(Alumno newAlumno) {
+        alumnosEnCola.add(newAlumno);
         colaAlumnos.agregarAlumnoCola();
     }
     
@@ -182,6 +187,22 @@ public class VectorEstado implements VectorEstadoUI
     public void acumularAlumnoQueLlegaYSeVa() {
         acumuladoAlumnosQueLleganYSeVan ++;
     }
+
+    public List<Alumno> getAlumnosInscribiendose() {
+        return alumnosInscribiendose;
+    }
+
+    public void setAlumnosInscribiendose(List<Alumno> alumnosInscribiendose) {
+        this.alumnosInscribiendose = alumnosInscribiendose;
+    }
+
+    public List<Alumno> getAlumnosEnCola() {
+        return alumnosEnCola;
+    }
+
+    public void setAlumnosEnCola(List<Alumno> alumnosEnCola) {
+        this.alumnosEnCola = alumnosEnCola;
+    }
     
     public void setearFinInscripcionEnMaquina(int idMaquina, double finInscripcion) {
         Maquina old = maquinas.get(idMaquina-1);
@@ -189,5 +210,33 @@ public class VectorEstado implements VectorEstadoUI
         old.setFinInscripcion(finInscripcion);
         
         maquinas.set(idMaquina-1, old);
-    } 
+    }
+    
+    public void setearFinMantenimientoEnMaquina(Maquina m) {
+        maquinas.set(m.getId()-1, m);
+    }
+    
+    public void setearAcInscripcionEnMaquina(int idMaquina) {
+        Maquina old = maquinas.get(idMaquina-1);
+        old.agregarInscripto();
+        
+        maquinas.set(idMaquina-1, old);
+    }
+    
+    public void acumularInscripcion() {
+        acumuladoInscripciones ++;
+    }
+    
+    public void disminuirColaAlumnos() {
+        Alumno alumnoQueSigue = alumnosEnCola.get(0);
+        alumnosEnCola.remove(0);
+        colaAlumnos.setCantidad(colaAlumnos.getColaAlumnos() - 1);
+        alumnoQueSigue.setEstado(Alumno.Estado.INSCRIBIENDOSE);
+        alumnosInscribiendose.add(alumnoQueSigue);
+    }
+    
+    public void agregarAlumnosEnInscripcion(Alumno a) {
+        alumnosInscribiendose.add(a);
+    }
+    
 }

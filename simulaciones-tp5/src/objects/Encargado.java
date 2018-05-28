@@ -2,23 +2,23 @@ package objects;
 
 public class Encargado {
   
-    private String estado;
+    private Estado estado;
     
-    public enum estado{
+    public enum Estado{
         REPARANDO_MAQUINA,
         ESPERANDO_MAQUINA_LIBRE,
         ESPERANDO_PROX_RONDA_MANTENIMIENTO
     };
 
-    public Encargado(String estado) {
+    public Encargado(Estado estado) {
         this.estado = estado;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }    
     

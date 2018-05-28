@@ -36,7 +36,7 @@ public class EventoInicial extends Evento
         actual.setAcumuladoInscripciones(0);
         actual.setAlumnos(new ArrayList<>());
         actual.setColaAlumnos(new ColaAlumnos(0));
-        actual.setEncargado(new Encargado(Encargado.estado.ESPERANDO_PROX_RONDA_MANTENIMIENTO.name()));
+        actual.setEncargado(new Encargado(Encargado.Estado.ESPERANDO_PROX_RONDA_MANTENIMIENTO));
         actual.setFinInscripcion(new FinInscripcion());
         actual.setFinMantenimiento(new FinMantenimiento());
         actual.setInicioMantenimiento(new InicioMantenimiento());

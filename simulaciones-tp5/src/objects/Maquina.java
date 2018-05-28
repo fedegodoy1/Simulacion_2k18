@@ -14,6 +14,9 @@ public class Maquina {
         SIENDO_MANTENIDA
     };
 
+    public Maquina() {
+    }
+
     public Maquina(int id_maquina, float ac_inscriptos, Estado estado, boolean fue_atendida, double fin_inscripcion) {
         this.id_maquina = id_maquina;
         this.ac_inscriptos = ac_inscriptos;
@@ -60,5 +63,9 @@ public class Maquina {
     
     public void setFinInscripcion(double fin_inscripcion) {
         this.fin_inscripcion = fin_inscripcion;
+    }
+    
+    public void agregarInscripto() {
+        ac_inscriptos ++;
     }
 }
