@@ -46,11 +46,11 @@ public class EventoInicial extends Evento
 
     private List<Maquina> getMaquinasList() {
         ArrayList<Maquina> maquinas = new ArrayList<>(5);
-        maquinas.add(new Maquina(1, 0, Maquina.estado.LIBRE.name(), false));
-        maquinas.add(new Maquina(2, 0, Maquina.estado.LIBRE.name(), false));
-        maquinas.add(new Maquina(3, 0, Maquina.estado.LIBRE.name(), false));
-        maquinas.add(new Maquina(4, 0, Maquina.estado.LIBRE.name(), false));
-        maquinas.add(new Maquina(5, 0, Maquina.estado.LIBRE.name(), false));
+        maquinas.add(new Maquina(1, 0, Maquina.Estado.LIBRE, false, 0.0));
+        maquinas.add(new Maquina(2, 0, Maquina.Estado.LIBRE, false, 0.0));
+        maquinas.add(new Maquina(3, 0, Maquina.Estado.LIBRE, false, 0.0));
+        maquinas.add(new Maquina(4, 0, Maquina.Estado.LIBRE, false, 0.0));
+        maquinas.add(new Maquina(5, 0, Maquina.Estado.LIBRE, false, 0.0));
         return maquinas;
     }
     

@@ -2,34 +2,38 @@ package objects;
 
 public class Alumno {
     
-    private float hora_regreso_sistema;
+    private double hora_regreso_sistema;
     
-    public enum estado {
+    public enum Estado {
         ESPERANDO_MAQUINA,
         INSCRIBIENDOSE,
         ESPERANDO_PARA_REGRESAR
     };
     
-    private String estado;
+    private Estado estado;
 
-    public Alumno(float hora_regreso_sistema, String estado) {
+    public Alumno() {
+        
+    }
+    
+    public Alumno(float hora_regreso_sistema, Estado estado) {
         this.hora_regreso_sistema = hora_regreso_sistema;
         this.estado = estado;
     }
 
-    public float getHora_regreso_sistema() {
+    public double getHora_regreso_sistema() {
         return hora_regreso_sistema;
     }
 
-    public void setHora_regreso_sistema(float hora_regreso_sistema) {
+    public void setHora_regreso_sistema(double hora_regreso_sistema) {
         this.hora_regreso_sistema = hora_regreso_sistema;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
         

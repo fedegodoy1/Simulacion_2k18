@@ -167,4 +167,27 @@ public class VectorEstado implements VectorEstadoUI
         this.alumnos = alumnos;
     }
     
+    public void addAlumno(Alumno a) {
+        alumnos.add(a);
+    }
+    
+    public void agregarAlumnoACola() {
+        colaAlumnos.agregarAlumnoCola();
+    }
+    
+    public void acumularAlumnoQueLlega() {
+        acumuladoAlumnosQueLlegan ++;
+    }
+    
+    public void acumularAlumnoQueLlegaYSeVa() {
+        acumuladoAlumnosQueLleganYSeVan ++;
+    }
+    
+    public void setearFinInscripcionEnMaquina(int idMaquina, double finInscripcion) {
+        Maquina old = maquinas.get(idMaquina-1);
+        old.setEstado(Maquina.Estado.OCUPADA);
+        old.setFinInscripcion(finInscripcion);
+        
+        maquinas.set(idMaquina-1, old);
+    } 
 }

@@ -16,5 +16,7 @@ public class ColaAlumnos {
         this.cantidad = cantidad;
     }
     
-    
+    public void agregarAlumnoCola() {
+        cantidad ++;
+    }
 }
