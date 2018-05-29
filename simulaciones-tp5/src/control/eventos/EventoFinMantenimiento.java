@@ -7,6 +7,11 @@ package control.eventos;
 
 import control.ControladorSimulacion;
 import control.VectorEstado;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import objects.Distribuciones;
+import objects.Maquina;
 
 /**
  *
@@ -19,7 +24,27 @@ public class EventoFinMantenimiento extends Evento
     public void actualizarEstadoVector() {
         VectorEstado actual = ControladorSimulacion.getVectorActual();
         VectorEstado anterior = ControladorSimulacion.getVectorAnterior();
+        Random randomObject = new Random();
+        boolean terminoDeRecorrerYNoHayLibre = false;
         
+        double horaActual = actual.getReloj();
+        double rndFinMantenimiento = 0.0;
+        double tMantenimiento = 0.0;
+        double finMantenimiento = 0.0;
+        
+        actual.setMaquinas(new ArrayList<>(anterior.getMaquinasList()));
+        
+        Maquina newMaquina = new Maquina();
+        
+        List<Maquina> maquinas = actual.getMaquinasList();
+        for(Maquina m : maquinas) {
+            if(m.fueAtendida() == false && m.getEstado().equals(Maquina.Estado.LIBRE)) {
+                rndFinMantenimiento = randomObject.nextDouble();
+                tMantenimiento = Distribuciones.calcular_normal(3.0, 0.0027, rndFinMantenimiento, rndFinMantenimiento);
+                finMantenimiento = tMantenimiento + actual.getReloj();
+                
+            }
+        }
         /**
          * Tiene que fijarse si ya se mantuvieron todas las maquinas,
          * si es asi entonces calculamos el proximo inicio de mantenimiento
