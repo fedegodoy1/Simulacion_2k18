@@ -1,5 +1,8 @@
 package objects;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class ColaAlumnos {
     
     private double cantidad;
@@ -21,10 +24,15 @@ public class ColaAlumnos {
     }
     
     @Override
-    public ColaAlumnos clone() throws CloneNotSupportedException
+    public ColaAlumnos clone() 
     {
-        ColaAlumnos clonada = (ColaAlumnos) super.clone();
-        clonada.cantidad = this.cantidad;
-        return clonada;
+        try {
+            ColaAlumnos clonada = (ColaAlumnos) super.clone();
+            clonada.cantidad = this.cantidad;
+            return clonada;
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(ColaAlumnos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new ColaAlumnos(this.cantidad);
     }
 }

@@ -42,6 +42,8 @@ public class EventoFinInscripcion extends Evento
         Depues con ese tiempo buscas en las maquinas a ver cual es la que tiene 
         ese tiempo de fin de inscripcion. Guardas la referencia (o la clonas)
         
+        Asi en teoria se clona una lista:
+        new ArrayList<>(listaAnterior); Pero los objetos tienen q tener impl el clone()
         */
         actual.setMaquinas(new ArrayList<>(anterior.getMaquinasList()));
         Maquina maquinaQueTerminoDeInscribir = null;
@@ -53,7 +55,10 @@ public class EventoFinInscripcion extends Evento
                 break;
             }
         }
-        maquinaQueTerminoDeInscribir.agregarInscripto();
+        if (maquinaQueTerminoDeInscribir != null)
+        {
+            maquinaQueTerminoDeInscribir.agregarInscripto();
+        }
         /*
         Tambien tenes que buscar cual es el Alumno que se estaba inscribiendo en
         esa maquina y guardar o clonar la referencia a ese objeto.
@@ -62,7 +67,8 @@ public class EventoFinInscripcion extends Evento
         */
         List<Alumno> alumnosActuales = new ArrayList<>(anterior.getAlumnos());
         Alumno alumnoQueSeTerminoDeInscribir = obtenerAlumnoQueSeTerminoDeInscribir(alumnosActuales);
-        alumnosActuales.remove(alumnoQueSeTerminoDeInscribir);
+        alumnosActuales.remove(alumnoQueSeTerminoDeInscribir); //Si dios quiere nadie mas lo referenciaba jaja
+        alumnoQueSeTerminoDeInscribir = null;
         actual.setAlumnos(alumnosActuales);
         /*
         Ahora si tenemos que decidir qué hacer con la maquina:
@@ -77,6 +83,12 @@ public class EventoFinInscripcion extends Evento
             Si si hay entonces buscamos el siguiente alumno esperando y lo ponemos 
             a que se inscriba acá-
         */
+        actual.setAcumuladoAlumnosQueLlegan(anterior.getAcumuladoAlumnosQueLlegan());
+        actual.setAcumuladoAlumnosQueLleganYSeVan(anterior.getAcumuladoAlumnosQueLleganYSeVan());
+        //Actualizo el acumulador de inscripciones
+        actual.setAcumuladoInscripciones(anterior.getAcumuladoInscripciones() + 1);
+        
+        actual.setEncargado(anterior.getEncargado().clone());
         
         FinInscripcion newFinInscripcion = new FinInscripcion();
         FinMantenimiento newFinMantenimiento = new FinMantenimiento();

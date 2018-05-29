@@ -1,5 +1,8 @@
 package objects;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Encargado {
   
     private Estado estado;
@@ -23,10 +26,15 @@ public class Encargado {
     }    
     
     @Override
-    public Encargado clone() throws CloneNotSupportedException
+    public Encargado clone() 
     {
-        Encargado clon = (Encargado) super.clone();
-        clon.estado = this.estado;
-        return clon;
+        try {
+            Encargado clon = (Encargado) super.clone();
+            clon.estado = this.estado;
+            return clon;
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(Encargado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new Encargado(this.estado);
     }
 }

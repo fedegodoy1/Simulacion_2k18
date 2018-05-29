@@ -1,5 +1,8 @@
 package objects;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Maquina {
     
     private int id_maquina;
@@ -70,14 +73,19 @@ public class Maquina {
     }
     
     @Override
-    public Maquina clone() throws CloneNotSupportedException
+    public Maquina clone() 
     {
-        Maquina clonada = (Maquina) super.clone();
-        clonada.ac_inscriptos = this.ac_inscriptos;
-        clonada.estado = this.estado;
-        clonada.fin_inscripcion = this.fin_inscripcion;
-        clonada.fue_atendida = this.fue_atendida;
-        clonada.id_maquina = this.id_maquina;
-        return clonada;
+        try {
+            Maquina clonada = (Maquina) super.clone();
+            clonada.ac_inscriptos = this.ac_inscriptos;
+            clonada.estado = this.estado;
+            clonada.fin_inscripcion = this.fin_inscripcion;
+            clonada.fue_atendida = this.fue_atendida;
+            clonada.id_maquina = this.id_maquina;
+            return clonada;
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(Maquina.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new Maquina(this.id_maquina, this.ac_inscriptos, this.estado, this.fue_atendida, this.fin_inscripcion);
     }
 }

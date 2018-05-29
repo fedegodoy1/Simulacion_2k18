@@ -1,5 +1,8 @@
 package objects;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Alumno implements Cloneable{
     
     private double hora_regreso_sistema;
@@ -38,12 +41,17 @@ public class Alumno implements Cloneable{
     }
     
     @Override
-    public Alumno clone() throws CloneNotSupportedException
+    public Alumno clone() 
     {
-        Alumno clonado = (Alumno) super.clone();
-        clonado.estado = this.estado;
-        clonado.hora_regreso_sistema = this.hora_regreso_sistema;
-        
-        return clonado;
+        try {
+            Alumno clonado = (Alumno) super.clone();
+            clonado.estado = this.estado;
+            clonado.hora_regreso_sistema = this.hora_regreso_sistema;
+            
+            return clonado;
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(Alumno.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new Alumno();
     }
 }
