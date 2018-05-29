@@ -1,5 +1,8 @@
 package eventos;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class FinMantenimiento {
     
     private double rnd;
@@ -40,13 +43,18 @@ public class FinMantenimiento {
     }
     
     @Override
-    public FinMantenimiento clone() throws CloneNotSupportedException
+    public FinMantenimiento clone() 
     {
-        FinMantenimiento clon = (FinMantenimiento) super.clone();
-        clon.finMantenimiento = this.finMantenimiento;
-        clon.rnd = Double.MAX_VALUE; //En la UI estos valores no se deberian ver
-        clon.tMantenimiento = Double.MAX_VALUE;
-        
-        return clon;
+        try {
+            FinMantenimiento clon = (FinMantenimiento) super.clone();
+            clon.finMantenimiento = this.finMantenimiento;
+            clon.rnd = Double.MAX_VALUE; //En la UI estos valores no se deberian ver
+            clon.tMantenimiento = Double.MAX_VALUE;
+            
+            return clon;
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(FinMantenimiento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new FinMantenimiento();
     }
 }

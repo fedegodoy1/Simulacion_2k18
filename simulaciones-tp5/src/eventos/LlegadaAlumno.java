@@ -1,5 +1,8 @@
 package eventos;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class LlegadaAlumno {
     
     private double rnd;
@@ -40,12 +43,17 @@ public class LlegadaAlumno {
     }
     
     @Override
-    public LlegadaAlumno clone() throws CloneNotSupportedException {
-        LlegadaAlumno clon = (LlegadaAlumno) super.clone();
-        clon.prox_llegada= this.prox_llegada;
-        clon.rnd = Double.MAX_VALUE; //En la UI este valor no deberia mostrarse
-        clon.tiempo_entre_llegadas = Double.MAX_VALUE; //Same as above
-        
-        return clon;
+    public LlegadaAlumno clone() {
+        try {
+            LlegadaAlumno clon = (LlegadaAlumno) super.clone();
+            clon.prox_llegada= this.prox_llegada;
+            clon.rnd = Double.MAX_VALUE; //En la UI este valor no deberia mostrarse
+            clon.tiempo_entre_llegadas = Double.MAX_VALUE; //Same as above
+
+            return clon;
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(LlegadaAlumno.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new LlegadaAlumno();
     }
 }
