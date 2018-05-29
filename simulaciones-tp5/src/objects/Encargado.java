@@ -6,6 +6,10 @@ import java.util.logging.Logger;
 public class Encargado {
   
     private Estado estado;
+
+    public boolean estaEsperandoMaquinaLibre() {
+        return this.estado.equals(Estado.ESPERANDO_MAQUINA_LIBRE);
+    }
     
     public enum Estado{
         REPARANDO_MAQUINA,

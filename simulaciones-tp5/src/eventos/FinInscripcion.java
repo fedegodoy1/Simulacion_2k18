@@ -9,6 +9,7 @@ public class FinInscripcion {
     private double tInscripcion;
 
     public FinInscripcion() {
+        rnd = tInscripcion = Double.MAX_VALUE;
     }
 
     public FinInscripcion(double rnd, double tInscripcion) {

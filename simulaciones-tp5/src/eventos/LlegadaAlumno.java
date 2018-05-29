@@ -10,6 +10,7 @@ public class LlegadaAlumno {
     private double prox_llegada;
 
     public LlegadaAlumno() {
+        rnd = tiempo_entre_llegadas = prox_llegada = Double.MAX_VALUE;
     }
 
     public LlegadaAlumno(double rnd, double tiempo_entre_llegadas, double prox_llegada) {

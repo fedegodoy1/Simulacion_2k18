@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import model.Configuracion;
 import objects.Alumno;
 import objects.Distribuciones;
 import objects.Encargado;
@@ -58,6 +59,7 @@ public class EventoFinInscripcion extends Evento
         if (maquinaQueTerminoDeInscribir != null)
         {
             maquinaQueTerminoDeInscribir.agregarInscripto();
+            maquinaQueTerminoDeInscribir.setFinInscripcion(Double.MAX_VALUE); //La UI no deberia mostrarlo
         }
         /*
         Tambien tenes que buscar cual es el Alumno que se estaba inscribiendo en
@@ -70,6 +72,21 @@ public class EventoFinInscripcion extends Evento
         alumnosActuales.remove(alumnoQueSeTerminoDeInscribir); //Si dios quiere nadie mas lo referenciaba jaja
         alumnoQueSeTerminoDeInscribir = null;
         actual.setAlumnos(alumnosActuales);
+        
+        /*
+        Copio todo por las duddas
+        */
+        actual.setAcumuladoAlumnosQueLlegan(anterior.getAcumuladoAlumnosQueLlegan());
+        actual.setAcumuladoAlumnosQueLleganYSeVan(anterior.getAcumuladoAlumnosQueLleganYSeVan());
+        //Actualizo el acumulador de inscripciones
+        actual.setAcumuladoInscripciones(anterior.getAcumuladoInscripciones() + 1);
+        
+        actual.setEncargado(anterior.getEncargado().clone());
+        actual.setFinInscripcion(anterior.getFinInscripcion().clone()); //Este lo clono asi no mas porque la que tiene la hora es la maquina
+        actual.setFinMantenimiento(anterior.getFinMantenimiento().clone()); //Por las dudas lo clono
+        actual.setInicioMantenimiento(anterior.getInicioMantenimiento().clone());
+        actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
+        
         /*
         Ahora si tenemos que decidir qué hacer con la maquina:
         Vemos si hay encargado esperando maquina libre
@@ -83,98 +100,80 @@ public class EventoFinInscripcion extends Evento
             Si si hay entonces buscamos el siguiente alumno esperando y lo ponemos 
             a que se inscriba acá-
         */
-        actual.setAcumuladoAlumnosQueLlegan(anterior.getAcumuladoAlumnosQueLlegan());
-        actual.setAcumuladoAlumnosQueLleganYSeVan(anterior.getAcumuladoAlumnosQueLleganYSeVan());
-        //Actualizo el acumulador de inscripciones
-        actual.setAcumuladoInscripciones(anterior.getAcumuladoInscripciones() + 1);
         
-        actual.setEncargado(anterior.getEncargado().clone());
-        
-        FinInscripcion newFinInscripcion = new FinInscripcion();
-        FinMantenimiento newFinMantenimiento = new FinMantenimiento();
-        double rndFinMantenimiento = 0.0;
-        double tMantenimiento = 0.0;
-        double finMantenimiento = 0.0;
-        double rndInscripcion = 0.0;
-        double tInscripcion = 0.0;
-        double finInscripcion = 0.0;
-        
-        
-        actual.setMaquinas(anterior.getMaquinasList());
-        
-        List<Maquina> maquinas = anterior.getMaquinasList();
-        Maquina maquinaFinInscripcion = new Maquina();
-        maquinaFinInscripcion.setFinInscripcion(200000.0);
-        for(Maquina m : maquinas) {
-            if( m.getFinInscripcion() != 0 && m.getFinInscripcion() < maquinaFinInscripcion.getFinInscripcion()) {
-                maquinaFinInscripcion.setAcumuladoInscriptos(m.getAcumuladoInscriptos());
-                maquinaFinInscripcion.setEstado(m.getEstado());
-                maquinaFinInscripcion.setFueAtendida(m.fueAtendida());
-                maquinaFinInscripcion.setFinInscripcion(m.getAcumuladoInscriptos());
+        if (maquinaQueTerminoDeInscribir != null && actual.getEncargado().estaEsperandoMaquinaLibre())
+        {
+            if (!maquinaQueTerminoDeInscribir.fueAtendida())
+            {
+                //Le toca que la mantengan
+                actual.getEncargado().setEstado(Encargado.Estado.REPARANDO_MAQUINA);
+                maquinaQueTerminoDeInscribir.setEstado(Maquina.Estado.SIENDO_MANTENIDA);
+                
+                FinMantenimiento finMantenimiento = new FinMantenimiento();
+                finMantenimiento.setRnd1(new Random().nextDouble());
+                finMantenimiento.setRnd2(new Random().nextDouble());
+                double tiempoMantenimiento = Distribuciones.
+                        calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
+                                Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
+                                finMantenimiento.getRnd1(), finMantenimiento.getRnd2());
+                finMantenimiento.setTMatenimiento(tiempoMantenimiento);
+                finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
+                
+                actual.setFinMantenimiento(finMantenimiento);
+                
+            }
+            else if (actual.getColaAlumnos().getColaAlumnos() > 0)
+            {
+                tocaInscribir(maquinaQueTerminoDeInscribir, actual);
+            }
+            else
+            {
+                maquinaQueTerminoDeInscribir.setEstado(Maquina.Estado.LIBRE);
             }
         }
-        
-        if(anterior.getEncargado().getEstado().equals(Encargado.Estado.ESPERANDO_MAQUINA_LIBRE) && maquinaFinInscripcion.fueAtendida() == false) {
-            // Logica para cuando termina de inscribir un alumno pero hay un encargado esperando maquina libre, ocurre un fin mantenimiento
-            rndFinMantenimiento = randomObject.nextDouble();
-            // -----------Aca como seria para dos rnd? Calculamos dos rnd y anotamos los dos en el vector?
-            tMantenimiento = Distribuciones.calcular_normal(3.0, 0.0027, rndFinMantenimiento, rndFinMantenimiento);
-            finMantenimiento = tMantenimiento + actual.getReloj();
-            
-            List<Alumno> anteriorListaInscribiendose = anterior.getAlumnosInscribiendose();
-            anteriorListaInscribiendose.remove(0);
-            
-            newFinMantenimiento.setRnd(rndFinMantenimiento);
-            newFinMantenimiento.setTMatenimiento(tMantenimiento);
-            newFinMantenimiento.setFinMantenimiento(finMantenimiento);
-            
-            maquinaFinInscripcion.setEstado(Maquina.Estado.SIENDO_MANTENIDA);
-            
-            actual.setAlumnosInscribiendose(anteriorListaInscribiendose);
-            actual.setAlumnosEnCola(anterior.getAlumnosEnCola());
-            actual.setearFinMantenimientoEnMaquina(maquinaFinInscripcion);
-            actual.setFinMantenimiento(newFinMantenimiento);
-            actual.setFinInscripcion(anterior.getFinInscripcion());
-            actual.setAcumuladoInscripciones(anterior.getAcumuladoInscripciones());
-            actual.setColaAlumnos(anterior.getColaAlumnos());
-        } else {
-            // Logica para fin inscripcion comun
-            if(anterior.getColaAlumnos().getColaAlumnos() > 0) {
-                rndInscripcion = randomObject.nextDouble();
-                tInscripcion = Distribuciones.calcular_uniforme(5.0, 8.0, rndInscripcion);
-                finInscripcion = tInscripcion + actual.getReloj();
-                
-                actual.disminuirColaAlumnos();
-                
-                newFinInscripcion.setRnd(rndInscripcion);
-                newFinInscripcion.settInscripcion(tInscripcion);
-                
-                actual.setFinInscripcion(newFinInscripcion);
-                // Este metodo incluye el seteo del estado de la maquina y del fin inscripcion
-                actual.setearFinInscripcionEnMaquina(maquinaFinInscripcion.getId(), finInscripcion);
-                actual.setearAcInscripcionEnMaquina(maquinaFinInscripcion.getId());
-                actual.acumularInscripcion();
-            }
+        else if (maquinaQueTerminoDeInscribir != null && actual.getColaAlumnos().getColaAlumnos() > 0)
+        {
+            tocaInscribir(maquinaQueTerminoDeInscribir, actual);
         }
-        
-        actual.setAcumuladoAlumnosQueLlegan(anterior.getAcumuladoAlumnosQueLlegan());
-        actual.setAcumuladoAlumnosQueLleganYSeVan(anterior.getAcumuladoAlumnosQueLleganYSeVan());
-        actual.setAlumnos(anterior.getAlumnos());
-        actual.setInicioMantenimiento(anterior.getInicioMantenimiento());
-        actual.setLlegadaAlumno(anterior.getLlegadaAlumno());
-        
-        /**
-         * Se fija si el Encargado estaba esperando maquina libre y esta maquina
-         * no fue atendida, en ese caso le toca al Encargado.
-         * Si no se fija en la cola de alumnos.
-         * Si no hay alumnos en la cola se pone libre.
-         * Actualiza ACs.
-         * 
-         * 
-         */
+        else if (maquinaQueTerminoDeInscribir != null)
+        {
+            maquinaQueTerminoDeInscribir.setEstado(Maquina.Estado.LIBRE);
+        }
+        //Listo?        
     }
 
     private Alumno obtenerAlumnoQueSeTerminoDeInscribir(List<Alumno> alumnos) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void tocaInscribir(Maquina maquinaQueTerminoDeInscribir, VectorEstado actual) {
+        
+        //Toca inscribir
+        //Disminuyo la cola
+        actual.getColaAlumnos().setCantidad(actual.getColaAlumnos().getColaAlumnos() - 1);
+        
+        //seteo estado a la maquina
+        maquinaQueTerminoDeInscribir.setEstado(Maquina.Estado.OCUPADA);
+
+        //TODO: Buscar el alumno que sigue y setearle estado
+        Alumno alumnoQueSigue = buscarAlumnoQueSigueParaInscripcion(actual);
+        alumnoQueSigue.setEstado(Alumno.Estado.INSCRIBIENDOSE);
+
+        //Generar Fin Inscripcion
+        FinInscripcion finInscripcion = new FinInscripcion();
+        finInscripcion.setRnd(new Random().nextDouble());
+        finInscripcion.settInscripcion(Distribuciones.calcular_uniforme(
+                Configuracion.getConfiguracion().getTiempoInscripcionDesde(),
+                Configuracion.getConfiguracion().getTiempoInscripcionHasta(),
+                finInscripcion.getRnd()));
+        //Seteo los datos en el vector
+        actual.setFinInscripcion(finInscripcion);
+        //Le digo a la maquina cuando termina de inscribir
+        maquinaQueTerminoDeInscribir.setFinInscripcion(
+                actual.getReloj() + actual.getFinInscripcion().gettInscripcion());
+    }
+
+    private Alumno buscarAlumnoQueSigueParaInscripcion(VectorEstado actual) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
