@@ -28,8 +28,4 @@ public class FinInscripcion {
     public void settInscripcion(double tInscripcion) {
         this.tInscripcion = tInscripcion;
     }
-    
-    public FinInscripcion getFinInscripcion() {
-        return this;
-    }
 }

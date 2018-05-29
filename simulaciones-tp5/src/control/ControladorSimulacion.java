@@ -48,7 +48,12 @@ public class ControladorSimulacion
             //TODO: Mover vector "actual" a "anterior"
             // y el actual que sea un new copiando lo que haga falta de arriba (o eso capaz en el evento)
             Evento nuevoEvento = determinarProximoEvento();
-            nuevoEvento.actualizarEstadoVector();
+            //Actualizar reloj a la hora de este evento.
+            actual.setReloj(nuevoEvento.getHoraEvento());
+            //Setear este evento dentro del vector actual y llamar al metodo polimorfico:
+            actual.setEvento(nuevoEvento);
+            actual.getEvento().actualizarEstadoVector();
+            
             if (seMuestra())
             {
                 //Guardar en la lista a devolver
@@ -76,6 +81,11 @@ public class ControladorSimulacion
     }
 
     private Evento determinarProximoEvento() {
+        //Aca lo que hacemos es obtener todas las horas que hay en el sistema que pueden generar el proximo evento
+        //Elegir la menor, crear un objeto evento de ese, setearle la hora y devolverlo.
+        
+        
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

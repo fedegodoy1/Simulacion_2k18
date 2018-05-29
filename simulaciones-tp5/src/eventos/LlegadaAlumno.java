@@ -39,8 +39,13 @@ public class LlegadaAlumno {
         this.prox_llegada = prox_llegada;
     }
     
-       
-    public LlegadaAlumno getLlegadaAlumno() {
-        return this;
+    @Override
+    public LlegadaAlumno clone() throws CloneNotSupportedException {
+        LlegadaAlumno clon = (LlegadaAlumno) super.clone();
+        clon.prox_llegada= this.prox_llegada;
+        clon.rnd = Double.MAX_VALUE; //En la UI este valor no deberia mostrarse
+        clon.tiempo_entre_llegadas = Double.MAX_VALUE; //Same as above
+        
+        return clon;
     }
 }

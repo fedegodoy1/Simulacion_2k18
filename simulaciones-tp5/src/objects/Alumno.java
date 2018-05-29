@@ -1,6 +1,6 @@
 package objects;
 
-public class Alumno {
+public class Alumno implements Cloneable{
     
     private double hora_regreso_sistema;
     
@@ -36,5 +36,14 @@ public class Alumno {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
+    
+    @Override
+    public Alumno clone() throws CloneNotSupportedException
+    {
+        Alumno clonado = (Alumno) super.clone();
+        clonado.estado = this.estado;
+        clonado.hora_regreso_sistema = this.hora_regreso_sistema;
         
+        return clonado;
+    }
 }

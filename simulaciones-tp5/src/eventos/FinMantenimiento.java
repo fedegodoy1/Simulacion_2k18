@@ -38,4 +38,15 @@ public class FinMantenimiento {
     public void setFinMantenimiento(double finMantenimiento) {
         this.finMantenimiento = finMantenimiento;
     }
+    
+    @Override
+    public FinMantenimiento clone() throws CloneNotSupportedException
+    {
+        FinMantenimiento clon = (FinMantenimiento) super.clone();
+        clon.finMantenimiento = this.finMantenimiento;
+        clon.rnd = Double.MAX_VALUE; //En la UI estos valores no se deberian ver
+        clon.tMantenimiento = Double.MAX_VALUE;
+        
+        return clon;
+    }
 }

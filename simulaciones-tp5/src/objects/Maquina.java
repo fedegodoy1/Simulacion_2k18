@@ -68,4 +68,16 @@ public class Maquina {
     public void agregarInscripto() {
         ac_inscriptos ++;
     }
+    
+    @Override
+    public Maquina clone() throws CloneNotSupportedException
+    {
+        Maquina clonada = (Maquina) super.clone();
+        clonada.ac_inscriptos = this.ac_inscriptos;
+        clonada.estado = this.estado;
+        clonada.fin_inscripcion = this.fin_inscripcion;
+        clonada.fue_atendida = this.fue_atendida;
+        clonada.id_maquina = this.id_maquina;
+        return clonada;
+    }
 }

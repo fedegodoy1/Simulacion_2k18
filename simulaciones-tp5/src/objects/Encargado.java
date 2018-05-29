@@ -22,4 +22,11 @@ public class Encargado {
         this.estado = estado;
     }    
     
+    @Override
+    public Encargado clone() throws CloneNotSupportedException
+    {
+        Encargado clon = (Encargado) super.clone();
+        clon.estado = this.estado;
+        return clon;
+    }
 }

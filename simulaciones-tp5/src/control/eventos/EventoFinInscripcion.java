@@ -10,6 +10,8 @@ import control.VectorEstado;
 import eventos.FinInscripcion;
 import eventos.FinMantenimiento;
 import eventos.InicioMantenimiento;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import objects.Alumno;
@@ -28,6 +30,54 @@ public class EventoFinInscripcion extends Evento
         VectorEstado actual = ControladorSimulacion.getVectorActual();
         VectorEstado anterior = ControladorSimulacion.getVectorAnterior();
         Random randomObject = new Random();
+        
+        /*
+        Aca lo que tenes que hacer es obtener la hora de este evento, 
+        la cual tiene que haberse seteado en el vector actual *antes* de
+        llamar a este metodo (siempre).
+        VER: ControladorSimulacion.simular()
+        */
+        double horaActual = actual.getReloj();
+        /*
+        Depues con ese tiempo buscas en las maquinas a ver cual es la que tiene 
+        ese tiempo de fin de inscripcion. Guardas la referencia (o la clonas)
+        
+        */
+        actual.setMaquinas(new ArrayList<>(anterior.getMaquinasList()));
+        Maquina maquinaQueTerminoDeInscribir = null;
+        for (Maquina maquina : actual.getMaquinasList())
+        {
+            if (horaActual == maquina.getFinInscripcion())
+            {
+                maquinaQueTerminoDeInscribir = maquina;
+                break;
+            }
+        }
+        maquinaQueTerminoDeInscribir.agregarInscripto();
+        /*
+        Tambien tenes que buscar cual es el Alumno que se estaba inscribiendo en
+        esa maquina y guardar o clonar la referencia a ese objeto.
+        Sobre este lo que tenes q hacer es ya borrarlo de la lista porque se
+        va del sistema.
+        */
+        List<Alumno> alumnosActuales = new ArrayList<>(anterior.getAlumnos());
+        Alumno alumnoQueSeTerminoDeInscribir = obtenerAlumnoQueSeTerminoDeInscribir(alumnosActuales);
+        alumnosActuales.remove(alumnoQueSeTerminoDeInscribir);
+        actual.setAlumnos(alumnosActuales);
+        /*
+        Ahora si tenemos que decidir qué hacer con la maquina:
+        Vemos si hay encargado esperando maquina libre
+        SI: vemos si esta maquina NO fue mantenida
+            De ser asi: movemos el estado de esta maquina a siendo mantenida
+                o como se llame. Tambien marcamos al encargado como Ocupado.
+            De no ser asi: Significa que puede tomar un alumno de la cola.
+                Si no hay alumnos en la cola queda libre.
+        NO hay encargado esperando maquina libre, podemos tomar alumno de la cola
+            Si no hay nadie en la cola, pasamos esta maquina a libre.
+            Si si hay entonces buscamos el siguiente alumno esperando y lo ponemos 
+            a que se inscriba acá-
+        */
+        
         FinInscripcion newFinInscripcion = new FinInscripcion();
         FinMantenimiento newFinMantenimiento = new FinMantenimiento();
         double rndFinMantenimiento = 0.0;
@@ -37,8 +87,7 @@ public class EventoFinInscripcion extends Evento
         double tInscripcion = 0.0;
         double finInscripcion = 0.0;
         
-        actual.setReloj(anterior.getFinInscripcion().gettInscripcion());
-        actual.setEvento(Evento.FinInscripcion);
+        
         actual.setMaquinas(anterior.getMaquinasList());
         
         List<Maquina> maquinas = anterior.getMaquinasList();
@@ -111,5 +160,9 @@ public class EventoFinInscripcion extends Evento
          * 
          * 
          */
+    }
+
+    private Alumno obtenerAlumnoQueSeTerminoDeInscribir(List<Alumno> alumnos) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

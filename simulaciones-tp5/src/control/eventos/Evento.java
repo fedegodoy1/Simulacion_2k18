@@ -18,5 +18,17 @@ public abstract class Evento
     public static final Evento LlegadaAlumno = new EventoLlegadaAlumno();
     public static final Evento RegresoAlumno = new EventoRegresoAlumno();
     
+    private double horaEvento;
+    
+    public void setHoraEvento(double hora)
+    {
+        horaEvento = hora;
+    }
+    
+    public double getHoraEvento()
+    {
+        return horaEvento;
+    }
+    
     public abstract void actualizarEstadoVector();
 }

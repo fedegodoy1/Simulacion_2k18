@@ -19,4 +19,12 @@ public class ColaAlumnos {
     public void agregarAlumnoCola() {
         cantidad ++;
     }
+    
+    @Override
+    public ColaAlumnos clone() throws CloneNotSupportedException
+    {
+        ColaAlumnos clonada = (ColaAlumnos) super.clone();
+        clonada.cantidad = this.cantidad;
+        return clonada;
+    }
 }
