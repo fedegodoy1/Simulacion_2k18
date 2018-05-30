@@ -4,8 +4,10 @@ import control.ControladorSimulacion;
 import control.VectorEstado;
 import eventos.FinInscripcion;
 import eventos.LlegadaAlumno;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import model.Configuracion;
 import objects.Alumno;
 import objects.Distribuciones;
 import objects.Maquina;
@@ -25,10 +27,25 @@ public class EventoLlegadaAlumno extends Evento {
         
         VectorEstado actual = ControladorSimulacion.getVectorActual();
         VectorEstado anterior = ControladorSimulacion.getVectorAnterior();
+        
+        actual.setAcumuladoAlumnosQueLlegan(anterior.getAcumuladoAlumnosQueLlegan() + 1);
+        actual.setAcumuladoAlumnosQueLleganYSeVan(anterior.getAcumuladoAlumnosQueLleganYSeVan());
+        actual.setAcumuladoInscripciones(anterior.getAcumuladoInscripciones());
+        actual.setAlumnos(new ArrayList<>(anterior.getAlumnos()));
+        actual.setColaAlumnos(anterior.getColaAlumnos().clone());
+        actual.setEncargado(anterior.getEncargado().clone());
+        actual.setFinInscripcion(anterior.getFinInscripcion().clone());
+        actual.setFinMantenimiento(anterior.getFinMantenimiento().clone());
+        actual.setInicioMantenimiento(anterior.getInicioMantenimiento().clone());
+        actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
+        actual.setMaquinas(new ArrayList<>(anterior.getMaquinasList()));
+        
         Random randomObject = new Random();
         LlegadaAlumno newLlegada = new LlegadaAlumno();
         FinInscripcion newFinInscripcion = new FinInscripcion();
+        
         Alumno newAlumno = new Alumno();
+        actual.getAlumnos().add(newAlumno);
         //Variables para fin inscripcion
         double rndInscripcion = 0.0;
         double tInscripcion = 0.0;
@@ -42,78 +59,68 @@ public class EventoLlegadaAlumno extends Evento {
         
         // Calcular proxima llegada alumno
         double rndProxLlegada = randomObject.nextDouble();
-        double tEntreLlegada = Distribuciones.calcular_exponencial(-2, rndProxLlegada);
+        double tEntreLlegada = Distribuciones.calcular_exponencial(
+                Configuracion.getConfiguracion().getMediaLlegadaAlumnos(),
+                rndProxLlegada);
         double proxLlegada = tEntreLlegada + actual.getReloj();
         
-        actual.setReloj(anterior.getLlegadaAlumno().getProx_llegada());
         
         // Se fija primero si hay alumnos en la cola y luego en base a eso calcula los tiempos de las inscripciones o acumula en la cola
-        if(anterior.getColaAlumnos().getColaAlumnos() == 0) {
-            List<Maquina> maquinas = anterior.getMaquinasList();
-            for (Maquina m : maquinas) {
-                if(m.getEstado().equals(Maquina.Estado.LIBRE)){
+        if(anterior.getColaAlumnos().getColaAlumnos() == 0) 
+        {
+            List<Maquina> maquinas = actual.getMaquinasList();
+            for (Maquina m : maquinas) 
+            {
+                if(m.getEstado().equals(Maquina.Estado.LIBRE))
+                {
                     // Calcula el fin inscripcion y actualiza el estado del alumno y de la maquina correspondiente
                     rndInscripcion = randomObject.nextDouble();
-                    tInscripcion = Distribuciones.calcular_uniforme(5.0, 8.0, rndInscripcion);
+                    tInscripcion = Distribuciones.calcular_uniforme(
+                            Configuracion.getConfiguracion().getTiempoInscripcionDesde(),
+                            Configuracion.getConfiguracion().getTiempoInscripcionHasta(),
+                            rndInscripcion);
                     finInscripcion = tInscripcion + actual.getReloj();
                     
                     newFinInscripcion.setRnd(rndInscripcion);
                     newFinInscripcion.settInscripcion(tInscripcion);
                     
                     actual.setFinInscripcion(newFinInscripcion);
-                    actual.setearFinInscripcionEnMaquina(m.getId(), finInscripcion);
+                    m.setEstado(Maquina.Estado.OCUPADA);
+                    m.setFinInscripcion(actual.getReloj() + tInscripcion);
                     
                     newAlumno.setEstado(Alumno.Estado.INSCRIBIENDOSE);
-                    actual.agregarAlumnosEnInscripcion(newAlumno);
+                    newAlumno.setMaquinaInscripcion(m.getId());
+                    
                     maquinasLibres = true;
                     break;
                 } 
             }
-            if(maquinasLibres == false) {
+            if(!maquinasLibres) 
+            {
                 newAlumno.setEstado(Alumno.Estado.ESPERANDO_MAQUINA);
-                actual.agregarAlumnoACola(newAlumno);
-                actual.setFinInscripcion(anterior.getFinInscripcion());
+                actual.getColaAlumnos().agregarAlumnoCola();
             }
              
-        } else {
-            
-            // Logica para cuando hay cola de 1 hasta 4
-            if(anterior.getColaAlumnos().getColaAlumnos() >= 1 && anterior.getColaAlumnos().getColaAlumnos() <= 4) {
-                newAlumno.setEstado(Alumno.Estado.ESPERANDO_MAQUINA);
-                actual.agregarAlumnoACola(newAlumno);
-                actual.setFinInscripcion(anterior.getFinInscripcion());
-            }
-            
+        } 
+        else if (actual.getColaAlumnos().getColaAlumnos() > 4)
+        {
+                      
             // Logica para cuando la cola es mayor a 4
-            if(anterior.getColaAlumnos().getColaAlumnos() > 4) {
-                double minutosQueRegresa = 30.0;
-                newAlumno.setHora_regreso_sistema(anterior.getReloj() + minutosQueRegresa);
-                newAlumno.setEstado(Alumno.Estado.ESPERANDO_PARA_REGRESAR);
-                actual.acumularAlumnoQueLlegaYSeVa();
-                actual.setFinInscripcion(anterior.getFinInscripcion());
-            }
+            double minutosQueRegresa = 30.0;
+            newAlumno.setHora_regreso_sistema(actual.getReloj() + minutosQueRegresa);
+            newAlumno.setEstado(Alumno.Estado.ESPERANDO_PARA_REGRESAR);
+            actual.setAcumuladoAlumnosQueLleganYSeVan(actual.getAcumuladoAlumnosQueLleganYSeVan() + 1);
         }
-        
-        // Actualiza todo el vector actual con los acumuladores y todo el resto que no se todo del vector anterior
-        actual.addAlumno(newAlumno);
-        
+        else
+        {
+            newAlumno.setEstado(Alumno.Estado.ESPERANDO_MAQUINA);
+            actual.getColaAlumnos().agregarAlumnoCola();
+        }
+                
         //Seteo de la proxima llegada
         newLlegada.setRnd(rndProxLlegada);
         newLlegada.setTiempo_entre_llegadas(tEntreLlegada);
         newLlegada.setProx_llegada(proxLlegada);
         actual.setLlegadaAlumno(newLlegada);
-        
-        // Siempre que haya una llegada alumno se acumula la llegada del alumno
-        actual.acumularAlumnoQueLlega();
-        
-        // Seteo del evento actual
-        actual.setEvento(Evento.LlegadaAlumno);
-        
-        //Actualiza el resto como estaba antes
-        actual.setAcumuladoInscripciones(anterior.getAcumuladoInscripciones());
-        actual.setEncargado(anterior.getEncargado());
-        actual.setFinMantenimiento(anterior.getFinMantenimiento());
-        actual.setInicioMantenimiento(anterior.getInicioMantenimiento());
-        actual.setMaquinas(anterior.getMaquinasList());
     }
 }

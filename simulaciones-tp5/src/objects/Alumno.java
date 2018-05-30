@@ -6,6 +6,17 @@ import java.util.logging.Logger;
 public class Alumno implements Cloneable{
     
     private double hora_regreso_sistema;
+    private int idMaqInscr;
+
+    public void setMaquinaInscripcion(int id) {
+        
+        idMaqInscr = id;
+    }
+    
+    public int getMaquinaInscripcion()
+    {
+        return idMaqInscr;
+    }
     
     public enum Estado {
         ESPERANDO_MAQUINA,
