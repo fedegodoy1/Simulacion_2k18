@@ -7,7 +7,43 @@ import java.util.logging.Logger;
 public class InicioMantenimiento {
     
     private double rnd;
-    //TODO: no hay q agregar mas nada acá?
+    private double tMantenimiento;
+    private double proxInicioMantenimiento;
+
+    public InicioMantenimiento(double rnd, double tMantenimiento, double proxInicioMantenimiento) {
+        this.rnd = rnd;
+        this.tMantenimiento = tMantenimiento;
+        this.proxInicioMantenimiento = proxInicioMantenimiento;
+    }
+
+    public InicioMantenimiento() {
+    }
+
+    public double getRnd() {
+        return rnd;
+    }
+
+    public void setRnd(double rnd) {
+        this.rnd = rnd;
+    }
+
+    public double gettMantenimiento() {
+        return tMantenimiento;
+    }
+
+    public void settMantenimiento(double tMantenimiento) {
+        this.tMantenimiento = tMantenimiento;
+    }
+
+    public double getProxInicioMantenimiento() {
+        return proxInicioMantenimiento;
+    }
+
+    public void setProxInicioMantenimiento(double proxInicioMantenimiento) {
+        this.proxInicioMantenimiento = proxInicioMantenimiento;
+    }
+    
+    
     
     @Override
     public InicioMantenimiento clone() 

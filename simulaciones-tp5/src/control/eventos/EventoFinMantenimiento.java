@@ -7,10 +7,14 @@ package control.eventos;
 
 import control.ControladorSimulacion;
 import control.VectorEstado;
+import eventos.FinMantenimiento;
+import eventos.InicioMantenimiento;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import model.Configuracion;
 import objects.Distribuciones;
+import objects.Encargado;
 import objects.Maquina;
 
 /**
@@ -22,29 +26,7 @@ public class EventoFinMantenimiento extends Evento
     
         @Override
     public void actualizarEstadoVector() {
-        VectorEstado actual = ControladorSimulacion.getVectorActual();
-        VectorEstado anterior = ControladorSimulacion.getVectorAnterior();
-        Random randomObject = new Random();
-        boolean terminoDeRecorrerYNoHayLibre = false;
         
-        double horaActual = actual.getReloj();
-        double rndFinMantenimiento = 0.0;
-        double tMantenimiento = 0.0;
-        double finMantenimiento = 0.0;
-        
-        actual.setMaquinas(new ArrayList<>(anterior.getMaquinasList()));
-        
-        Maquina newMaquina = new Maquina();
-        
-        List<Maquina> maquinas = actual.getMaquinasList();
-        for(Maquina m : maquinas) {
-            if(m.fueAtendida() == false && m.getEstado().equals(Maquina.Estado.LIBRE)) {
-                rndFinMantenimiento = randomObject.nextDouble();
-                tMantenimiento = Distribuciones.calcular_normal(3.0, 0.0027, rndFinMantenimiento, rndFinMantenimiento);
-                finMantenimiento = tMantenimiento + actual.getReloj();
-                
-            }
-        }
         /**
          * Tiene que fijarse si ya se mantuvieron todas las maquinas,
          * si es asi entonces calculamos el proximo inicio de mantenimiento
@@ -53,5 +35,86 @@ public class EventoFinMantenimiento extends Evento
          * y esta libre, si no hay libre se pone en espera.
          * 
          */
+        
+        VectorEstado actual = ControladorSimulacion.getVectorActual();
+        VectorEstado anterior = ControladorSimulacion.getVectorAnterior();
+        
+        double tMantenimiento = 0.0;
+        double finTMantenimiento = 0.0;
+        
+        double tInicioMantenimiento = 0.0;
+        double proxInicioMantenimiento = 0.0;
+        
+        actual.setAcumuladoAlumnosQueLlegan(anterior.getAcumuladoAlumnosQueLlegan());
+        actual.setAcumuladoAlumnosQueLleganYSeVan(anterior.getAcumuladoAlumnosQueLleganYSeVan());
+        actual.setAcumuladoInscripciones(anterior.getAcumuladoInscripciones());
+        actual.setAlumnos(new ArrayList<>(anterior.getAlumnos()));
+        actual.setColaAlumnos(anterior.getColaAlumnos().clone());
+        actual.setEncargado(anterior.getEncargado().clone());
+        actual.setFinInscripcion(anterior.getFinInscripcion().clone());
+        
+        actual.setFinMantenimiento(new FinMantenimiento());
+           
+        actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
+        actual.setMaquinas(new ArrayList<>(anterior.getMaquinasList()));
+        
+        List<Maquina> maquinas = actual.getMaquinasList();
+        
+        boolean hayMaquinaLibre = false;
+        boolean hayMaquinaSinAtender = false;
+        Maquina maquinaLibre = null;
+        for (Maquina maq : maquinas)
+        {
+            if (maq.fueAtendida() == false) {
+                hayMaquinaSinAtender = true;
+                if(maq.getEstado().equals(Maquina.Estado.LIBRE)) {
+                    hayMaquinaLibre = true;
+                    maquinaLibre = maq;
+                    break;
+                }
+            }
+        }
+        
+        if (hayMaquinaLibre && hayMaquinaSinAtender && maquinaLibre != null) {
+            maquinaLibre.setEstado(Maquina.Estado.SIENDO_MANTENIDA);
+            
+            actual.getEncargado().setEstado(Encargado.Estado.REPARANDO_MAQUINA);
+            
+            FinMantenimiento finMantenimiento = new FinMantenimiento();
+            finMantenimiento.setRnd1(new Random().nextDouble());
+            finMantenimiento.setRnd2(new Random().nextDouble());
+            
+            tMantenimiento = Distribuciones.calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
+                    Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
+                    finMantenimiento.getRnd1(),
+                    finMantenimiento.getRnd2());
+            finTMantenimiento = tMantenimiento + actual.getReloj();
+            
+            finMantenimiento.setTMatenimiento(tMantenimiento);
+            finMantenimiento.setFinMantenimiento(finTMantenimiento);
+            actual.setFinMantenimiento(finMantenimiento);
+        } else {
+            
+            if(hayMaquinaSinAtender == true) {
+                
+                actual.getEncargado().setEstado(Encargado.Estado.ESPERANDO_MAQUINA_LIBRE);
+                
+            } else {
+                
+                actual.getEncargado().setEstado(Encargado.Estado.ESPERANDO_PROX_RONDA_MANTENIMIENTO);
+                
+                InicioMantenimiento inicioMantenimiento = new InicioMantenimiento();
+                inicioMantenimiento.setRnd(new Random().nextDouble());
+                
+                tInicioMantenimiento = Distribuciones.calcular_uniforme(Configuracion.getConfiguracion().getInicioMantenimientoDesde(), 
+                        Configuracion.getConfiguracion().getInicioMantenimientoHasta(), 
+                        inicioMantenimiento.getRnd());
+                proxInicioMantenimiento = tInicioMantenimiento + actual.getReloj();
+                inicioMantenimiento.settMantenimiento(tInicioMantenimiento);
+                inicioMantenimiento.setProxInicioMantenimiento(proxInicioMantenimiento);
+                
+                actual.setInicioMantenimiento(inicioMantenimiento);
+            }
+        }
     }
 }
