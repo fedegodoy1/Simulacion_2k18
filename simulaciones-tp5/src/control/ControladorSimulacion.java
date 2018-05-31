@@ -6,11 +6,10 @@
 package control;
 
 import control.eventos.Evento;
-import front.principal.VistaAplicacion;
 import front.tablemodel.SetearValores;
-import java.util.ArrayList;
+import java.util.*;
 import model.Configuracion;
-import objects.ColaAlumnos;
+import objects.*;
 
 /**
  *
