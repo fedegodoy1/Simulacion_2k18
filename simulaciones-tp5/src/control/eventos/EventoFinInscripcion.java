@@ -68,7 +68,7 @@ public class EventoFinInscripcion extends Evento
         va del sistema.
         */
         List<Alumno> alumnosActuales = new ArrayList<>(anterior.getAlumnos());
-        Alumno alumnoQueSeTerminoDeInscribir = obtenerAlumnoQueSeTerminoDeInscribir(alumnosActuales);
+        Alumno alumnoQueSeTerminoDeInscribir = obtenerAlumnoQueSeTerminoDeInscribir(alumnosActuales, maquinaQueTerminoDeInscribir.getId());
         alumnosActuales.remove(alumnoQueSeTerminoDeInscribir); //Si dios quiere nadie mas lo referenciaba jaja
         alumnoQueSeTerminoDeInscribir = null;
         actual.setAlumnos(alumnosActuales);
@@ -142,8 +142,16 @@ public class EventoFinInscripcion extends Evento
         //Listo?        
     }
 
-    private Alumno obtenerAlumnoQueSeTerminoDeInscribir(List<Alumno> alumnos) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private Alumno obtenerAlumnoQueSeTerminoDeInscribir(List<Alumno> alumnos, int idMaquina) 
+    {
+        for (Alumno alumno: alumnos)
+        {
+            if (alumno.getMaquinaInscripcion() == idMaquina)
+            {
+                return alumno;
+            }
+        }
+        throw new NullPointerException("No se encontro el alumno que se estaba inscribiendo en la maquina: "+ idMaquina);
     }
 
     private void tocaInscribir(Maquina maquinaQueTerminoDeInscribir, VectorEstado actual) {
@@ -174,6 +182,14 @@ public class EventoFinInscripcion extends Evento
     }
 
     private Alumno buscarAlumnoQueSigueParaInscripcion(VectorEstado actual) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //El alumno que sigue va a ser el primero que esté en el estado Esperando Maquina Libre
+        for (Alumno alumno : actual.getAlumnos())
+        {
+            if (alumno.getEstado().equals(Alumno.Estado.ESPERANDO_MAQUINA))
+            {
+                return alumno;
+            }
+        }
+        throw new NullPointerException ( "No habia Alumno esperando maquina");
     }
 }
