@@ -88,6 +88,15 @@ public class EventoRegresoAlumno extends Evento
     }
 
     private Alumno encontrarAlumnoQueVuelve(VectorEstado actual) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        for (Alumno alumno : actual.getAlumnos())
+        {
+            if (alumno.getEstado().equals(Alumno.Estado.ESPERANDO_PARA_REGRESAR)
+                    && actual.getReloj() == alumno.getHora_regreso_sistema())
+            {
+                return alumno;
+            }
+        }
+        throw new NullPointerException("No se encontro el alumno que regresaba a los : " + actual.getReloj());
     }
 }
