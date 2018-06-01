@@ -65,9 +65,11 @@ public class EventoFinMantenimiento extends Evento
         Maquina maquinaLibre = null;
         for (Maquina maq : maquinas)
         {
-            if (maq.fueAtendida() == false) {
+            if (maq.fueAtendida() == false) 
+            {
                 hayMaquinaSinAtender = true;
-                if(maq.getEstado().equals(Maquina.Estado.LIBRE)) {
+                if(maq.getEstado().equals(Maquina.Estado.LIBRE)) 
+                {
                     hayMaquinaLibre = true;
                     maquinaLibre = maq;
                     break;
@@ -93,13 +95,18 @@ public class EventoFinMantenimiento extends Evento
             finMantenimiento.setTMatenimiento(tMantenimiento);
             finMantenimiento.setFinMantenimiento(finTMantenimiento);
             actual.setFinMantenimiento(finMantenimiento);
-        } else {
+        } 
+        else 
+        {
             
-            if(hayMaquinaSinAtender == true) {
+            if(hayMaquinaSinAtender) 
+            {
                 
                 actual.getEncargado().setEstado(Encargado.Estado.ESPERANDO_MAQUINA_LIBRE);
                 
-            } else {
+            } 
+            else 
+            {
                 
                 actual.getEncargado().setEstado(Encargado.Estado.ESPERANDO_PROX_RONDA_MANTENIMIENTO);
                 

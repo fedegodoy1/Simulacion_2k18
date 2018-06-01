@@ -44,8 +44,8 @@ public class ControladorSimulacion
         int minutosASimular = Configuracion.getConfiguracion().getMinutosASimular();
         while (iteracionActual < 1000000 || anterior.getReloj() <= minutosASimular)
         {
-            //TODO: Mover vector "actual" a "anterior"
-            // y el actual que sea un new copiando lo que haga falta de arriba (o eso capaz en el evento)
+            //Mover vector "actual" a "anterior"
+            rotacionVector();
             Evento nuevoEvento = determinarProximoEvento();
             //Actualizar reloj a la hora de este evento.
             actual.setReloj(nuevoEvento.getHoraEvento());
@@ -56,6 +56,7 @@ public class ControladorSimulacion
             if (seMuestra())
             {
                 //Guardar en la lista a devolver
+                guardarVectorParaVista();
             }
         }
         //Actualizar Vista
@@ -77,18 +78,78 @@ public class ControladorSimulacion
         actual.setReloj(0);
         actual.setEvento(Evento.Inicial);
         actual.getEvento().actualizarEstadoVector();
+        
+        if (seMuestra())
+        {
+            //Guardar en la lista a devolver
+            guardarVectorParaVista();
+        }
     }
 
     private Evento determinarProximoEvento() {
         //Aca lo que hacemos es obtener todas las horas que hay en el sistema que pueden generar el proximo evento
         //Elegir la menor, crear un objeto evento de ese, setearle la hora y devolverlo.
+        HashMap<Double,Evento> mapaDeTiempos = new HashMap<>();
         
+        if (anterior.getLlegadaAlumno() != null && 
+                anterior.getLlegadaAlumno().getProx_llegada() > 0 && 
+                anterior.getLlegadaAlumno().getProx_llegada() < Double.MAX_VALUE)
+        {
+            mapaDeTiempos.put(anterior.getLlegadaAlumno().getProx_llegada(), Evento.LlegadaAlumno);
+        }
+        if (anterior.getFinMantenimiento() != null &&
+                anterior.getFinMantenimiento().getFinMantenimiento() > 0 &&
+                anterior.getFinMantenimiento().getFinMantenimiento() < Double.MAX_VALUE)
+        {
+            mapaDeTiempos.put(anterior.getFinMantenimiento().getFinMantenimiento(), Evento.FinMantenimiento);
+        }
+        if (anterior.getInicioMantenimiento() != null &&
+                anterior.getInicioMantenimiento().getProxInicioMantenimiento() > 0 &&
+                anterior.getInicioMantenimiento().getProxInicioMantenimiento() < Double.MAX_VALUE)
+        {
+            mapaDeTiempos.put(anterior.getInicioMantenimiento().getProxInicioMantenimiento(), Evento.InicioMantenimiento);
+        }
+        if (anterior.getMaquinasList() != null && anterior.getMaquinasList().size() > 0)
+        {
+            for (Maquina maquina : anterior.getMaquinasList())
+            {
+                if (maquina.getFinInscripcion() > 0 && maquina.getFinInscripcion() < Double.MAX_VALUE)
+                {
+                    mapaDeTiempos.put(maquina.getFinInscripcion(), Evento.FinInscripcion);
+                }
+            }
+        }
+        if (anterior.getAlumnos() != null && anterior.getAlumnos().size() > 0)
+        {
+            for (Alumno alumno : anterior.getAlumnos())
+            {
+                if (alumno.getHora_regreso_sistema() > 0 &&
+                        alumno.getHora_regreso_sistema() < Double.MAX_VALUE)
+                {
+                    mapaDeTiempos.put(alumno.getHora_regreso_sistema(), Evento.RegresoAlumno);
+                }
+            }
+        }
         
+        Set<Double> tiempos = mapaDeTiempos.keySet();
+        Double tiempoSiguiente = Collections.min(tiempos);
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Evento returnValue = mapaDeTiempos.get(tiempoSiguiente);
+        returnValue.setHoraEvento(tiempoSiguiente);
+        
+        return returnValue;
     }
 
     private boolean seMuestra() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void rotacionVector() {
+        anterior = actual;
+        actual = new VectorEstado();
+    }
+
+    private void guardarVectorParaVista() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

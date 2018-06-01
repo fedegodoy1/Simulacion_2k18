@@ -13,7 +13,10 @@ import eventos.InicioMantenimiento;
 import eventos.LlegadaAlumno;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import model.Configuracion;
 import objects.ColaAlumnos;
+import objects.Distribuciones;
 import objects.Encargado;
 import objects.Maquina;
 
@@ -40,17 +43,26 @@ public class EventoInicial extends Evento
         actual.setFinInscripcion(new FinInscripcion());
         actual.setFinMantenimiento(new FinMantenimiento());
         actual.setInicioMantenimiento(new InicioMantenimiento());
-        actual.setLlegadaAlumno(new LlegadaAlumno());
         actual.setMaquinas(getMaquinasList());
+        
+        //Seteo de la proxima llegada
+        LlegadaAlumno proximaLlegada = new LlegadaAlumno();
+        proximaLlegada.setRnd(new Random().nextDouble());
+        double tiempoEntreLlegadas = Distribuciones.calcular_exponencial(
+                Configuracion.getConfiguracion().getMediaLlegadaAlumnos(),
+                proximaLlegada.getRnd());
+        proximaLlegada.setTiempo_entre_llegadas(tiempoEntreLlegadas);
+        proximaLlegada.setProx_llegada(actual.getReloj() + tiempoEntreLlegadas);
+        actual.setLlegadaAlumno(proximaLlegada);
     }
 
     private List<Maquina> getMaquinasList() {
         ArrayList<Maquina> maquinas = new ArrayList<>(5);
-        maquinas.add(new Maquina(1, 0, Maquina.Estado.LIBRE, false, 0.0));
-        maquinas.add(new Maquina(2, 0, Maquina.Estado.LIBRE, false, 0.0));
-        maquinas.add(new Maquina(3, 0, Maquina.Estado.LIBRE, false, 0.0));
-        maquinas.add(new Maquina(4, 0, Maquina.Estado.LIBRE, false, 0.0));
-        maquinas.add(new Maquina(5, 0, Maquina.Estado.LIBRE, false, 0.0));
+        maquinas.add(new Maquina(1, 0, Maquina.Estado.LIBRE, false, Double.MAX_VALUE));
+        maquinas.add(new Maquina(2, 0, Maquina.Estado.LIBRE, false, Double.MAX_VALUE));
+        maquinas.add(new Maquina(3, 0, Maquina.Estado.LIBRE, false, Double.MAX_VALUE));
+        maquinas.add(new Maquina(4, 0, Maquina.Estado.LIBRE, false, Double.MAX_VALUE));
+        maquinas.add(new Maquina(5, 0, Maquina.Estado.LIBRE, false, Double.MAX_VALUE));
         return maquinas;
     }
     

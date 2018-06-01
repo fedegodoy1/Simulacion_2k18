@@ -17,6 +17,7 @@ public class InicioMantenimiento {
     }
 
     public InicioMantenimiento() {
+        proxInicioMantenimiento = Double.MAX_VALUE;
     }
 
     public double getRnd() {
