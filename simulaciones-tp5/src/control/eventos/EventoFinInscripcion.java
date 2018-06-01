@@ -80,7 +80,7 @@ public class EventoFinInscripcion extends Evento
         actual.setAcumuladoAlumnosQueLleganYSeVan(anterior.getAcumuladoAlumnosQueLleganYSeVan());
         //Actualizo el acumulador de inscripciones
         actual.setAcumuladoInscripciones(anterior.getAcumuladoInscripciones() + 1);
-        
+        actual.setColaAlumnos(anterior.getColaAlumnos().clone());
         actual.setEncargado(anterior.getEncargado().clone());
         actual.setFinInscripcion(anterior.getFinInscripcion().clone()); //Este lo clono asi no mas porque la que tiene la hora es la maquina
         actual.setFinMantenimiento(anterior.getFinMantenimiento().clone()); //Por las dudas lo clono
@@ -166,6 +166,7 @@ public class EventoFinInscripcion extends Evento
         //TODO: Buscar el alumno que sigue y setearle estado
         Alumno alumnoQueSigue = buscarAlumnoQueSigueParaInscripcion(actual);
         alumnoQueSigue.setEstado(Alumno.Estado.INSCRIBIENDOSE);
+        alumnoQueSigue.setMaquinaInscripcion(maquinaQueTerminoDeInscribir.getId());
 
         //Generar Fin Inscripcion
         FinInscripcion finInscripcion = new FinInscripcion();

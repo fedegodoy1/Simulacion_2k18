@@ -3,7 +3,7 @@ package eventos;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class FinMantenimiento {
+public class FinMantenimiento implements Cloneable{
     
     private double rnd1;
     private double rnd2;

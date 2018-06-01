@@ -4,7 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class InicioMantenimiento {
+public class InicioMantenimiento implements Cloneable{
     
     private double rnd;
     private double tMantenimiento;

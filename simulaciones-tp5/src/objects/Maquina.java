@@ -3,7 +3,7 @@ package objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Maquina {
+public class Maquina implements Cloneable{
     
     private int id_maquina;
     private float ac_inscriptos;

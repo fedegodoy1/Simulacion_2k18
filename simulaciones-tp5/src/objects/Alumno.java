@@ -58,6 +58,7 @@ public class Alumno implements Cloneable{
             Alumno clonado = (Alumno) super.clone();
             clonado.estado = this.estado;
             clonado.hora_regreso_sistema = this.hora_regreso_sistema;
+            clonado.idMaqInscr = this.idMaqInscr;
             
             return clonado;
         } catch (CloneNotSupportedException ex) {

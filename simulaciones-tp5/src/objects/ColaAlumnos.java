@@ -3,7 +3,7 @@ package objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ColaAlumnos {
+public class ColaAlumnos implements Cloneable{
     
     private double cantidad;
 

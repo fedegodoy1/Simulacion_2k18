@@ -3,7 +3,7 @@ package eventos;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class FinInscripcion {
+public class FinInscripcion implements Cloneable{
     
     private double rnd;
     private double tInscripcion;

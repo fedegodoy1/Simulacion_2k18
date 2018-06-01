@@ -3,7 +3,7 @@ package eventos;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LlegadaAlumno {
+public class LlegadaAlumno implements Cloneable{
     
     private double rnd;
     private double tiempo_entre_llegadas;

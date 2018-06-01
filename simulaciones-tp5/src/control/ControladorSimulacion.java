@@ -6,9 +6,11 @@
 package control;
 
 import control.eventos.Evento;
+import front.VentanaPrincipal;
 import front.tablemodel.SetearValores;
 import java.util.*;
 import model.Configuracion;
+import model.VectorEstadoUI;
 import objects.*;
 
 /**
@@ -17,14 +19,16 @@ import objects.*;
  */
 public class ControladorSimulacion 
 {
-    SetearValores vistaAplicacion;
+    VentanaPrincipal vistaAplicacion;
     
     private static VectorEstado actual;
     private static VectorEstado anterior;
     
+    private List<VectorEstadoUI> modelo;
+    
     ControladorSimulacion()
     {
-        vistaAplicacion = new SetearValores(this);
+        vistaAplicacion = new VentanaPrincipal(this);
         
     }
     public void mostrarVentanaPrincipal()
@@ -42,7 +46,7 @@ public class ControladorSimulacion
         int iteracionActual = 0;
         inicializar();
         int minutosASimular = Configuracion.getConfiguracion().getMinutosASimular();
-        while (iteracionActual < 1000000 || anterior.getReloj() <= minutosASimular)
+        while (iteracionActual < 1000000 && anterior.getReloj() <= minutosASimular)
         {
             //Mover vector "actual" a "anterior"
             rotacionVector();
@@ -58,8 +62,10 @@ public class ControladorSimulacion
                 //Guardar en la lista a devolver
                 guardarVectorParaVista();
             }
+            iteracionActual++;
         }
         //Actualizar Vista
+        vistaAplicacion.setearModelo(modelo);
     }
     
     public static VectorEstado getVectorActual()
@@ -84,6 +90,7 @@ public class ControladorSimulacion
             //Guardar en la lista a devolver
             guardarVectorParaVista();
         }
+        anterior = actual;
     }
 
     private Evento determinarProximoEvento() {
@@ -141,7 +148,8 @@ public class ControladorSimulacion
     }
 
     private boolean seMuestra() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return true;
     }
 
     private void rotacionVector() {
@@ -150,6 +158,12 @@ public class ControladorSimulacion
     }
 
     private void guardarVectorParaVista() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (modelo == null)
+        {
+            modelo = new ArrayList<>();
+        }
+        
+        modelo.add(actual);
+        
     }
 }

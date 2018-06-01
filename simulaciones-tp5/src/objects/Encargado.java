@@ -3,7 +3,7 @@ package objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Encargado {
+public class Encargado implements Cloneable{
   
     private Estado estado;
 
