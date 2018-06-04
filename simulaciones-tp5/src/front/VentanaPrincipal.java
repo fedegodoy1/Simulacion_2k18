@@ -11,7 +11,11 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -21,15 +25,18 @@ import javax.swing.text.Position;
 import javax.swing.text.Segment;
 import model.Configuracion;
 import model.VectorEstadoUI;
+import objects.Alumno;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     private ControladorSimulacion controlador;
     private VectorEstadoTableModel model;
     private JTable tabla;
+    private PopUpAlumnos popUpAlumnos;
     
     public VentanaPrincipal(ControladorSimulacion controlador) {
         this.controlador = controlador;
+        popUpAlumnos = new PopUpAlumnos();
         initComponents();
         crearTabla();
         setearModeloDeTextos();
@@ -502,10 +509,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void btn_simularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simularActionPerformed
         controlador.simular();
+        SwingUtilities.invokeLater( () -> { jTabbedPane1.setSelectedIndex(1);});
     }//GEN-LAST:event_btn_simularActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new PopUpAlumnos().setVisible(true);
+        popUpAlumnos.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
@@ -571,6 +579,36 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 //        tabla.setColumnModel(model.getColumnModel());
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         jScrollPane3.setViewportView(tabla);
+        tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        //Ask to be notified of selection changes.
+        ListSelectionModel rowSM = tabla.getSelectionModel();
+        rowSM.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                //Ignore extra messages.
+                if (e.getValueIsAdjusting()) return;
+
+                ListSelectionModel lsm =
+                    (ListSelectionModel)e.getSource();
+
+                if (lsm.isSelectionEmpty()) {
+                    //...//no rows are selected
+                } else {
+                    int selectedRow = lsm.getMinSelectionIndex();
+                    if (model.getDato(selectedRow) != null)
+                    {
+                        setAlumnosModel(model.getDato(selectedRow).getAlumnos());
+                    }
+
+                }
+            }
+
+            private void setAlumnosModel(List<Alumno> alumnos) {
+                popUpAlumnos.setAlumnos(alumnos);
+            }
+        });
     }
 
     public void setearModelo(List<VectorEstadoUI> modelo) 

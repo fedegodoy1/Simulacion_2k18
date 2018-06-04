@@ -5,19 +5,37 @@
  */
 package front;
 
+import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import objects.Alumno;
+
 /**
  *
  * @author heftyn
  */
 public class PopUpAlumnos extends javax.swing.JFrame {
 
+    private List<Alumno> alumnos;
+    private JTable tabla;
+    private AlumnoTableModel tableModel;
+    
     /**
      * Creates new form PopUpAlumnos
      */
     public PopUpAlumnos() {
         initComponents();
+        setearTabla();
     }
 
+    /**
+     * Creates new form PopUpAlumnos
+     */
+    public PopUpAlumnos(List<Alumno> alu) {
+        alumnos = alu;
+        initComponents();
+        setearTabla();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,6 +44,8 @@ public class PopUpAlumnos extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        scpAlumnos = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alumnos");
@@ -36,51 +56,127 @@ public class PopUpAlumnos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 437, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scpAlumnos, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 324, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scpAlumnos, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PopUpAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PopUpAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PopUpAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PopUpAlumnos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PopUpAlumnos().setVisible(true);
-            }
-        });
+    void setAlumnos(List<Alumno> alumnos) {
+        
+        this.alumnos = alumnos;
+        tableModel.fireTableDataChanged();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane scpAlumnos;
     // End of variables declaration//GEN-END:variables
+
+    private void setearTabla() {
+        tabla = new JTable();
+        scpAlumnos.setViewportView(tabla);
+        tableModel = new AlumnoTableModel();
+        tabla.setModel(tableModel);
+    }
+    
+    private class AlumnoTableModel extends DefaultTableModel
+    {
+        @Override
+        public Object getValueAt(int row, int col) 
+        {
+            Object value = null;
+            if (row >= 0 && alumnos != null)
+            {
+                Alumno alumno = alumnos.get(row);
+                switch (col)
+                {
+                    case 0:
+                    {
+                        value = alumno.getEstado().name();
+                        break;
+                    }
+                    case 1: 
+                    {
+                        value = alumno.getHora_regreso_sistema();
+                        break;
+                    }
+                    case 2:
+                    {
+                        value = alumno.getMaquinaInscripcion();
+                        break;
+                    }
+                }
+            }
+            return value;
+        }
+            
+        @Override
+        public int getRowCount() {
+            return alumnos != null ? alumnos.size() : 0;
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 3;
+        }
+
+        @Override
+        public String getColumnName(int columnIndex) {
+            String colName ="";
+            switch (columnIndex)
+            {
+                case 0:
+                {
+                    colName = "Estado";
+                    break;
+                }
+                case 1:
+                {
+                    colName = "Hora regreso";
+                    break;
+                }
+                case 2:
+                {
+                    colName = "Inscribiendo en";
+                    break;
+                }
+            }
+            return colName;
+        }
+
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            switch (columnIndex)
+            {
+                case 0:
+                {
+                    return String.class;
+                }
+                case 1:
+                {
+                    return Double.class;
+                }
+                case 2:
+                {
+                    return Integer.class;
+                }
+            }
+            return Class.class;
+        }
+
+        @Override
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+    }
 }

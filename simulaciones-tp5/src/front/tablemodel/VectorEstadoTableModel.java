@@ -270,7 +270,12 @@ public final class VectorEstadoTableModel extends DefaultTableModel implements V
         // mismo tipo de datos, sino hay q cambiar el createColumnList)
         if (value instanceof Double)
         {
-            value = value; //Acá. Ojo con reloj y eso.
+            Double val = (Double) value;
+            if (val == Double.MAX_VALUE)
+            {
+                value = 0;
+            }
+            //value = value; //Acá. Ojo con reloj y eso.
         }
         return value;
     }
@@ -340,5 +345,9 @@ public final class VectorEstadoTableModel extends DefaultTableModel implements V
 
     public void setDatos(List<VectorEstadoUI> modelo) {
         datos = modelo;
+    }
+
+    public VectorEstadoUI getDato(int selectedRow) {
+        return datos.get(selectedRow);
     }
 }
