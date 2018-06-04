@@ -23,6 +23,10 @@ import objects.Maquina;
  */
 public class EventoFinMantenimiento extends Evento
 {
+
+    public EventoFinMantenimiento(String nombre) {
+        super(nombre);
+    }
     
         @Override
     public void actualizarEstadoVector() {

@@ -64,10 +64,6 @@ public final class VectorEstadoTableModel extends DefaultTableModel implements V
     public Object getValueAt(int row, int col) 
     {
         Object value = null;
-        if (row == -1)
-        {
-            return columns.get(col).getName();
-        }
         switch (col)
         {
             //Por cada columna de la tabla
@@ -76,6 +72,197 @@ public final class VectorEstadoTableModel extends DefaultTableModel implements V
                 //Aca podemos formatear la salida
                 value = datos.get(row).getReloj();
                 break;//No olvidar
+            }
+            case COL_EVENTO:
+            {
+                value = datos.get(row).getEvento().getNombre();
+                break;
+            }
+            case COL_LLEGADA_ALUMNO_RND:
+            {
+                value = datos.get(row).getLlegadaAlumno().getRnd() ;
+                break;
+            }
+            case COL_LLEGADA_ALUMNO_TIEMPO:
+            {
+                value = datos.get(row).getLlegadaAlumno().getTiempo_entre_llegadas() ;
+                break;
+            }
+            case COL_LLEGADA_ALUMNO_PROXIMA:
+            {
+                value = datos.get(row).getLlegadaAlumno().getProx_llegada() ;
+                break;
+            }
+            case COL_LLEGADA_MANTENIMIENTO_RND:
+            {
+                value = datos.get(row).getInicioMantenimiento().getRnd() ;
+                break;
+            }
+            case COL_LLEGADA_MANTENIMIENTO_TIEMPO:
+            {
+                value = datos.get(row).getInicioMantenimiento().gettMantenimiento() ;
+                break;
+            }
+            case COL_LLEGADA_MANTENIMIENTO_PROXIMO:
+            {
+                value = datos.get(row).getInicioMantenimiento().getProxInicioMantenimiento() ;
+                break;
+            }
+            case COL_FIN_MANTENIMIENTO_RND1:
+            {
+                value = datos.get(row).getFinMantenimiento().getRnd1() ;
+                break;
+            }
+            case COL_FIN_MANTENIMIENTO_RND2:
+            {
+                value = datos.get(row).getFinMantenimiento().getRnd2() ;
+                break;
+            }
+            case COL_FIN_MANTENIMIENTO_TIEMPO:
+            {
+                value = datos.get(row).getFinMantenimiento().getTMantenimiento() ;
+                break;
+            }
+            case COL_FIN_MANTENIMIENTO_PROXIMO:
+            {
+                value = datos.get(row).getFinMantenimiento().getFinMantenimiento() ;
+                break;
+            }
+            case COL_COLA:
+            {
+                value = datos.get(row).getColaAlumnos().getColaAlumnos() ;
+                break;
+            }
+            case COL_FIN_INSCRIPCION_RND:
+            {
+                value = datos.get(row).getFinInscripcion().getRnd() ;
+                break;
+            }
+            case COL_FIN_INSCRIPCION_TIEMPO:
+            {
+                value = datos.get(row).getFinInscripcion().gettInscripcion() ;
+                break;
+            }
+            case COL_MAQUINA_1_ESTADO:
+            {
+                value = datos.get(row).getMaquinasList().get(0).getEstado().name() ;
+                break;
+            }
+            case COL_MAQUINA_1_AC_INSCRIPTOS:
+            {
+                //Devuelve float, pero mostramos double... problem?
+                value = datos.get(row).getMaquinasList().get(0).getAcumuladoInscriptos() ;
+                break;
+            }
+            case COL_MAQUINA_1_HORA_FIN_INSCRIPCION:
+            {
+                value = datos.get(row).getMaquinasList().get(0).getFinInscripcion() ;
+                break;
+            }
+            case COL_MAQUINA_1_FUE_MANTENIDA:
+            {
+                value = datos.get(row).getMaquinasList().get(0).fueAtendida() ;
+                break;
+            }            
+            case COL_MAQUINA_2_ESTADO:
+            {
+                value = datos.get(row).getMaquinasList().get(1).getEstado().name() ;
+                break;
+            }
+            case COL_MAQUINA_2_AC_INSCRIPTOS:
+            {
+                value = datos.get(row).getMaquinasList().get(1).getAcumuladoInscriptos() ;
+                break;
+            }
+            case COL_MAQUINA_2_HORA_FIN_INSCRIPCION:
+            {
+                value = datos.get(row).getMaquinasList().get(1).getFinInscripcion() ;
+                break;
+            }
+            case COL_MAQUINA_2_FUE_MANTENIDA:
+            {
+                value = datos.get(row).getMaquinasList().get(1).fueAtendida() ;
+                break;
+            }          
+            case COL_MAQUINA_3_ESTADO:
+            {
+                value = datos.get(row).getMaquinasList().get(2).getEstado().name() ;
+                break;
+            }
+            case COL_MAQUINA_3_AC_INSCRIPTOS:
+            {
+                value = datos.get(row).getMaquinasList().get(2).getAcumuladoInscriptos() ;
+                break;
+            }
+            case COL_MAQUINA_3_HORA_FIN_INSCRIPCION:
+            {
+                value = datos.get(row).getMaquinasList().get(2).getFinInscripcion() ;
+                break;
+            }
+            case COL_MAQUINA_3_FUE_MANTENIDA:
+            {
+                value = datos.get(row).getMaquinasList().get(2).fueAtendida() ;
+                break;
+            }
+            case COL_MAQUINA_4_ESTADO:
+            {
+                value = datos.get(row).getMaquinasList().get(3).getEstado().name() ;
+                break;
+            }
+            case COL_MAQUINA_4_AC_INSCRIPTOS:
+            {
+                value = datos.get(row).getMaquinasList().get(3).getAcumuladoInscriptos() ;
+                break;
+            }
+            case COL_MAQUINA_4_HORA_FIN_INSCRIPCION:
+            {
+                value = datos.get(row).getMaquinasList().get(3).getFinInscripcion() ;
+                break;
+            }
+            case COL_MAQUINA_4_FUE_MANTENIDA:
+            {
+                value = datos.get(row).getMaquinasList().get(3).fueAtendida() ;
+                break;
+            }
+            case COL_MAQUINA_5_ESTADO:
+            {
+                value = datos.get(row).getMaquinasList().get(4).getEstado().name() ;
+                break;
+            }
+            case COL_MAQUINA_5_AC_INSCRIPTOS:
+            {
+                value = datos.get(row).getMaquinasList().get(4).getAcumuladoInscriptos() ;
+                break;
+            }
+            case COL_MAQUINA_5_HORA_FIN_INSCRIPCION:
+            {
+                value = datos.get(row).getMaquinasList().get(4).getFinInscripcion() ;
+                break;
+            }
+            case COL_MAQUINA_5_FUE_MANTENIDA:
+            {
+                value = datos.get(row).getMaquinasList().get(4).fueAtendida() ;
+                break;
+            }
+            case COL_AC_INSCRIPCIONES:
+            {
+                value = datos.get(row).getAcumuladoInscripciones() ;
+                break;
+            }
+            case COL_AC_ALUMNOS_QUE_LLEGAN:
+            {
+                value = datos.get(row).getAcumuladoAlumnosQueLlegan() ;
+                break;
+            }
+            case COL_AC_ALUMNOS_QUE_SE_VAN:
+            {
+                value = datos.get(row).getAcumuladoAlumnosQueLleganYSeVan() ;
+                break;
+            }
+            case COL_ENCARGADO_ESTADO:
+            {
+                value = datos.get(row).getEncargado().getEstado().name() ;
+                break;
             }
         }
         return value;
@@ -88,75 +275,46 @@ public final class VectorEstadoTableModel extends DefaultTableModel implements V
         //Agregar cada objeto de columna a la lista
 
         //https://coderanch.com/t/333340/java/set-Line-wrap-Column-JTable 
-        columns.add(new Columna("Reloj", LocalTime.class, 75));
+        columns.add(new Columna("Reloj", Double.class, 75));
         columns.add(new Columna("Evento", String.class, 100));
-        columns.add(new Columna("LLegada Alumnos: RND", LocalTime.class, 75));
-        columns.add(new Columna("Llegada Alumnos: Tiempo llegada", LocalTime.class, 75));
-        columns.add(new Columna("Llegada Alumnos: Proxima llegada", LocalTime.class, 75));
-        columns.add(new Columna("Llegada Mantenimiento: RND", LocalTime.class, 75));
-        columns.add(new Columna("Llegada Mantenimiento: Tiempo llegada", LocalTime.class, 75));
-        columns.add(new Columna("Llegada Mantenimiento: Proxima llegada", LocalTime.class, 75));
-        columns.add(new Columna("Fin Inscripcion: RND", LocalTime.class, 75));
-        columns.add(new Columna("Fin Inscripcion: Tiempo inscripcion", LocalTime.class, 75));
-        columns.add(new Columna("Fin Inscripcion: Fin inscripcion equipo 1", LocalTime.class, 75));
-        columns.add(new Columna("Fin Inscripcion: Fin inscripcion equipo 2", LocalTime.class, 75));
-        columns.add(new Columna("Fin Inscripcion: Fin inscripcion equipo 3", LocalTime.class, 75));
-        columns.add(new Columna("Fin Inscripcion: Fin inscripcion equipo 4", LocalTime.class, 75));
-        columns.add(new Columna("Fin Inscripcion: Fin inscripcion equipo 5", LocalTime.class, 75));
-        columns.add(new Columna("Fin Mantenimiento: RND", LocalTime.class, 75));
-        columns.add(new Columna("Fin Mantenimiento: Tiempo mantenimiento", LocalTime.class, 75));
-        columns.add(new Columna("Fin Mantenimiento: Hora fin", LocalTime.class, 75));
-        columns.add(new Columna("Cola Alumnos", LocalTime.class, 75));
-        columns.add(new Columna("Cola Mantenimiento", LocalTime.class, 75));
-        columns.add(new Columna("Maquina 1: Estado", LocalTime.class, 75));
-        //Resto de las máquinas
-        columns.add(new Columna("Acum. Inscripciones", LocalTime.class, 75));
-        columns.add(new Columna("Acum. Alumnos que llegan", LocalTime.class, 75));
-        columns.add(new Columna("Acum. Alumnos que llegan y se van", LocalTime.class, 75));
-        columns.add(new Columna("Alumnos", LocalTime.class, 75));
-        columns.add(new Columna("Mantenimiento", LocalTime.class, 75));
+        columns.add(new Columna("RND: LLegada Alumnos", Double.class, 75));
+        columns.add(new Columna("Tiempo: Llegada Alumnos", Double.class, 75));
+        columns.add(new Columna("Proxima Llegada Alumnos", Double.class, 75));
+        columns.add(new Columna("RND: Llegada Mantenimiento: RND", Double.class, 75));
+        columns.add(new Columna("Tiempo: Llegada Mantenimiento", Double.class, 75));
+        columns.add(new Columna("Proxima Llegada Mantenimiento", Double.class, 75));
+        columns.add(new Columna("RND1: Fin Mantenimiento: RND1", Double.class, 75));
+        columns.add(new Columna("RND2: Fin Mantenimiento: RND2", Double.class, 75));
+        columns.add(new Columna("Tiempo Fin Mantenimiento", Double.class, 75));
+        columns.add(new Columna("Fin Mantenimiento: Hora fin", Double.class, 75));
+        columns.add(new Columna("Cola Alumnos", Integer.class, 75));
+        columns.add(new Columna("RND: Fin Inscripcion: RND", Double.class, 75));
+        columns.add(new Columna("Tiempo Fin Inscripcion", Double.class, 75));
+        columns.add(new Columna("Estado Maquina 1", String.class, 75));
+        columns.add(new Columna("AC inscriptos Maquina 1", Integer.class, 75));
+        columns.add(new Columna("Hora fin inscripcion Maquina 1", Double.class, 75));
+        columns.add(new Columna("Fue mantenida? Maquina 1", Boolean.class, 75));
+        columns.add(new Columna("Estado Maquina 2", String.class, 75));
+        columns.add(new Columna("AC inscriptos Maquina 2", Integer.class, 75));
+        columns.add(new Columna("Hora fin inscripcion Maquina 2", Double.class, 75));
+        columns.add(new Columna("Fue mantenida? Maquina 2", Boolean.class, 75));
+        columns.add(new Columna("Estado Maquina 3", String.class, 75));
+        columns.add(new Columna("AC inscriptos Maquina 3", Integer.class, 75));
+        columns.add(new Columna("Hora fin inscripcion Maquina 3", Double.class, 75));
+        columns.add(new Columna("Fue mantenida? Maquina 3", Boolean.class, 75));
+        columns.add(new Columna("Estado Maquina 4", String.class, 75));
+        columns.add(new Columna("AC inscriptos Maquina 4", Integer.class, 75));
+        columns.add(new Columna("Hora fin inscripcion Maquina 4", Double.class, 75));
+        columns.add(new Columna("Fue mantenida? Maquina 4", Boolean.class, 75));
+        columns.add(new Columna("Estado Maquina 5", String.class, 75));
+        columns.add(new Columna("AC inscriptos Maquina 5", Integer.class, 75));
+        columns.add(new Columna("Hora fin inscripcion Maquina 5", Double.class, 75));
+        columns.add(new Columna("Fue mantenida? Maquina 5", Boolean.class, 75));
+        columns.add(new Columna("Acum. Inscripciones", String.class, 75));
+        columns.add(new Columna("Acum. Alumnos que llegan", String.class, 75));
+        columns.add(new Columna("Acum. Alumnos que llegan y se van", String.class, 75));
+        columns.add(new Columna("Estado Encargado", String.class, 75));
         
-        /*
-        
-                <Column editable="false" title="Reloj" type="java.lang.Double"/>
-                <Column editable="false" title="Evento" type="java.lang.String"/>
-                <Column editable="false" title="RND" type="java.lang.Double"/>
-                <Column editable="false" title="Tiempo entre llegadas" type="java.lang.Double"/>
-                <Column editable="false" title="Proxima llegada" type="java.lang.Double"/>
-                <Column editable="false" title="RND" type="java.lang.Double"/>
-                <Column editable="false" title="Tiempo entre mantenimiento" type="java.lang.Double"/>
-                <Column editable="false" title="Proximo mantenimiento" type="java.lang.Double"/>
-                <Column editable="false" title="RND" type="java.lang.Double"/>
-                <Column editable="false" title="Tiempo mantenimiento" type="java.lang.Double"/>
-                <Column editable="false" title="Fin mantenimiento maquina" type="java.lang.Double"/>
-                <Column editable="false" title="Cola" type="java.lang.Double"/>
-                <Column editable="false" title="RND" type="java.lang.Double"/>
-                <Column editable="false" title="Tiempo inscripcion" type="java.lang.Double"/>
-                <Column editable="false" title="Estado Maq 1" type="java.lang.String"/>
-                <Column editable="false" title="AC inscriptos Maq1" type="java.lang.Double"/>
-                <Column editable="false" title="Hora fin inscripcion Maq1" type="java.lang.Double"/>
-                <Column editable="false" title="Fue mantenida Maq1?" type="java.lang.Boolean"/>
-                <Column editable="false" title="Estado Maq2" type="java.lang.String"/>
-                <Column editable="false" title="AC inscriptos Maq2" type="java.lang.Double"/>
-                <Column editable="false" title="Hora fin inscripcion Maq2" type="java.lang.Double"/>
-                <Column editable="false" title="Fue mantenida Maq2?" type="java.lang.Boolean"/>
-                <Column editable="false" title="Estado Maq3" type="java.lang.String"/>
-                <Column editable="false" title="AC inscriptos Maq3" type="java.lang.Double"/>
-                <Column editable="false" title="Hora fin inscripcion Maq3" type="java.lang.Double"/>
-                <Column editable="false" title="Fue mantenida Maq3?" type="java.lang.Boolean"/>
-                <Column editable="false" title="Estado Maq4" type="java.lang.String"/>
-                <Column editable="false" title="AC inscriptos Maq4" type="java.lang.Double"/>
-                <Column editable="false" title="Hora fin inscripcion Maq4" type="java.lang.Double"/>
-                <Column editable="false" title="Fue mantenida Maq4?" type="java.lang.Boolean"/>
-                <Column editable="false" title="Estado Maq5" type="java.lang.String"/>
-                <Column editable="false" title="AC inscriptos Maq5" type="java.lang.Double"/>
-                <Column editable="true" title="Hora fin inscripcion Maq5" type="java.lang.Double"/>
-                <Column editable="false" title="FueMantenida Maq5?" type="java.lang.Boolean"/>
-                <Column editable="false" title="AC inscripciones totales" type="java.lang.Double"/>
-                <Column editable="false" title="AC alumnos que llegan" type="java.lang.Double"/>
-                <Column editable="false" title="AC alumnos que llegan y se van" type="java.lang.Double"/>
-                <Column editable="false" title="Estado Enc Sistemas" type="java.lang.String"/>
-        */
     }
     
     public List<Columna> getColumnaList()

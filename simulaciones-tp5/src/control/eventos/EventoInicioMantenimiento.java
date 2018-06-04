@@ -22,6 +22,10 @@ import objects.Maquina;
  */
 public class EventoInicioMantenimiento extends Evento
 {
+
+    public EventoInicioMantenimiento(String nombre) {
+        super(nombre);
+    }
         @Override
     public void actualizarEstadoVector() {
         VectorEstado actual = ControladorSimulacion.getVectorActual();

@@ -27,6 +27,10 @@ import objects.Maquina;
 public class EventoInicial extends Evento
 {
 
+    public EventoInicial(String nombre) {
+        super(nombre);
+    }
+
     @Override
     public void actualizarEstadoVector() 
     {

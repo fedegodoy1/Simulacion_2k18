@@ -568,7 +568,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
          */
         model = new VectorEstadoTableModel();
         tabla = new JTable(model);
-        tabla.setColumnModel(model.getColumnModel());
+//        tabla.setColumnModel(model.getColumnModel());
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         jScrollPane3.setViewportView(tabla);
     }

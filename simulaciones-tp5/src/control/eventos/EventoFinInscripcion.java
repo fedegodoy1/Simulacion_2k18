@@ -26,6 +26,10 @@ import objects.Maquina;
  */
 public class EventoFinInscripcion extends Evento
 {
+
+    public EventoFinInscripcion(String nombre) {
+        super(nombre);
+    }
         @Override
     public void actualizarEstadoVector() {
         VectorEstado actual = ControladorSimulacion.getVectorActual();
