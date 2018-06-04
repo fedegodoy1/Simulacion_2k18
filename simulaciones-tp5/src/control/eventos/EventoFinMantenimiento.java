@@ -48,6 +48,7 @@ public class EventoFinMantenimiento extends Evento
         
         double tInicioMantenimiento = 0.0;
         double proxInicioMantenimiento = 0.0;
+        double horaActual = anterior.getReloj();
         
         actual.setAcumuladoAlumnosQueLlegan(anterior.getAcumuladoAlumnosQueLlegan());
         actual.setAcumuladoAlumnosQueLleganYSeVan(anterior.getAcumuladoAlumnosQueLleganYSeVan());
@@ -61,6 +62,21 @@ public class EventoFinMantenimiento extends Evento
            
         actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
         actual.setMaquinas(new ArrayList<>(anterior.getMaquinasList()));
+        
+        Maquina maquinaQueTerminoDeMantenerse = new Maquina();
+        
+        for (Maquina maquina : actual.getMaquinasList())
+        {
+            if (maquina.getEstado().equals(Maquina.Estado.SIENDO_MANTENIDA)) {
+                maquinaQueTerminoDeMantenerse = maquina;
+                break;
+            }
+        }
+        
+        if(maquinaQueTerminoDeMantenerse != null) {
+            maquinaQueTerminoDeMantenerse.setEstado(Maquina.Estado.LIBRE);
+            maquinaQueTerminoDeMantenerse.setFueAtendida(true);
+        } 
         
         List<Maquina> maquinas = actual.getMaquinasList();
         
