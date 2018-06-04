@@ -52,6 +52,7 @@ public class InicioMantenimiento implements Cloneable{
         try {
             InicioMantenimiento clon = (InicioMantenimiento) super.clone();
             clon.rnd = Double.MAX_VALUE;
+            clon.tMantenimiento = Double.MAX_VALUE;
             return clon;
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(InicioMantenimiento.class.getName()).log(Level.SEVERE, null, ex);

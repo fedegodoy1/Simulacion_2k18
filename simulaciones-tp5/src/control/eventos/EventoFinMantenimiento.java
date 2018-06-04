@@ -56,7 +56,7 @@ public class EventoFinMantenimiento extends Evento
         actual.setColaAlumnos(anterior.getColaAlumnos().clone());
         actual.setEncargado(anterior.getEncargado().clone());
         actual.setFinInscripcion(anterior.getFinInscripcion().clone());
-        
+        actual.setInicioMantenimiento(anterior.getInicioMantenimiento().clone());
         actual.setFinMantenimiento(new FinMantenimiento());
            
         actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
