@@ -53,7 +53,7 @@ public class EventoFinMantenimiento extends Evento
         actual.setAcumuladoAlumnosQueLlegan(anterior.getAcumuladoAlumnosQueLlegan());
         actual.setAcumuladoAlumnosQueLleganYSeVan(anterior.getAcumuladoAlumnosQueLleganYSeVan());
         actual.setAcumuladoInscripciones(anterior.getAcumuladoInscripciones());
-        actual.setAlumnos(new ArrayList<>(anterior.getAlumnos()));
+        actual.setAlumnos(clonarAlumnos(anterior.getAlumnos()));
         actual.setColaAlumnos(anterior.getColaAlumnos().clone());
         actual.setEncargado(anterior.getEncargado().clone());
         actual.setFinInscripcion(anterior.getFinInscripcion().clone());
@@ -61,7 +61,7 @@ public class EventoFinMantenimiento extends Evento
         actual.setFinMantenimiento(new FinMantenimiento());
            
         actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
-        actual.setMaquinas(new ArrayList<>(anterior.getMaquinasList()));
+        actual.setMaquinas(clonarMaquinas(anterior.getMaquinasList()));
         
         Maquina maquinaQueTerminoDeMantenerse = new Maquina();
         
@@ -141,6 +141,12 @@ public class EventoFinMantenimiento extends Evento
                 inicioMantenimiento.setProxInicioMantenimiento(proxInicioMantenimiento);
                 
                 actual.setInicioMantenimiento(inicioMantenimiento);
+                
+                //Pongo a todas las maquinas sin atender para la proxima ronda
+                for (Maquina maquina: actual.getMaquinasList())
+                {
+                    maquina.setFueAtendida(false);
+                }
             }
         }
     }

@@ -50,7 +50,7 @@ public class EventoFinInscripcion extends Evento
         Asi en teoria se clona una lista:
         new ArrayList<>(listaAnterior); Pero los objetos tienen q tener impl el clone()
         */
-        actual.setMaquinas(new ArrayList<>(anterior.getMaquinasList()));
+        actual.setMaquinas(clonarMaquinas(anterior.getMaquinasList()));
         Maquina maquinaQueTerminoDeInscribir = null;
         for (Maquina maquina : actual.getMaquinasList())
         {
@@ -71,7 +71,7 @@ public class EventoFinInscripcion extends Evento
         Sobre este lo que tenes q hacer es ya borrarlo de la lista porque se
         va del sistema.
         */
-        List<Alumno> alumnosActuales = new ArrayList<>(anterior.getAlumnos());
+        List<Alumno> alumnosActuales = clonarAlumnos(anterior.getAlumnos());
         Alumno alumnoQueSeTerminoDeInscribir = obtenerAlumnoQueSeTerminoDeInscribir(alumnosActuales, maquinaQueTerminoDeInscribir.getId());
         alumnosActuales.remove(alumnoQueSeTerminoDeInscribir); //Si dios quiere nadie mas lo referenciaba jaja
         alumnoQueSeTerminoDeInscribir = null;

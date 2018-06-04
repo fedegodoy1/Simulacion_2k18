@@ -35,14 +35,14 @@ public class EventoLlegadaAlumno extends Evento {
         actual.setAcumuladoAlumnosQueLlegan(anterior.getAcumuladoAlumnosQueLlegan() + 1);
         actual.setAcumuladoAlumnosQueLleganYSeVan(anterior.getAcumuladoAlumnosQueLleganYSeVan());
         actual.setAcumuladoInscripciones(anterior.getAcumuladoInscripciones());
-        actual.setAlumnos(new ArrayList<>(anterior.getAlumnos()));
+        actual.setAlumnos(clonarAlumnos(anterior.getAlumnos()));
         actual.setColaAlumnos(anterior.getColaAlumnos().clone());
         actual.setEncargado(anterior.getEncargado().clone());
         actual.setFinInscripcion(anterior.getFinInscripcion().clone());
         actual.setFinMantenimiento(anterior.getFinMantenimiento().clone());
         actual.setInicioMantenimiento(anterior.getInicioMantenimiento().clone());
         actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
-        actual.setMaquinas(new ArrayList<>(anterior.getMaquinasList()));
+        actual.setMaquinas(clonarMaquinas(anterior.getMaquinasList()));
         
         Random randomObject = new Random();
         LlegadaAlumno newLlegada = new LlegadaAlumno();

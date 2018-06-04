@@ -5,6 +5,11 @@
  */
 package control.eventos;
 
+import java.util.ArrayList;
+import java.util.List;
+import objects.Alumno;
+import objects.Maquina;
+
 /**
  *
  * @author heftyn
@@ -45,5 +50,30 @@ public abstract class Evento
         return horaEvento;
     }
     
+    public static List<Alumno> clonarAlumnos(List<Alumno> listaAClonar)
+    {
+        List<Alumno> listaClonada = new ArrayList<>(listaAClonar.size());
+        for (Alumno alumno : listaAClonar)
+        {
+            listaClonada.add(alumno.clone());
+        }
+        return listaClonada;
+    }
+    
+    /**
+     *dfgfd
+     * @param listaAClonar
+     * @return
+     */
+    public static List<Maquina> clonarMaquinas(List<Maquina> listaAClonar)
+    {
+        List<Maquina> listaClonada = new ArrayList<>(listaAClonar.size());
+        for (Maquina maquina : listaAClonar)
+        {
+            listaClonada.add(maquina.clone());
+        }
+        return listaClonada;
+    }
+        
     public abstract void actualizarEstadoVector();
 }

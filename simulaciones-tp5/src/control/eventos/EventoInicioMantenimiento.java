@@ -34,7 +34,7 @@ public class EventoInicioMantenimiento extends Evento
         actual.setAcumuladoAlumnosQueLlegan(anterior.getAcumuladoAlumnosQueLlegan());
         actual.setAcumuladoAlumnosQueLleganYSeVan(anterior.getAcumuladoAlumnosQueLleganYSeVan());
         actual.setAcumuladoInscripciones(anterior.getAcumuladoInscripciones());
-        actual.setAlumnos(new ArrayList<>(anterior.getAlumnos()));
+        actual.setAlumnos(clonarAlumnos(anterior.getAlumnos()));
         actual.setColaAlumnos(anterior.getColaAlumnos().clone());
         actual.setEncargado(anterior.getEncargado().clone());
         actual.setFinInscripcion(anterior.getFinInscripcion().clone());
@@ -43,7 +43,7 @@ public class EventoInicioMantenimiento extends Evento
         actual.setInicioMantenimiento(new InicioMantenimiento());
         
         actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
-        actual.setMaquinas(new ArrayList<>(anterior.getMaquinasList()));
+        actual.setMaquinas(clonarMaquinas(anterior.getMaquinasList()));
         
         boolean hayMaquinaLibre = false;
         Maquina maquinaLibre = null;
