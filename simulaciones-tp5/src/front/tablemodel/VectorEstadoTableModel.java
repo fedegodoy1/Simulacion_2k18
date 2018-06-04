@@ -265,6 +265,13 @@ public final class VectorEstadoTableModel extends DefaultTableModel implements V
                 break;
             }
         }
+        //TODO: Antes de devolver estos hay que parsear para que se vea bien en la tabla
+        // Por ejemplo: 1.2232345435 -> 1.22323 o algo asi (de ser posible que sea en el 
+        // mismo tipo de datos, sino hay q cambiar el createColumnList)
+        if (value instanceof Double)
+        {
+            value = value; //Acá. Ojo con reloj y eso.
+        }
         return value;
     }
 
