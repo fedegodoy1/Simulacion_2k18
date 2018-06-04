@@ -46,7 +46,6 @@ public class EventoInicial extends Evento
         actual.setEncargado(new Encargado(Encargado.Estado.ESPERANDO_PROX_RONDA_MANTENIMIENTO));
         actual.setFinInscripcion(new FinInscripcion());
         actual.setFinMantenimiento(new FinMantenimiento());
-        actual.setInicioMantenimiento(new InicioMantenimiento());
         actual.setMaquinas(getMaquinasList());
         
         //Seteo de la proxima llegada
@@ -57,7 +56,18 @@ public class EventoInicial extends Evento
                 proximaLlegada.getRnd());
         proximaLlegada.setTiempo_entre_llegadas(tiempoEntreLlegadas);
         proximaLlegada.setProx_llegada(actual.getReloj() + tiempoEntreLlegadas);
+        
+        InicioMantenimiento inicioMantenimiento = new InicioMantenimiento();
+        inicioMantenimiento.setRnd(new Random().nextDouble());
+        double tiempoEntreLlegadas_inicio = Distribuciones.calcular_uniforme(
+                Configuracion.getConfiguracion().getInicioMantenimientoDesde(), 
+                Configuracion.getConfiguracion().getInicioMantenimientoHasta(), 
+                inicioMantenimiento.getRnd());
+        inicioMantenimiento.settMantenimiento(tiempoEntreLlegadas_inicio);
+        inicioMantenimiento.setProxInicioMantenimiento(actual.getReloj() + tiempoEntreLlegadas_inicio);
+        
         actual.setLlegadaAlumno(proximaLlegada);
+        actual.setInicioMantenimiento(inicioMantenimiento);
     }
 
     private List<Maquina> getMaquinasList() {
