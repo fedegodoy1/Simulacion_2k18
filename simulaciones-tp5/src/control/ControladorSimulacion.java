@@ -44,9 +44,10 @@ public class ControladorSimulacion
          * nosotros le pasamos todos los datos y le informamos que cambio la data
          */
         int iteracionActual = 0;
+        int iteracionesMostrando = 0;
         inicializar();
         int minutosASimular = Configuracion.getConfiguracion().getMinutosASimular();
-        while (iteracionActual < 1000000 && anterior.getReloj() <= minutosASimular)
+        while (iteracionActual < 1000000 && anterior.getReloj() < minutosASimular)
         {
             //Mover vector "actual" a "anterior"
             rotacionVector();
@@ -57,15 +58,18 @@ public class ControladorSimulacion
             actual.setEvento(nuevoEvento);
             actual.getEvento().actualizarEstadoVector();
             
-            if (seMuestra())
+            if (seMuestra(iteracionesMostrando))
             {
                 //Guardar en la lista a devolver
                 guardarVectorParaVista();
+                iteracionesMostrando++;
             }
             iteracionActual++;
         }
         //Actualizar Vista
         vistaAplicacion.setearModelo(modelo);
+        //Limpiamos el modelo
+        modelo = new ArrayList<>();
     }
     
     public static VectorEstado getVectorActual()
@@ -85,7 +89,7 @@ public class ControladorSimulacion
         actual.setEvento(Evento.Inicial);
         actual.getEvento().actualizarEstadoVector();
         
-        if (seMuestra())
+        if (seMuestra(0))
         {
             //Guardar en la lista a devolver
             guardarVectorParaVista();
@@ -147,9 +151,20 @@ public class ControladorSimulacion
         return returnValue;
     }
 
-    private boolean seMuestra() {
-        
-        return true;
+    private boolean seMuestra(int iteracionActual) {
+        //actual.getReloj() > Config &&
+        // iteraciones < Config
+        boolean seMuestra = false;
+        if (actual != null)
+        {
+            seMuestra = actual.getReloj() >= Configuracion.getConfiguracion().getMinutoDesde();
+            
+        }
+        if (seMuestra)
+        {
+            seMuestra = seMuestra && iteracionActual <= Configuracion.getConfiguracion().getIteracionesAMostrar();
+        }
+        return seMuestra;
     }
 
     private void rotacionVector() {

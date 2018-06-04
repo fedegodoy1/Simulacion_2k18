@@ -5,10 +5,12 @@ import control.VectorEstado;
 import front.tablemodel.VectorEstadoTableModel;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Action;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -508,6 +510,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_setear_defectoActionPerformed
 
     private void btn_simularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simularActionPerformed
+        try
+        {
+            actualizarConfiguracion();
+        }
+        catch (InputException ie)
+        {
+            JOptionPane.showMessageDialog(null, ie.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        model.setDatos(new ArrayList<>());
         controlador.simular();
         SwingUtilities.invokeLater( () -> { jTabbedPane1.setSelectedIndex(1);});
     }//GEN-LAST:event_btn_simularActionPerformed
@@ -618,9 +630,191 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     private void setearModeloDeTextos() {
+        DoubleInputVerifier doubleVer = new DoubleInputVerifier();
+        txtInicioMantenimientoDesde.setInputVerifier(doubleVer);
+        txtInicioMantenimientoDesde.setInputVerifier(doubleVer);
+        txtLlegadaAlumnoMedia.setInputVerifier(doubleVer);
+        txtTiempoInscripcionDesde.setInputVerifier(doubleVer);
+        txtTiempoInscripcionHasta.setInputVerifier(doubleVer);
+        txtTiempoMantenimientoDesv.setInputVerifier(doubleVer);
+        txtTiempoMantenimientoMedio.setInputVerifier(doubleVer);
+        IntegerInputVerifier intVer = new IntegerInputVerifier();
+        txtIteracionesAMostrar.setInputVerifier(intVer);
+        txtMinutoDesde.setInputVerifier(intVer);
+        txtMinutosASimular.setInputVerifier(intVer);
         
-        txtInicioMantenimientoDesde.setInputVerifier(new DoubleInputVerifier() );
-        //TODO: terminar!
+    }
+
+    private void actualizarConfiguracion() throws InputException
+    {
+        try
+        {
+            if (Double.isNaN(Double.parseDouble(txtInicioMantenimientoDesde.getText())) ||
+                    Double.parseDouble(txtInicioMantenimientoDesde.getText()) < 0)
+            {
+                throw new InputException("Inicio Mantenimiento Desde invalido");
+            }
+        }
+        catch (NumberFormatException nfe)
+        {
+            throw new InputException("Inicio Mantenimiento Desde invalido");
+        }
+        Double mantDesde = Double.parseDouble(txtInicioMantenimientoDesde.getText());
+        
+        try
+        {
+            if (Double.isNaN(Double.parseDouble(txtInicioMantenimientoHasta.getText())) ||
+                    Double.parseDouble(txtInicioMantenimientoHasta.getText()) < 0)
+            {
+                throw new InputException("Inicio Mantenimiento Hasta invalido");
+            }
+        }
+        catch (NumberFormatException nfe)
+        {
+            throw new InputException("Inicio Mantenimiento Hasta invalido");
+        }
+        Double mantHasta = Double.parseDouble(txtInicioMantenimientoHasta.getText());
+        
+        if (mantHasta <= mantDesde)
+        {
+            throw new InputException("Inicio Mantenimiento el desde debe ser menor al hasta");
+        }
+        try
+        {
+            if (Double.isNaN(Double.parseDouble(txtTiempoInscripcionDesde.getText())) ||
+                    Double.parseDouble(txtTiempoInscripcionDesde.getText()) < 0)
+            {
+                throw new InputException("Tiempo inscripcion desde invalido");
+            }
+        }
+        catch (NumberFormatException nfe)
+        {
+            throw new InputException("Tiempo inscripcion desde invalido");
+        }
+        Double tiempoInscripcionDesde = Double.parseDouble(txtTiempoInscripcionDesde.getText());
+        
+        
+        try
+        {
+            if (Double.isNaN(Double.parseDouble(txtTiempoInscripcionHasta.getText())) ||
+                    Double.parseDouble(txtTiempoInscripcionHasta.getText()) < 0)
+            {
+                throw new InputException("Tiempo inscripcion hasta invalido");
+            }
+        }
+        catch (NumberFormatException nfe)
+        {
+            throw new InputException("Tiempo inscripcion hasta invalido");
+        }
+        Double tiempoInscripcionHasta = Double.parseDouble(txtTiempoInscripcionHasta.getText());
+        
+        if (tiempoInscripcionHasta <= tiempoInscripcionDesde)
+        {
+            throw new InputException("Tiempo inscripcion el desde debe ser menor al hasta");
+        }
+        
+        
+        try
+        {
+            if (Double.isNaN(Double.parseDouble(txtLlegadaAlumnoMedia.getText())) ||
+                    Double.parseDouble(txtLlegadaAlumnoMedia.getText()) < 0)
+            {
+                throw new InputException("Media llegada alumnos invalido");
+            }
+        }
+        catch (NumberFormatException nfe)
+        {
+            throw new InputException("Media llegada alumnos invalido");
+        }
+        Double mediaLlegadaAlumnos = Double.parseDouble(txtLlegadaAlumnoMedia.getText());
+        
+        try
+        {
+            if (Double.isNaN(Double.parseDouble(txtTiempoMantenimientoMedio.getText())) ||
+                    Double.parseDouble(txtTiempoMantenimientoMedio.getText()) < 0)
+            {
+                throw new InputException("Media tiempo mantenimiento invalido");
+            }
+        }
+        catch (NumberFormatException nfe)
+        {
+            throw new InputException("Media tiempo mantenimiento invalido");
+        }
+        Double tiempoMantenimientoMedio = Double.parseDouble(txtTiempoMantenimientoMedio.getText());
+        
+        try
+        {
+            if (Double.isNaN(Double.parseDouble(txtTiempoMantenimientoDesv.getText())) ||
+                    Double.parseDouble(txtTiempoMantenimientoDesv.getText()) < 0)
+            {
+                throw new InputException("Media tiempo mantenimiento invalido");
+            }
+        }
+        catch (NumberFormatException nfe)
+        {
+            throw new InputException("Media tiempo mantenimiento invalido");
+        }
+        Double tiempoMantenimientoDesviacion = Double.parseDouble(txtTiempoMantenimientoDesv.getText());
+        
+        try
+        {
+            if (Integer.parseInt(txtMinutosASimular.getText()) < 0)
+            {
+                throw new InputException("Minutos a sumular invalidos");
+            }
+        }
+        catch (NumberFormatException nfe)
+        {
+            throw new InputException("Minutos a sumular invalidos");
+        }
+        int minutosASimular = Integer.parseInt(txtMinutosASimular.getText());
+        
+        try
+        {
+            if (Integer.parseInt(txtMinutoDesde.getText()) < 0)
+            {
+                throw new InputException("Minuto desde invalido");
+            }
+        }
+        catch (NumberFormatException nfe)
+        {
+            throw new InputException("Minuto desde invalido");
+        }
+        int minutoDesde = Integer.parseInt(txtMinutoDesde.getText());
+        
+        try
+        {
+            if (Integer.parseInt(txtIteracionesAMostrar.getText()) < 0)
+            {
+                throw new InputException("Iteraciones a mostrar invalidos");
+            }
+        }
+        catch (NumberFormatException nfe)
+        {
+            throw new InputException("Iteraciones a mostrar invalidos");
+        }
+        int iteracionesAMostrar = Integer.parseInt(txtIteracionesAMostrar.getText());
+        
+        Configuracion conf = Configuracion.getConfiguracion();
+        conf.setInicioMantenimientoDesde(mantDesde);
+        conf.setInicioMantenimientoHasta(mantHasta);
+        conf.setIteracionesAMostrar(iteracionesAMostrar);
+        conf.setMediaLlegadaAlumnos(mediaLlegadaAlumnos);
+        conf.setMinutoDesde(minutoDesde);
+        conf.setMinutosASimular(minutosASimular);
+        conf.setTiempoInscripcionDesde(tiempoInscripcionDesde);
+        conf.setTiempoInscripcionHasta(tiempoInscripcionHasta);
+        conf.setTiempoMantenimientoDesviacion(tiempoMantenimientoDesviacion);
+        conf.setTiempoMantenimientoMedio(tiempoMantenimientoMedio);
+        //Successs
+    }
+
+    private static class InputException extends Exception{
+
+        public InputException(String msg)
+        {
+            super(msg);
+        }
     }
     
     private class DoubleInputVerifier extends InputVerifier
@@ -646,7 +840,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
             return false;
         }
-        
+        @Override
+        public boolean shouldYieldFocus(JComponent input)
+        {
+            return true;
+        }
     }
     
     private Double obtenerValorDeCampo(JTextField txt)
@@ -684,6 +882,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             return false;
         }
         
+        @Override
+        public boolean shouldYieldFocus(JComponent input)
+        {
+            return true;
+        }
     }
     
     private Integer obtenerValorDeCampoEnInt(JTextField txt)
