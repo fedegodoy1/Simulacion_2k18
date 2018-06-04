@@ -7,12 +7,14 @@ package control.eventos;
 
 import control.ControladorSimulacion;
 import control.VectorEstado;
+import eventos.FinInscripcion;
 import eventos.FinMantenimiento;
 import eventos.InicioMantenimiento;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import model.Configuracion;
+import objects.Alumno;
 import objects.Distribuciones;
 import objects.Encargado;
 import objects.Maquina;
@@ -74,8 +76,14 @@ public class EventoFinMantenimiento extends Evento
         }
         
         if(maquinaQueTerminoDeMantenerse != null) {
-            maquinaQueTerminoDeMantenerse.setEstado(Maquina.Estado.LIBRE);
             maquinaQueTerminoDeMantenerse.setFueAtendida(true);
+            
+            if(actual.getColaAlumnos().getColaAlumnos() > 0) {
+                tocaInscribir(maquinaQueTerminoDeMantenerse, actual);
+                
+            } else {
+                maquinaQueTerminoDeMantenerse.setEstado(Maquina.Estado.LIBRE);
+            }
         } 
         
         List<Maquina> maquinas = actual.getMaquinasList();
@@ -150,4 +158,45 @@ public class EventoFinMantenimiento extends Evento
             }
         }
     }
+    
+    private void tocaInscribir(Maquina maquinaQueTerminoDeInscribir, VectorEstado actual) {
+        actual.getColaAlumnos().setCantidad(actual.getColaAlumnos().getColaAlumnos() - 1);
+        //Toca inscribir
+        //Disminuyo la cola
+        actual.getColaAlumnos().setCantidad(actual.getColaAlumnos().getColaAlumnos() - 1);
+        
+        //seteo estado a la maquina
+        maquinaQueTerminoDeInscribir.setEstado(Maquina.Estado.OCUPADA);
+
+        //TODO: Buscar el alumno que sigue y setearle estado
+        Alumno alumnoQueSigue = buscarAlumnoQueSigueParaInscripcion(actual);
+        alumnoQueSigue.setEstado(Alumno.Estado.INSCRIBIENDOSE);
+        alumnoQueSigue.setMaquinaInscripcion(maquinaQueTerminoDeInscribir.getId());
+
+        //Generar Fin Inscripcion
+        FinInscripcion finInscripcion = new FinInscripcion();
+        finInscripcion.setRnd(new Random().nextDouble());
+        finInscripcion.settInscripcion(Distribuciones.calcular_uniforme(
+                Configuracion.getConfiguracion().getTiempoInscripcionDesde(),
+                Configuracion.getConfiguracion().getTiempoInscripcionHasta(),
+                finInscripcion.getRnd()));
+        //Seteo los datos en el vector
+        actual.setFinInscripcion(finInscripcion);
+        //Le digo a la maquina cuando termina de inscribir
+        maquinaQueTerminoDeInscribir.setFinInscripcion(
+                actual.getReloj() + actual.getFinInscripcion().gettInscripcion());
+    }
+    
+    private Alumno buscarAlumnoQueSigueParaInscripcion(VectorEstado actual) {
+        //El alumno que sigue va a ser el primero que esté en el estado Esperando Maquina Libre
+        for (Alumno alumno : actual.getAlumnos())
+        {
+            if (alumno.getEstado().equals(Alumno.Estado.ESPERANDO_MAQUINA))
+            {
+                return alumno;
+            }
+        }
+        throw new NullPointerException ( "No habia Alumno esperando maquina");
+    }
+    
 }
