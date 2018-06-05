@@ -6,14 +6,20 @@
 package front.tablemodel;
 
 import control.VectorEstado;
+import java.awt.Component;
+import java.awt.event.MouseEvent;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.TableColumnModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import model.VectorEstadoConstants;
@@ -329,19 +335,21 @@ public final class VectorEstadoTableModel extends DefaultTableModel implements V
         
     }
     
-    public List<Columna> getColumnaList()
-    {
-        return columns;
-    }
-
-    public TableColumnModel getColumnModel() {
-        DefaultTableColumnModel tcModel = new DefaultTableColumnModel();
-        for (int i = 0; i < columns.size() ; i++)
-        {
-            tcModel.addColumn(new TableColumn(i, columns.get(i).getSize()));
-        }
-        return tcModel;
-    }
+//    public List<Columna> getColumnaList()
+//    {
+//        return columns;
+//    }
+//
+//    public TableColumnModel getColumnModel() {
+//        DefaultTableColumnModel tcModel = new DefaultTableColumnModel();
+//        for (int i = 0; i < columns.size() ; i++)
+//        {
+//            TableColumn tc = new TableColumn(i, columns.get(i).getSize());
+//            tc.setCellRenderer(new VECellRenderer());
+//            tcModel.addColumn(tc);
+//        }
+//        return tcModel;
+//    }
 
     public void setDatos(List<VectorEstadoUI> modelo) {
         datos = modelo;
@@ -350,4 +358,12 @@ public final class VectorEstadoTableModel extends DefaultTableModel implements V
     public VectorEstadoUI getDato(int selectedRow) {
         return datos.get(selectedRow);
     }
+
+    public void setColumnsWidth(TableColumnModel columnModel) {
+        for (int i = 0; i < columnModel.getColumnCount(); i++)
+        {
+            columnModel.getColumn(i).setPreferredWidth(columns.get(i).getSize());
+        }
+    }
+    
 }

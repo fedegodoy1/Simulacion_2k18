@@ -582,18 +582,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void crearTabla() {
-        //TODO
         /**
          * Crear variable de clase para JTable
          * Crear variable de clase para VectorEstadoTableModel
          */
         model = new VectorEstadoTableModel();
         tabla = new JTable(model);
-//        tabla.setColumnModel(model.getColumnModel());
+
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         jScrollPane3.setViewportView(tabla);
         tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
+        model.setColumnsWidth(tabla.getColumnModel());
         //Ask to be notified of selection changes.
         ListSelectionModel rowSM = tabla.getSelectionModel();
         rowSM.addListSelectionListener(new ListSelectionListener() {
