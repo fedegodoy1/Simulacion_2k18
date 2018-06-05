@@ -622,10 +622,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ie.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        model.setDatos(new ArrayList<>());
-        controlador.simular();
-        calcular_estadisticas();
-        SwingUtilities.invokeLater( () -> { jTabbedPane1.setSelectedIndex(1);});
+        if(validarMinutoDesdeMayorACantMinutosASimular()) {
+            JOptionPane.showMessageDialog(null,"El minuto desde no puede ser mayor a la cantidad de minutos a simular.", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } else if (Integer.parseInt(txtIteracionesAMostrar.getText()) <= 0){
+            JOptionPane.showMessageDialog(null,"Cantidad de iteraciones no puede ser 0.", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            model.setDatos(new ArrayList<>());
+            controlador.simular();
+            calcular_estadisticas();
+            SwingUtilities.invokeLater( () -> { jTabbedPane1.setSelectedIndex(1);});
+        }
     }//GEN-LAST:event_btn_simularActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -697,6 +703,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField txt_capacidad_sistema;
     // End of variables declaration//GEN-END:variables
 
+    private boolean validarMinutoDesdeMayorACantMinutosASimular() {
+        return (Double.parseDouble(txtMinutoDesde.getText()) > Double.parseDouble(txtIteracionesAMostrar.getText()));
+    }
+    
     private void crearTabla() {
         /**
          * Crear variable de clase para JTable
