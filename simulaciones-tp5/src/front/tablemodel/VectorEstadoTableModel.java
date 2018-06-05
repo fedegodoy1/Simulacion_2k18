@@ -5,22 +5,9 @@
  */
 package front.tablemodel;
 
-import control.VectorEstado;
-import java.awt.Component;
-import java.awt.event.MouseEvent;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.TableColumnModelListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import model.VectorEstadoConstants;
 import model.VectorEstadoUI;
@@ -295,19 +282,19 @@ public final class VectorEstadoTableModel extends DefaultTableModel implements V
         //https://coderanch.com/t/333340/java/set-Line-wrap-Column-JTable 
         columns.add(new Columna("Reloj", Double.class, 75));
         columns.add(new Columna("Evento", String.class, 150));
-        columns.add(new Columna("RND: LLegada Alumnos", Double.class, 50));
-        columns.add(new Columna("Tiempo: Llegada Alumnos", Double.class, 50));
-        columns.add(new Columna("Proxima Llegada Alumnos", Double.class, 60));
-        columns.add(new Columna("RND: Llegada Mantenimiento: RND", Double.class, 50));
-        columns.add(new Columna("Tiempo: Llegada Mantenimiento", Double.class, 50));
-        columns.add(new Columna("Proxima Llegada Mantenimiento", Double.class, 60));
-        columns.add(new Columna("RND1: Fin Mantenimiento: RND1", Double.class, 50));
-        columns.add(new Columna("RND2: Fin Mantenimiento: RND2", Double.class, 50));
-        columns.add(new Columna("Tiempo Fin Mantenimiento", Double.class, 50));
-        columns.add(new Columna("Fin Mantenimiento: Hora fin", Double.class, 60));
+        columns.add(new Columna("RND: LLegada Alumnos", Double.class, 150));
+        columns.add(new Columna("Tiempo: Llegada Alumnos", Double.class, 150));
+        columns.add(new Columna("Proxima Llegada Alumnos", Double.class, 160));
+        columns.add(new Columna("RND: Llegada Mantenimiento: RND", Double.class, 150));
+        columns.add(new Columna("Tiempo: Llegada Mantenimiento", Double.class, 150));
+        columns.add(new Columna("Proxima Llegada Mantenimiento", Double.class, 160));
+        columns.add(new Columna("RND1: Fin Mantenimiento: RND1", Double.class, 150));
+        columns.add(new Columna("RND2: Fin Mantenimiento: RND2", Double.class, 150));
+        columns.add(new Columna("Tiempo Fin Mantenimiento", Double.class, 150));
+        columns.add(new Columna("Fin Mantenimiento: Hora fin", Double.class, 160));
         columns.add(new Columna("Cola Alumnos", Integer.class, 50));
-        columns.add(new Columna("RND: Fin Inscripcion: RND", Double.class, 50));
-        columns.add(new Columna("Tiempo Fin Inscripcion", Double.class, 50));
+        columns.add(new Columna("RND: Fin Inscripcion: RND", Double.class, 150));
+        columns.add(new Columna("Tiempo Fin Inscripcion", Double.class, 150));
         columns.add(new Columna("Estado Maquina 1", String.class, 150));
         columns.add(new Columna("AC inscriptos Maquina 1", Integer.class, 50));
         columns.add(new Columna("Hora fin inscripcion Maquina 1", Double.class, 100));
@@ -328,10 +315,10 @@ public final class VectorEstadoTableModel extends DefaultTableModel implements V
         columns.add(new Columna("AC inscriptos Maquina 5", Integer.class, 50));
         columns.add(new Columna("Hora fin inscripcion Maquina 5", Double.class, 100));
         columns.add(new Columna("Fue mantenida? Maquina 5", Boolean.class, 50));
-        columns.add(new Columna("Acum. Inscripciones", String.class, 50));
-        columns.add(new Columna("Acum. Alumnos que llegan", String.class, 50));
-        columns.add(new Columna("Acum. Alumnos que llegan y se van", String.class, 50));
-        columns.add(new Columna("Estado Encargado", String.class, 200));
+        columns.add(new Columna("Acum. Inscripciones", String.class, 125));
+        columns.add(new Columna("Acum. Alumnos que llegan", String.class, 200));
+        columns.add(new Columna("Acum. Alumnos que llegan y se van", String.class, 200));
+        columns.add(new Columna("Estado Encargado", String.class, 300));
         
     }
     
