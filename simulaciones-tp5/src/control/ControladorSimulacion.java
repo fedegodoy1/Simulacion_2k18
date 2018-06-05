@@ -6,6 +6,7 @@
 package control;
 
 import control.eventos.Evento;
+import front.Estadisticas;
 import front.VentanaPrincipal;
 import front.tablemodel.SetearValores;
 import java.util.*;
@@ -20,6 +21,7 @@ import objects.*;
 public class ControladorSimulacion 
 {
     VentanaPrincipal vistaAplicacion;
+    Estadisticas estadisticas;
     
     private static VectorEstado actual;
     private static VectorEstado anterior;
@@ -29,11 +31,16 @@ public class ControladorSimulacion
     ControladorSimulacion()
     {
         vistaAplicacion = new VentanaPrincipal(this);
+        estadisticas = new Estadisticas();
         
     }
     public void mostrarVentanaPrincipal()
     {
         vistaAplicacion.setVisible(true);        
+    }
+    
+    public Estadisticas mostrarEstadisticas() {
+        return this.estadisticas;
     }
 
     public void simular() {
@@ -68,6 +75,8 @@ public class ControladorSimulacion
         }
         //Actualizar Vista
         vistaAplicacion.setearModelo(modelo);
+        //Calculo de los estadisticos
+        calculoEstadisticos();
         //Limpiamos el modelo
         modelo = new ArrayList<>();
     }
@@ -81,7 +90,20 @@ public class ControladorSimulacion
     {
         return anterior;
     }
-
+    
+    public Estadisticas getEstadisticas() {
+        return estadisticas;
+    }
+    
+    private void calculoEstadisticos() {
+        estadisticas.setCapacidad_sistema((double)actual.getAcumuladoInscripciones() / actual.getAcumuladoAlumnosQueLlegan());
+        estadisticas.setCapacidad_maq1(actual.getMaquinasList().get(0).getAcumuladoInscriptos() / actual.getAcumuladoAlumnosQueLlegan());
+        estadisticas.setCapacidad_maq2(actual.getMaquinasList().get(1).getAcumuladoInscriptos() / actual.getAcumuladoAlumnosQueLlegan());
+        estadisticas.setCapacidad_maq3(actual.getMaquinasList().get(2).getAcumuladoInscriptos() / actual.getAcumuladoAlumnosQueLlegan());
+        estadisticas.setCapacidad_maq4(actual.getMaquinasList().get(3).getAcumuladoInscriptos() / actual.getAcumuladoAlumnosQueLlegan());
+        estadisticas.setCapacidad_maq5(actual.getMaquinasList().get(4).getAcumuladoInscriptos() / actual.getAcumuladoAlumnosQueLlegan());
+    }
+    
     private void inicializar() 
     {
         actual = new VectorEstado();
