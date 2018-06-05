@@ -108,6 +108,10 @@ public class PopUpAlumnos extends javax.swing.JFrame {
                     case 1: 
                     {
                         value = alumno.getHora_regreso_sistema();
+                        if (value instanceof Double && ((Double)value) == Double.MAX_VALUE)
+                        {
+                            value = Double.valueOf(0);
+                        }
                         break;
                     }
                     case 2:

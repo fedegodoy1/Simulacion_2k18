@@ -53,8 +53,8 @@ public class ControladorSimulacion
         int iteracionActual = 0;
         int iteracionesMostrando = 0;
         inicializar();
-        int minutosASimular = Configuracion.getConfiguracion().getMinutosASimular();
-        while (iteracionActual < 1000000 && anterior.getReloj() < minutosASimular)
+        double minutosASimular = new Double(Configuracion.getConfiguracion().getMinutosASimular());
+        do
         {
             //Mover vector "actual" a "anterior"
             rotacionVector();
@@ -65,14 +65,17 @@ public class ControladorSimulacion
             actual.setEvento(nuevoEvento);
             actual.getEvento().actualizarEstadoVector();
             
-            if (seMuestra(iteracionesMostrando))
+            //Ademas de la validacion general, tmb se agrega cuando es la ultima fila
+            if (seMuestra(iteracionesMostrando) || 
+                    !(iteracionActual + 1 < 1000000 && actual.getReloj() < minutosASimular))
             {
                 //Guardar en la lista a devolver
                 guardarVectorParaVista();
                 iteracionesMostrando++;
             }
             iteracionActual++;
-        }
+            
+        }while (iteracionActual < 1000000 && actual.getReloj() < minutosASimular);
         //Actualizar Vista
         vistaAplicacion.setearModelo(modelo);
         //Calculo de los estadisticos
