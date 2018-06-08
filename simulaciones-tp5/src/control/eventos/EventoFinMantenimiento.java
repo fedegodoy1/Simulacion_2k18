@@ -160,7 +160,6 @@ public class EventoFinMantenimiento extends Evento
     }
     
     private void tocaInscribir(Maquina maquinaQueTerminoDeInscribir, VectorEstado actual) {
-        actual.getColaAlumnos().setCantidad(actual.getColaAlumnos().getColaAlumnos() - 1);
         //Toca inscribir
         //Disminuyo la cola
         actual.getColaAlumnos().setCantidad(actual.getColaAlumnos().getColaAlumnos() - 1);
