@@ -8,14 +8,16 @@ public class Estadisticas {
     private double capacidad_maq3;
     private double capacidad_maq4;
     private double capacidad_maq5;
+    private double porcentaje_alumnos_que_se_van;
 
-    public Estadisticas(double capacidad_sistema, double capacidad_maq1, double capacidad_maq2, double capacidad_maq3, double capacidad_maq4, double capacidad_maq5) {
+    public Estadisticas(double capacidad_sistema, double capacidad_maq1, double capacidad_maq2, double capacidad_maq3, double capacidad_maq4, double capacidad_maq5, double porcentaje_alumnos_que_se_van) {
         this.capacidad_sistema = capacidad_sistema;
         this.capacidad_maq1 = capacidad_maq1;
         this.capacidad_maq2 = capacidad_maq2;
         this.capacidad_maq3 = capacidad_maq3;
         this.capacidad_maq4 = capacidad_maq4;
         this.capacidad_maq5 = capacidad_maq5;
+        this.porcentaje_alumnos_que_se_van = porcentaje_alumnos_que_se_van;
     }
 
     public Estadisticas() {
@@ -67,6 +69,16 @@ public class Estadisticas {
 
     public void setCapacidad_maq5(double capacidad_maq5) {
         this.capacidad_maq5 = capacidad_maq5;
+    }
+    
+    public void setPorcentaje_alumnos_que_se_van(double porcentaje_alumnos_que_se_van)
+    {
+        this.porcentaje_alumnos_que_se_van = porcentaje_alumnos_que_se_van;
+    }
+    
+    public double getPorcentaje_alumnos_que_se_van()
+    {
+        return porcentaje_alumnos_que_se_van;
     }
     
     

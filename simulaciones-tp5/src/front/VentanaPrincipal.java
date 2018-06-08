@@ -861,9 +861,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         txt_capacidad_maq3.setText(String.valueOf(formater.format(controlador.getEstadisticas().getCapacidad_maq3())));
         txt_capacidad_maq4.setText(String.valueOf(formater.format(controlador.getEstadisticas().getCapacidad_maq4())));
         txt_capacidad_maq5.setText(String.valueOf(formater.format(controlador.getEstadisticas().getCapacidad_maq5())));
+        txt_porcentaje_que_se_van.setText(String.valueOf(formater.format(controlador.getEstadisticas().getPorcentaje_alumnos_que_se_van())) + " %");
     }
 
     private void setearModeloDeTextos() {
+        btn_simular.setMnemonic('S');
         DoubleInputVerifier doubleVer = new DoubleInputVerifier();
         txtInicioMantenimientoDesde.setInputVerifier(doubleVer);
         txtInicioMantenimientoDesde.setInputVerifier(doubleVer);

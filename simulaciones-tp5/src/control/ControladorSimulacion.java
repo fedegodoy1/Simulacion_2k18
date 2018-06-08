@@ -32,8 +32,30 @@ public class ControladorSimulacion
     {
         vistaAplicacion = new VentanaPrincipal(this);
         estadisticas = new Estadisticas();
-        
+        setLookAndFeel();
     }
+    
+    
+    private void setLookAndFeel() {
+        
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ControladorSimulacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ControladorSimulacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ControladorSimulacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ControladorSimulacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
+    
     public void mostrarVentanaPrincipal()
     {
         vistaAplicacion.setVisible(true);        
@@ -99,12 +121,14 @@ public class ControladorSimulacion
     }
     
     private void calculoEstadisticos() {
-        estadisticas.setCapacidad_sistema((double)actual.getAcumuladoInscripciones() / actual.getAcumuladoAlumnosQueLlegan());
-        estadisticas.setCapacidad_maq1(actual.getMaquinasList().get(0).getAcumuladoInscriptos() / actual.getAcumuladoAlumnosQueLlegan());
-        estadisticas.setCapacidad_maq2(actual.getMaquinasList().get(1).getAcumuladoInscriptos() / actual.getAcumuladoAlumnosQueLlegan());
-        estadisticas.setCapacidad_maq3(actual.getMaquinasList().get(2).getAcumuladoInscriptos() / actual.getAcumuladoAlumnosQueLlegan());
-        estadisticas.setCapacidad_maq4(actual.getMaquinasList().get(3).getAcumuladoInscriptos() / actual.getAcumuladoAlumnosQueLlegan());
-        estadisticas.setCapacidad_maq5(actual.getMaquinasList().get(4).getAcumuladoInscriptos() / actual.getAcumuladoAlumnosQueLlegan());
+        estadisticas.setCapacidad_sistema((double)actual.getAcumuladoInscripciones() / (actual.getReloj() / 60 ));
+        estadisticas.setCapacidad_maq1(actual.getMaquinasList().get(0).getAcumuladoInscriptos() / (actual.getReloj() / 60 ));
+        estadisticas.setCapacidad_maq2(actual.getMaquinasList().get(1).getAcumuladoInscriptos() / (actual.getReloj() / 60 ));
+        estadisticas.setCapacidad_maq3(actual.getMaquinasList().get(2).getAcumuladoInscriptos() / (actual.getReloj() / 60 ));
+        estadisticas.setCapacidad_maq4(actual.getMaquinasList().get(3).getAcumuladoInscriptos() / (actual.getReloj() / 60 ));
+        estadisticas.setCapacidad_maq5(actual.getMaquinasList().get(4).getAcumuladoInscriptos() / (actual.getReloj() / 60 ));
+        double propQueSeVa = (double) actual.getAcumuladoAlumnosQueLleganYSeVan() / (double) actual.getAcumuladoAlumnosQueLlegan();
+        estadisticas.setPorcentaje_alumnos_que_se_van(propQueSeVa * 100);
     }
     
     private void inicializar() 
