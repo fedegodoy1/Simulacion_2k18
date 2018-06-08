@@ -113,13 +113,15 @@ public class EventoFinInscripcion extends Evento
                 actual.getEncargado().setEstado(Encargado.Estado.REPARANDO_MAQUINA);
                 maquinaQueTerminoDeInscribir.setEstado(Maquina.Estado.SIENDO_MANTENIDA);
                 
+                //TODO: ver si sacar del anterior por los randoms
                 FinMantenimiento finMantenimiento = new FinMantenimiento();
                 finMantenimiento.setRnd1(new Random().nextDouble());
                 finMantenimiento.setRnd2(new Random().nextDouble());
                 double tiempoMantenimiento = Distribuciones.
                         calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
                                 Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
-                                finMantenimiento.getRnd1(), finMantenimiento.getRnd2());
+                                finMantenimiento.getRnd1(), finMantenimiento.getRnd2(),
+                                finMantenimiento.getSenoOCoseno());
                 finMantenimiento.setTMatenimiento(tiempoMantenimiento);
                 finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
                 

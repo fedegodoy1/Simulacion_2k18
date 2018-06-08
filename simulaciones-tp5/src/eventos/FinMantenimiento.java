@@ -2,6 +2,9 @@ package eventos;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import objects.Distribuciones;
+import static objects.Distribuciones.COS;
+import static objects.Distribuciones.SENO;
 
 public class FinMantenimiento implements Cloneable{
     
@@ -9,10 +12,12 @@ public class FinMantenimiento implements Cloneable{
     private double rnd2;
     private double tMantenimiento;
     private double finMantenimiento;
+    private String senocoseno;
 
     public FinMantenimiento() 
     {
         rnd1 = rnd2 = tMantenimiento = finMantenimiento = Double.MAX_VALUE;
+        senocoseno = COS;
     }
 
     public FinMantenimiento(double rnd1, double rnd2, double tMantenimiento, double finMantenimiento) {
@@ -62,11 +67,24 @@ public class FinMantenimiento implements Cloneable{
             clon.rnd1 = Double.MAX_VALUE; //En la UI estos valores no se deberian ver
             clon.rnd2 = Double.MAX_VALUE;
             clon.tMantenimiento = Double.MAX_VALUE;
+            clon.senocoseno = this.senocoseno;
             
             return clon;
         } catch (CloneNotSupportedException ex) {
             Logger.getLogger(FinMantenimiento.class.getName()).log(Level.SEVERE, null, ex);
         }
         return new FinMantenimiento();
+    }
+
+    public String getSenoOCoseno() {
+        return senocoseno;
+    }
+    
+    public void setSenoOCoseno(String senocoseno)
+    {
+        if (COS.equals(senocoseno) || SENO.equals(senocoseno))
+        {
+            this.senocoseno = senocoseno;
+        }
     }
 }

@@ -110,6 +110,7 @@ public class EventoFinMantenimiento extends Evento
             
             actual.getEncargado().setEstado(Encargado.Estado.REPARANDO_MAQUINA);
             
+            //TODO: ver si sacar del anterior
             FinMantenimiento finMantenimiento = new FinMantenimiento();
             finMantenimiento.setRnd1(new Random().nextDouble());
             finMantenimiento.setRnd2(new Random().nextDouble());
@@ -117,7 +118,8 @@ public class EventoFinMantenimiento extends Evento
             tMantenimiento = Distribuciones.calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
                     Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
                     finMantenimiento.getRnd1(),
-                    finMantenimiento.getRnd2());
+                    finMantenimiento.getRnd2(),
+                    finMantenimiento.getSenoOCoseno());
             finTMantenimiento = tMantenimiento + actual.getReloj();
             
             finMantenimiento.setTMatenimiento(tMantenimiento);

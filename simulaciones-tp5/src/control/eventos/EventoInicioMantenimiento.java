@@ -63,6 +63,7 @@ public class EventoInicioMantenimiento extends Evento
             
             actual.getEncargado().setEstado(Encargado.Estado.REPARANDO_MAQUINA);
             
+            //TODO: ver si crear nuevo o reusar el del anterior
             FinMantenimiento finMantenimiento = new FinMantenimiento();
             finMantenimiento.setRnd1(new Random().nextDouble());
             finMantenimiento.setRnd2(new Random().nextDouble());
@@ -70,7 +71,8 @@ public class EventoInicioMantenimiento extends Evento
                     Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
                     Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
                     finMantenimiento.getRnd1(),
-                    finMantenimiento.getRnd2());
+                    finMantenimiento.getRnd2(),
+                    finMantenimiento.getSenoOCoseno());
             finMantenimiento.setTMatenimiento(tiempoMantenimiento);
             finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
             
