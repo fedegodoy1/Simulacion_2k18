@@ -64,9 +64,9 @@ public class FinMantenimiento implements Cloneable{
         try {
             FinMantenimiento clon = (FinMantenimiento) super.clone();
             clon.finMantenimiento = this.finMantenimiento;
-            clon.rnd1 = Double.MAX_VALUE; //En la UI estos valores no se deberian ver
-            clon.rnd2 = Double.MAX_VALUE;
-            clon.tMantenimiento = Double.MAX_VALUE;
+            clon.rnd1 = this.rnd1; //Se mantienen siempre ahora
+            clon.rnd2 = this.rnd2;
+            clon.tMantenimiento = Double.MAX_VALUE; //En la UI estos valores no se deberian ver
             clon.senocoseno = this.senocoseno;
             
             return clon;

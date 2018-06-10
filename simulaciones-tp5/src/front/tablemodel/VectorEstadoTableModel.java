@@ -111,6 +111,11 @@ public final class VectorEstadoTableModel extends DefaultTableModel implements V
                 value = datos.get(row).getFinMantenimiento().getRnd2() ;
                 break;
             }
+            case COL_FIN_MANTENIMIENTO_SENO_O_COSENO:
+            {
+                value = datos.get(row).getFinMantenimiento().getSenoOCoseno();
+                break;
+            }
             case COL_FIN_MANTENIMIENTO_TIEMPO:
             {
                 value = datos.get(row).getFinMantenimiento().getTMantenimiento() ;
@@ -290,6 +295,7 @@ public final class VectorEstadoTableModel extends DefaultTableModel implements V
         columns.add(new Columna("Proxima Llegada Mantenimiento", Double.class, 160));
         columns.add(new Columna("RND1: Fin Mantenimiento: RND1", Double.class, 150));
         columns.add(new Columna("RND2: Fin Mantenimiento: RND2", Double.class, 150));
+        columns.add(new Columna("Seno o Coseno: Fin Mantenimiento", String.class, 150));
         columns.add(new Columna("Tiempo Fin Mantenimiento", Double.class, 150));
         columns.add(new Columna("Fin Mantenimiento: Hora fin", Double.class, 160));
         columns.add(new Columna("Cola Alumnos", Integer.class, 50));

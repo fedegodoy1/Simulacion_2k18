@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import model.Configuracion;
 import objects.Distribuciones;
+import static objects.Distribuciones.COS;
+import static objects.Distribuciones.SENO;
 import objects.Encargado;
 import objects.Maquina;
 
@@ -63,18 +65,20 @@ public class EventoInicioMantenimiento extends Evento
             
             actual.getEncargado().setEstado(Encargado.Estado.REPARANDO_MAQUINA);
             
-            //TODO: ver si crear nuevo o reusar el del anterior
+            //En este evento siempre creamos uno nuevo.
             FinMantenimiento finMantenimiento = new FinMantenimiento();
+
+            finMantenimiento.setSenoOCoseno(COS);
             finMantenimiento.setRnd1(new Random().nextDouble());
             finMantenimiento.setRnd2(new Random().nextDouble());
-            double tiempoMantenimiento = Distribuciones.calcular_normal(
-                    Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
-                    Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
-                    finMantenimiento.getRnd1(),
-                    finMantenimiento.getRnd2(),
-                    finMantenimiento.getSenoOCoseno());
+            double tiempoMantenimiento = Distribuciones.
+                    calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
+                            Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
+                            finMantenimiento.getRnd1(), finMantenimiento.getRnd2(),
+                            finMantenimiento.getSenoOCoseno());
             finMantenimiento.setTMatenimiento(tiempoMantenimiento);
             finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
+
             
             actual.setFinMantenimiento(finMantenimiento);
             

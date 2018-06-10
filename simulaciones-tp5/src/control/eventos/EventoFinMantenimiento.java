@@ -16,6 +16,8 @@ import java.util.Random;
 import model.Configuracion;
 import objects.Alumno;
 import objects.Distribuciones;
+import static objects.Distribuciones.COS;
+import static objects.Distribuciones.SENO;
 import objects.Encargado;
 import objects.Maquina;
 
@@ -60,8 +62,8 @@ public class EventoFinMantenimiento extends Evento
         actual.setEncargado(anterior.getEncargado().clone());
         actual.setFinInscripcion(anterior.getFinInscripcion().clone());
         actual.setInicioMantenimiento(anterior.getInicioMantenimiento().clone());
-        actual.setFinMantenimiento(new FinMantenimiento());
-           
+        actual.setFinMantenimiento(anterior.getFinMantenimiento().clone());
+           actual.getFinMantenimiento().setFinMantenimiento(Double.MAX_VALUE);
         actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
         actual.setMaquinas(clonarMaquinas(anterior.getMaquinasList()));
         
@@ -111,19 +113,32 @@ public class EventoFinMantenimiento extends Evento
             actual.getEncargado().setEstado(Encargado.Estado.REPARANDO_MAQUINA);
             
             //TODO: ver si sacar del anterior
-            FinMantenimiento finMantenimiento = new FinMantenimiento();
-            finMantenimiento.setRnd1(new Random().nextDouble());
-            finMantenimiento.setRnd2(new Random().nextDouble());
+            FinMantenimiento finMantenimiento = actual.getFinMantenimiento();
+            if (COS.equals(finMantenimiento.getSenoOCoseno()))
+            {
+                finMantenimiento.setSenoOCoseno(SENO);
+                double tiempoMantenimiento = Distribuciones.
+                        calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
+                                Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
+                                finMantenimiento.getRnd1(), finMantenimiento.getRnd2(),
+                                finMantenimiento.getSenoOCoseno());
+                finMantenimiento.setTMatenimiento(tiempoMantenimiento);
+                finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
+            }
+            else
+            {
+                finMantenimiento.setSenoOCoseno(COS);
+                finMantenimiento.setRnd1(new Random().nextDouble());
+                finMantenimiento.setRnd2(new Random().nextDouble());
+                double tiempoMantenimiento = Distribuciones.
+                        calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
+                                Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
+                                finMantenimiento.getRnd1(), finMantenimiento.getRnd2(),
+                                finMantenimiento.getSenoOCoseno());
+                finMantenimiento.setTMatenimiento(tiempoMantenimiento);
+                finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
+            }
             
-            tMantenimiento = Distribuciones.calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
-                    Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
-                    finMantenimiento.getRnd1(),
-                    finMantenimiento.getRnd2(),
-                    finMantenimiento.getSenoOCoseno());
-            finTMantenimiento = tMantenimiento + actual.getReloj();
-            
-            finMantenimiento.setTMatenimiento(tMantenimiento);
-            finMantenimiento.setFinMantenimiento(finTMantenimiento);
             actual.setFinMantenimiento(finMantenimiento);
         } 
         else 
