@@ -43,6 +43,7 @@ public class EventoLlegadaAlumno extends Evento {
         actual.setInicioMantenimiento(anterior.getInicioMantenimiento().clone());
         actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
         actual.setMaquinas(clonarMaquinas(anterior.getMaquinasList()));
+        actual.setEuler(anterior.getEuler());
         
         Random randomObject = new Random();
         LlegadaAlumno newLlegada = new LlegadaAlumno();

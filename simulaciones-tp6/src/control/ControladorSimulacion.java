@@ -8,7 +8,6 @@ package control;
 import control.eventos.Evento;
 import front.Estadisticas;
 import front.VentanaPrincipal;
-import front.tablemodel.SetearValores;
 import java.util.*;
 import model.Configuracion;
 import model.VectorEstadoUI;
@@ -45,13 +44,9 @@ public class ControladorSimulacion
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ControladorSimulacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ControladorSimulacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ControladorSimulacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                javax.swing.UnsupportedLookAndFeelException  ex) 
+        {
             java.util.logging.Logger.getLogger(ControladorSimulacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }

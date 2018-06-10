@@ -15,6 +15,7 @@ import model.VectorEstadoUI;
 import objects.Alumno;
 import objects.ColaAlumnos;
 import objects.Encargado;
+import objects.Euler;
 import objects.Maquina;
 
 /**
@@ -50,9 +51,7 @@ public class VectorEstado implements VectorEstadoUI
     
     private List<Alumno> alumnos;
     
-    private List<Alumno> alumnosInscribiendose;
-    
-    private List<Alumno> alumnosEnCola;
+    private List<Euler> euler;
     
     @Override
     public double getReloj() {
@@ -169,5 +168,15 @@ public class VectorEstado implements VectorEstadoUI
 
     public void setAlumnos(List<Alumno> alumnos) {
         this.alumnos = alumnos;
+    }
+
+    public void setEuler (List<Euler> euler)
+    {
+        this.euler = euler;
+    }
+    
+    @Override
+    public List<Euler> getEuler() {
+        return this.euler;
     }
 }

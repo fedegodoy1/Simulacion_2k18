@@ -9,16 +9,11 @@ import control.ControladorSimulacion;
 import control.VectorEstado;
 import eventos.FinInscripcion;
 import eventos.FinMantenimiento;
-import eventos.InicioMantenimiento;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import model.Configuracion;
 import objects.Alumno;
 import objects.Distribuciones;
-import static objects.Distribuciones.COS;
-import static objects.Distribuciones.SENO;
 import objects.Encargado;
 import objects.Maquina;
 
@@ -53,6 +48,7 @@ public class EventoFinInscripcion extends Evento
         new ArrayList<>(listaAnterior); Pero los objetos tienen q tener impl el clone()
         */
         actual.setMaquinas(clonarMaquinas(anterior.getMaquinasList()));
+        actual.setEuler(anterior.getEuler());
         Maquina maquinaQueTerminoDeInscribir = null;
         for (Maquina maquina : actual.getMaquinasList())
         {
@@ -115,33 +111,37 @@ public class EventoFinInscripcion extends Evento
                 actual.getEncargado().setEstado(Encargado.Estado.REPARANDO_MAQUINA);
                 maquinaQueTerminoDeInscribir.setEstado(Maquina.Estado.SIENDO_MANTENIDA);
                 
-                FinMantenimiento finMantenimiento = actual.getFinMantenimiento();
-                if (COS.equals(finMantenimiento.getSenoOCoseno()))
-                {
-                    finMantenimiento.setSenoOCoseno(SENO);
-                    double tiempoMantenimiento = Distribuciones.
-                            calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
-                                    Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
-                                    finMantenimiento.getRnd1(), finMantenimiento.getRnd2(),
-                                    finMantenimiento.getSenoOCoseno());
-                    finMantenimiento.setTMatenimiento(tiempoMantenimiento);
-                    finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
-                }
-                else
-                {
-                    finMantenimiento.setSenoOCoseno(COS);
-                    finMantenimiento.setRnd1(new Random().nextDouble());
-                    finMantenimiento.setRnd2(new Random().nextDouble());
-                    double tiempoMantenimiento = Distribuciones.
-                            calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
-                                    Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
-                                    finMantenimiento.getRnd1(), finMantenimiento.getRnd2(),
-                                    finMantenimiento.getSenoOCoseno());
-                    finMantenimiento.setTMatenimiento(tiempoMantenimiento);
-                    finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
-                }
+//                FinMantenimiento finMantenimiento = actual.getFinMantenimiento();
+//                if (COS.equals(finMantenimiento.getSenoOCoseno()))
+//                {
+//                    finMantenimiento.setSenoOCoseno(SENO);
+//                    double tiempoMantenimiento = Distribuciones.
+//                            calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
+//                                    Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
+//                                    finMantenimiento.getRnd1(), finMantenimiento.getRnd2(),
+//                                    finMantenimiento.getSenoOCoseno());
+//                    finMantenimiento.setTMatenimiento(tiempoMantenimiento);
+//                    finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
+                    FinMantenimiento finMantenimiento = new FinMantenimiento();
+                    Distribuciones.calcularEuler(actual, finMantenimiento);
+                    finMantenimiento.setFinMantenimiento(actual.getReloj() + finMantenimiento.getTMantenimiento());
+                    actual.setFinMantenimiento(finMantenimiento);
+//                }
+//                else
+//                {
+//                    finMantenimiento.setSenoOCoseno(COS);
+//                    finMantenimiento.setRnd1(new Random().nextDouble());
+//                    finMantenimiento.setRnd2(new Random().nextDouble());
+//                    double tiempoMantenimiento = Distribuciones.
+//                            calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
+//                                    Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
+//                                    finMantenimiento.getRnd1(), finMantenimiento.getRnd2(),
+//                                    finMantenimiento.getSenoOCoseno());
+//                    finMantenimiento.setTMatenimiento(tiempoMantenimiento);
+//                    finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
+//                }
                 
-                actual.setFinMantenimiento(finMantenimiento);
+//                actual.setFinMantenimiento(finMantenimiento);
                 
             }
             else if (actual.getColaAlumnos().getColaAlumnos() > 0)

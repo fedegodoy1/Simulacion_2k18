@@ -47,6 +47,7 @@ public class EventoInicial extends Evento
         actual.setFinInscripcion(new FinInscripcion());
         actual.setFinMantenimiento(new FinMantenimiento());
         actual.setMaquinas(getMaquinasList());
+        actual.setEuler(new ArrayList<>());
         
         //Seteo de la proxima llegada
         LlegadaAlumno proximaLlegada = new LlegadaAlumno();

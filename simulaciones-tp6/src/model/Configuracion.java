@@ -39,6 +39,9 @@ public class Configuracion {
     private int minutoDesde;
     private int iteracionesAMostrar;
     
+    private double cantidadArchivos;
+    private double pasoEuler;
+    
     
     private Configuracion()
     {
@@ -53,6 +56,9 @@ public class Configuracion {
         this.minutosASimular = 120;
         this.minutoDesde = 0;
         this.iteracionesAMostrar = 1000000;
+        
+        this.cantidadArchivos = 1000;
+        this.pasoEuler = 0.1;
     }
 
     public double getTiempoInscripcionDesde() {
@@ -149,5 +155,29 @@ public class Configuracion {
     
     public void setIteracionesAMostrar(int iteracionesAMostrar){
         this.iteracionesAMostrar = iteracionesAMostrar;
+    }
+
+    public String[] getArchivos() 
+    {
+        return new String[] {"1000", "1500", "2000"};
+    }
+
+    public double getCantidadArchivos() 
+    {
+        return this.cantidadArchivos;
+    }
+    
+    public void setCantidadArchivos(double cant)
+    {
+        this.cantidadArchivos = cant;
+    }
+
+    public void setPasoEulerH(Double pasoEuler) {
+        this.pasoEuler = pasoEuler;
+    }
+    
+    public double getPasoEuler()
+    {
+        return this.pasoEuler;
     }
 }

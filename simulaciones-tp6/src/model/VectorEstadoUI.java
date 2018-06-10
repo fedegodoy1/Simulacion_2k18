@@ -11,6 +11,7 @@ import objects.Alumno;
 import objects.Encargado;
 import eventos.*;
 import objects.ColaAlumnos;
+import objects.Euler;
 import objects.Maquina;
 
 
@@ -45,4 +46,6 @@ public interface VectorEstadoUI {
     Encargado getEncargado();
     
     List<Alumno> getAlumnos();
+
+    public List<Euler> getEuler();
 }

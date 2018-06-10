@@ -1,14 +1,11 @@
 package front;
 
 import control.ControladorSimulacion;
-import control.VectorEstado;
 import front.tablemodel.VectorEstadoTableModel;
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.Action;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -16,19 +13,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.UndoableEditListener;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.Element;
-import javax.swing.text.Position;
-import javax.swing.text.Segment;
 import model.Configuracion;
 import model.VectorEstadoUI;
 import objects.Alumno;
+import objects.Euler;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
@@ -36,10 +26,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private VectorEstadoTableModel model;
     private JTable tabla;
     private PopUpAlumnos popUpAlumnos;
+    private PopUpEuler popUpEuler;
     
     public VentanaPrincipal(ControladorSimulacion controlador) {
         this.controlador = controlador;
         popUpAlumnos = new PopUpAlumnos();
+        popUpEuler = new PopUpEuler();
         initComponents();
         crearTabla();
         setearModeloDeTextos();
@@ -85,10 +77,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        txtTiempoMantenimientoMedio = new javax.swing.JTextField();
+        txtPasoEulerH = new javax.swing.JTextField();
         txtTiempoMantenimientoDesv = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        cmbCantidadArchivos = new javax.swing.JComboBox<>();
         jPanel8 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -119,8 +111,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel30 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
+        btnEuler = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("TP6");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -212,7 +206,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtIteracionesAMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(201, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,7 +251,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(txtLlegadaAlumnoMedia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Mantenimiento"));
@@ -318,15 +312,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Demora Mantenimiento"));
 
-        jLabel9.setText("Distribución Normal");
+        jLabel9.setText("Continua. Por Euler");
 
-        jLabel15.setText("Media:");
+        jLabel15.setText("Paso (h):");
 
-        jLabel16.setText("Desviación:");
+        jLabel16.setText("A (cantidad de archivos)");
+
+        txtTiempoMantenimientoDesv.setEditable(false);
 
         jLabel17.setText("minutos");
-
-        jLabel18.setText("minutos");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -334,24 +328,24 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel9)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addGap(35, 35, 35)
-                        .addComponent(txtTiempoMantenimientoMedio, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addGap(35, 35, 35)
+                                .addComponent(txtPasoEulerH, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(13, 13, 13)
+                        .addComponent(jLabel17)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTiempoMantenimientoDesv)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(0, 4, Short.MAX_VALUE)
-                        .addComponent(jLabel17))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(txtTiempoMantenimientoDesv, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbCantidadArchivos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(10, 10, 10))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,13 +355,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(txtTiempoMantenimientoMedio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPasoEulerH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(txtTiempoMantenimientoDesv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel18))
+                    .addComponent(cmbCantidadArchivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -451,28 +445,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(118, 118, 118)
+                .addContainerGap(27, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(143, Short.MAX_VALUE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(107, 107, 107)
+                .addGap(41, 41, 41)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Configuracion", jPanel3);
@@ -677,6 +671,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Resultados", jPanel10);
 
+        btnEuler.setText("Mostrar tabla euler");
+        btnEuler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEulerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -691,6 +692,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btn_setear_defecto)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEuler, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
@@ -708,7 +711,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_setear_defecto)
                     .addComponent(jButton1)
-                    .addComponent(btn_simular))
+                    .addComponent(btn_simular)
+                    .addComponent(btnEuler))
                 .addContainerGap())
         );
 
@@ -725,8 +729,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         txtInicioMantenimientoDesde.setText("" + config.getInicioMantenimientoDesde());
         txtInicioMantenimientoHasta.setText("" + config.getInicioMantenimientoHasta());
         txtLlegadaAlumnoMedia.setText("" + config.getMediaLlegadaAlumnos());
-        txtTiempoMantenimientoMedio.setText("" + config.getTiempoMantenimientoMedio());
-        txtTiempoMantenimientoDesv.setText("" + config.getTiempoMantenimientoDesviacion());
+        cmbCantidadArchivos.setSelectedItem(config.getCantidadArchivos());
+        txtPasoEulerH.setText("" + config.getPasoEuler());
     }//GEN-LAST:event_btn_setear_defectoActionPerformed
 
     private void btn_simularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simularActionPerformed
@@ -755,10 +759,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         popUpAlumnos.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnEulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEulerActionPerformed
+        popUpEuler.setVisible(true);
+    }//GEN-LAST:event_btnEulerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEuler;
     private javax.swing.JButton btn_setear_defecto;
     private javax.swing.JButton btn_simular;
+    private javax.swing.JComboBox<String> cmbCantidadArchivos;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -769,7 +779,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
@@ -815,10 +824,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField txtLlegadaAlumnoMedia;
     private javax.swing.JTextField txtMinutoDesde;
     private javax.swing.JTextField txtMinutosASimular;
+    private javax.swing.JTextField txtPasoEulerH;
     private javax.swing.JTextField txtTiempoInscripcionDesde;
     private javax.swing.JTextField txtTiempoInscripcionHasta;
     private javax.swing.JTextField txtTiempoMantenimientoDesv;
-    private javax.swing.JTextField txtTiempoMantenimientoMedio;
     private javax.swing.JTextField txt_capacidad_maq1;
     private javax.swing.JTextField txt_capacidad_maq2;
     private javax.swing.JTextField txt_capacidad_maq3;
@@ -863,11 +872,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     if (model.getDato(selectedRow) != null)
                     {
                         setAlumnosModel(model.getDato(selectedRow).getAlumnos());
+                        setEulerModel(model.getDato(selectedRow).getEuler());
                     }
 
                 }
             }
 
+            private void setEulerModel(List<Euler> euler) {
+                popUpEuler.setEuler(euler);
+            }
+            
             private void setAlumnosModel(List<Alumno> alumnos) {
                 popUpAlumnos.setAlumnos(alumnos);
             }
@@ -893,6 +907,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     private void setearModeloDeTextos() {
+        
+        cmbCantidadArchivos.setModel(new ArchivosComboBoxModel(Configuracion.getConfiguracion().getArchivos()));
         btn_simular.setMnemonic('S');
         DoubleInputVerifier doubleVer = new DoubleInputVerifier();
         txtInicioMantenimientoDesde.setInputVerifier(doubleVer);
@@ -901,7 +917,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         txtTiempoInscripcionDesde.setInputVerifier(doubleVer);
         txtTiempoInscripcionHasta.setInputVerifier(doubleVer);
         txtTiempoMantenimientoDesv.setInputVerifier(doubleVer);
-        txtTiempoMantenimientoMedio.setInputVerifier(doubleVer);
+        txtPasoEulerH.setInputVerifier(doubleVer);
         IntegerInputVerifier intVer = new IntegerInputVerifier();
         txtIteracionesAMostrar.setInputVerifier(intVer);
         txtMinutoDesde.setInputVerifier(intVer);
@@ -994,31 +1010,38 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         
         try
         {
-            if (Double.isNaN(Double.parseDouble(txtTiempoMantenimientoMedio.getText())) ||
-                    Double.parseDouble(txtTiempoMantenimientoMedio.getText()) < 0)
+            if (Double.isNaN(Double.parseDouble(txtPasoEulerH.getText())) ||
+                    Double.parseDouble(txtPasoEulerH.getText()) < 0)
             {
-                throw new InputException("Media tiempo mantenimiento invalido");
+                throw new InputException("Paso para Euler (h) invalido");
             }
         }
         catch (NumberFormatException nfe)
         {
-            throw new InputException("Media tiempo mantenimiento invalido");
+            throw new InputException("Paso para Euler (h) invalido");
         }
-        Double tiempoMantenimientoMedio = Double.parseDouble(txtTiempoMantenimientoMedio.getText());
+        Double pasoEuler = Double.parseDouble(txtPasoEulerH.getText());
         
-        try
+//        try
+//        {
+//            if (Double.isNaN(Double.parseDouble(txtTiempoMantenimientoDesv.getText())) ||
+//                    Double.parseDouble(txtTiempoMantenimientoDesv.getText()) < 0)
+//            {
+//                throw new InputException("Media tiempo mantenimiento invalido");
+//            }
+//        }
+//        catch (NumberFormatException nfe)
+//        {
+//            throw new InputException("Media tiempo mantenimiento invalido");
+//        }
+//        Double tiempoMantenimientoDesviacion = Double.parseDouble(txtTiempoMantenimientoDesv.getText());
+//        
+
+        if (cmbCantidadArchivos.getSelectedIndex() < 0)
         {
-            if (Double.isNaN(Double.parseDouble(txtTiempoMantenimientoDesv.getText())) ||
-                    Double.parseDouble(txtTiempoMantenimientoDesv.getText()) < 0)
-            {
-                throw new InputException("Media tiempo mantenimiento invalido");
-            }
+            throw new InputException("Seleccione cant archivos validos");
         }
-        catch (NumberFormatException nfe)
-        {
-            throw new InputException("Media tiempo mantenimiento invalido");
-        }
-        Double tiempoMantenimientoDesviacion = Double.parseDouble(txtTiempoMantenimientoDesv.getText());
+        
         
         try
         {
@@ -1068,8 +1091,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         conf.setMinutosASimular(minutosASimular);
         conf.setTiempoInscripcionDesde(tiempoInscripcionDesde);
         conf.setTiempoInscripcionHasta(tiempoInscripcionHasta);
-        conf.setTiempoMantenimientoDesviacion(tiempoMantenimientoDesviacion);
-        conf.setTiempoMantenimientoMedio(tiempoMantenimientoMedio);
+        conf.setCantidadArchivos(Double.parseDouble(
+                (String)cmbCantidadArchivos.getSelectedItem()));
+        conf.setPasoEulerH(pasoEuler);
+//        conf.setTiempoMantenimientoDesviacion(tiempoMantenimientoDesviacion);
+//        conf.setTiempoMantenimientoMedio(tiempoMantenimientoMedio);
         //Successs
     }
 
@@ -1161,5 +1187,51 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             return Integer.parseInt(entrada);
         }
         throw new NumberFormatException(entrada);
+    }
+    
+    class ArchivosComboBoxModel extends DefaultComboBoxModel<String> 
+    {
+        private final String[] valores;
+        private String valorSeleccionado;
+        public ArchivosComboBoxModel(String[] valores)
+        {
+            this.valores = valores;
+            this.valorSeleccionado = this.valores[0];
+        }
+        
+        @Override
+        public void setSelectedItem(Object anItem) 
+        {
+            if (valores != null)
+            {
+                String valor = (String) anItem;
+                for (int i = 0; i < valores.length; i++)
+                {
+                    String val = valores[i];
+                    if ( valor.equals(val))
+                    {
+                        valorSeleccionado = val;
+                        break;
+                    }
+                }
+            }
+        }
+
+        @Override
+        public Object getSelectedItem() {
+            return valorSeleccionado;
+        }
+
+        @Override
+        public int getSize() {
+            return valores.length;
+        }
+
+        @Override
+        public String getElementAt(int index) 
+        {
+            return valores[index];
+        }
+
     }
 }

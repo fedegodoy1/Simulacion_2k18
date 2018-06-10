@@ -9,12 +9,10 @@ import control.ControladorSimulacion;
 import control.VectorEstado;
 import eventos.FinMantenimiento;
 import eventos.InicioMantenimiento;
-import java.util.ArrayList;
 import java.util.Random;
 import model.Configuracion;
 import objects.Distribuciones;
 import static objects.Distribuciones.COS;
-import static objects.Distribuciones.SENO;
 import objects.Encargado;
 import objects.Maquina;
 
@@ -46,6 +44,7 @@ public class EventoInicioMantenimiento extends Evento
         
         actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
         actual.setMaquinas(clonarMaquinas(anterior.getMaquinasList()));
+        actual.setEuler(anterior.getEuler());
         
         boolean hayMaquinaLibre = false;
         Maquina maquinaLibre = null;
@@ -66,20 +65,19 @@ public class EventoInicioMantenimiento extends Evento
             actual.getEncargado().setEstado(Encargado.Estado.REPARANDO_MAQUINA);
             
             //En este evento siempre creamos uno nuevo.
+            //            finMantenimiento.setSenoOCoseno(COS);
+//            finMantenimiento.setRnd1(new Random().nextDouble());
+//            finMantenimiento.setRnd2(new Random().nextDouble());
+//            double tiempoMantenimiento = Distribuciones.
+//                    calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
+//                            Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
+//                            finMantenimiento.getRnd1(), finMantenimiento.getRnd2(),
+//                            finMantenimiento.getSenoOCoseno());
+//            finMantenimiento.setTMatenimiento(tiempoMantenimiento);
+//            finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
             FinMantenimiento finMantenimiento = new FinMantenimiento();
-
-            finMantenimiento.setSenoOCoseno(COS);
-            finMantenimiento.setRnd1(new Random().nextDouble());
-            finMantenimiento.setRnd2(new Random().nextDouble());
-            double tiempoMantenimiento = Distribuciones.
-                    calcular_normal(Configuracion.getConfiguracion().getTiempoMantenimientoMedio(),
-                            Configuracion.getConfiguracion().getTiempoMantenimientoDesviacion(),
-                            finMantenimiento.getRnd1(), finMantenimiento.getRnd2(),
-                            finMantenimiento.getSenoOCoseno());
-            finMantenimiento.setTMatenimiento(tiempoMantenimiento);
-            finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
-
-            
+            Distribuciones.calcularEuler(actual, finMantenimiento);
+            finMantenimiento.setFinMantenimiento(actual.getReloj() + finMantenimiento.getTMantenimiento());
             actual.setFinMantenimiento(finMantenimiento);
             
         }
