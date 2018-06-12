@@ -15,9 +15,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import model.Configuracion;
 import model.VectorEstadoUI;
 import objects.Alumno;
+import objects.CantidadDeArchivos;
 import objects.Euler;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
@@ -25,6 +29,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private ControladorSimulacion controlador;
     private VectorEstadoTableModel model;
     private JTable tabla;
+    private JTable tablaMontecarlo;
+    private DefaultTableModel modeloMontecarlo;
     private PopUpAlumnos popUpAlumnos;
     private PopUpEuler popUpEuler;
     
@@ -76,11 +82,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
         txtPasoEulerH = new javax.swing.JTextField();
-        txtTiempoMantenimientoDesv = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        cmbCantidadArchivos = new javax.swing.JComboBox<>();
+        panelMontecarlo = new javax.swing.JPanel();
+        scpMontecarlo = new javax.swing.JScrollPane();
         jPanel8 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -307,7 +312,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel13)
                     .addComponent(txtInicioMantenimientoHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Demora Mantenimiento"));
@@ -316,11 +321,26 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jLabel15.setText("Paso (h):");
 
-        jLabel16.setText("A (cantidad de archivos)");
-
-        txtTiempoMantenimientoDesv.setEditable(false);
-
         jLabel17.setText("minutos");
+
+        panelMontecarlo.setBorder(javax.swing.BorderFactory.createTitledBorder("Cantidad de archivos"));
+
+        scpMontecarlo.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scpMontecarlo.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scpMontecarlo.setMaximumSize(new java.awt.Dimension(350, 175));
+        scpMontecarlo.setMinimumSize(new java.awt.Dimension(350, 175));
+        scpMontecarlo.setPreferredSize(new java.awt.Dimension(350, 175));
+
+        javax.swing.GroupLayout panelMontecarloLayout = new javax.swing.GroupLayout(panelMontecarlo);
+        panelMontecarlo.setLayout(panelMontecarloLayout);
+        panelMontecarloLayout.setHorizontalGroup(
+            panelMontecarloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scpMontecarlo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        panelMontecarloLayout.setVerticalGroup(
+            panelMontecarloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scpMontecarlo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -329,6 +349,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelMontecarlo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
@@ -338,14 +359,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                 .addComponent(txtPasoEulerH, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(13, 13, 13)
                         .addComponent(jLabel17)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTiempoMantenimientoDesv, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(cmbCantidadArchivos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(10, 10, 10))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -357,12 +372,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel15)
                     .addComponent(txtPasoEulerH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(txtTiempoMantenimientoDesv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbCantidadArchivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelMontecarlo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -380,10 +392,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Demora Inscripcion"));
@@ -445,7 +459,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -454,7 +468,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -463,10 +477,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(183, Short.MAX_VALUE))
+                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Configuracion", jPanel3);
@@ -729,7 +743,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         txtInicioMantenimientoDesde.setText("" + config.getInicioMantenimientoDesde());
         txtInicioMantenimientoHasta.setText("" + config.getInicioMantenimientoHasta());
         txtLlegadaAlumnoMedia.setText("" + config.getMediaLlegadaAlumnos());
-        cmbCantidadArchivos.setSelectedItem(config.getCantidadArchivos());
         txtPasoEulerH.setText("" + config.getPasoEuler());
     }//GEN-LAST:event_btn_setear_defectoActionPerformed
 
@@ -768,7 +781,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnEuler;
     private javax.swing.JButton btn_setear_defecto;
     private javax.swing.JButton btn_simular;
-    private javax.swing.JComboBox<String> cmbCantidadArchivos;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -777,7 +789,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -818,6 +829,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JPanel panelMontecarlo;
+    private javax.swing.JScrollPane scpMontecarlo;
     private javax.swing.JTextField txtInicioMantenimientoDesde;
     private javax.swing.JTextField txtInicioMantenimientoHasta;
     private javax.swing.JTextField txtIteracionesAMostrar;
@@ -827,7 +840,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField txtPasoEulerH;
     private javax.swing.JTextField txtTiempoInscripcionDesde;
     private javax.swing.JTextField txtTiempoInscripcionHasta;
-    private javax.swing.JTextField txtTiempoMantenimientoDesv;
     private javax.swing.JTextField txt_capacidad_maq1;
     private javax.swing.JTextField txt_capacidad_maq2;
     private javax.swing.JTextField txt_capacidad_maq3;
@@ -886,6 +898,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 popUpAlumnos.setAlumnos(alumnos);
             }
         });
+        
+        //Montecarlo
+        tablaMontecarlo = new JTable();
+        modeloMontecarlo = new MontecarloTM(Configuracion.getConfiguracion().getCantidadArchivos());
+        tablaMontecarlo.setModel(modeloMontecarlo);
+        tablaMontecarlo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tablaMontecarlo.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        
+        scpMontecarlo.setViewportView(tablaMontecarlo);
+        
     }
 
     public void setearModelo(List<VectorEstadoUI> modelo) 
@@ -908,7 +930,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void setearModeloDeTextos() {
         
-        cmbCantidadArchivos.setModel(new ArchivosComboBoxModel(Configuracion.getConfiguracion().getArchivos()));
         btn_simular.setMnemonic('S');
         DoubleInputVerifier doubleVer = new DoubleInputVerifier();
         txtInicioMantenimientoDesde.setInputVerifier(doubleVer);
@@ -916,7 +937,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         txtLlegadaAlumnoMedia.setInputVerifier(doubleVer);
         txtTiempoInscripcionDesde.setInputVerifier(doubleVer);
         txtTiempoInscripcionHasta.setInputVerifier(doubleVer);
-        txtTiempoMantenimientoDesv.setInputVerifier(doubleVer);
         txtPasoEulerH.setInputVerifier(doubleVer);
         IntegerInputVerifier intVer = new IntegerInputVerifier();
         txtIteracionesAMostrar.setInputVerifier(intVer);
@@ -1021,28 +1041,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             throw new InputException("Paso para Euler (h) invalido");
         }
         Double pasoEuler = Double.parseDouble(txtPasoEulerH.getText());
-        
-//        try
-//        {
-//            if (Double.isNaN(Double.parseDouble(txtTiempoMantenimientoDesv.getText())) ||
-//                    Double.parseDouble(txtTiempoMantenimientoDesv.getText()) < 0)
-//            {
-//                throw new InputException("Media tiempo mantenimiento invalido");
-//            }
-//        }
-//        catch (NumberFormatException nfe)
-//        {
-//            throw new InputException("Media tiempo mantenimiento invalido");
-//        }
-//        Double tiempoMantenimientoDesviacion = Double.parseDouble(txtTiempoMantenimientoDesv.getText());
-//        
-
-        if (cmbCantidadArchivos.getSelectedIndex() < 0)
-        {
-            throw new InputException("Seleccione cant archivos validos");
-        }
-        
-        
+           
         try
         {
             if (Integer.parseInt(txtMinutosASimular.getText()) < 0)
@@ -1091,8 +1090,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         conf.setMinutosASimular(minutosASimular);
         conf.setTiempoInscripcionDesde(tiempoInscripcionDesde);
         conf.setTiempoInscripcionHasta(tiempoInscripcionHasta);
-        conf.setCantidadArchivos(Double.parseDouble(
-                (String)cmbCantidadArchivos.getSelectedItem()));
         conf.setPasoEulerH(pasoEuler);
 //        conf.setTiempoMantenimientoDesviacion(tiempoMantenimientoDesviacion);
 //        conf.setTiempoMantenimientoMedio(tiempoMantenimientoMedio);
@@ -1189,49 +1186,88 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         throw new NumberFormatException(entrada);
     }
     
-    class ArchivosComboBoxModel extends DefaultComboBoxModel<String> 
+    class MontecarloTM extends DefaultTableModel
     {
-        private final String[] valores;
-        private String valorSeleccionado;
-        public ArchivosComboBoxModel(String[] valores)
+        private List<CantidadDeArchivos> datos;
+        
+        public MontecarloTM(List<CantidadDeArchivos> list)
         {
-            this.valores = valores;
-            this.valorSeleccionado = this.valores[0];
+            datos = list;
         }
         
         @Override
-        public void setSelectedItem(Object anItem) 
-        {
-            if (valores != null)
+        public int getRowCount() {
+            return (datos != null ? datos.size() : 0);
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 3;
+        }
+
+        @Override
+        public String getColumnName(int columnIndex) {
+            
+            switch (columnIndex)
             {
-                String valor = (String) anItem;
-                for (int i = 0; i < valores.length; i++)
+                case 0:
                 {
-                    String val = valores[i];
-                    if ( valor.equals(val))
-                    {
-                        valorSeleccionado = val;
-                        break;
-                    }
+                    return "Cantidad de archivos";
+                }
+                case 1:
+                {
+                    return "Probabilidad";
+                }
+                case 2:
+                {
+                    return "Probabilidad Acumulada";
+                }
+                default: return "";
+            }
+        }
+
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            return Double.class;
+        }
+
+        @Override
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            CantidadDeArchivos row = null;
+            if (datos == null || rowIndex >= datos.size())
+            {
+                return null;
+            }
+            row = datos.get(rowIndex);
+            switch (columnIndex)
+            {
+                case 0:
+                {
+                    return row.getCantidad();
+                }
+                case 1:
+                {
+                    return row.getProbabilidad();
+                }
+                case 2:
+                {
+                    return row.getProbabilidadAcumulada();
+                }
+                default:
+                {
+                    return null;
                 }
             }
         }
 
         @Override
-        public Object getSelectedItem() {
-            return valorSeleccionado;
+        public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+            return;
         }
-
-        @Override
-        public int getSize() {
-            return valores.length;
-        }
-
-        @Override
-        public String getElementAt(int index) 
-        {
-            return valores[index];
-        }
-
     }
 }

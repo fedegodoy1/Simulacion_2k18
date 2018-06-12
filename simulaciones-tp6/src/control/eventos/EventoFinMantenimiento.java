@@ -64,7 +64,7 @@ public class EventoFinMantenimiento extends Evento
            actual.getFinMantenimiento().setFinMantenimiento(Double.MAX_VALUE);
         actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
         actual.setMaquinas(clonarMaquinas(anterior.getMaquinasList()));
-        actual.setEuler(anterior.getEuler());
+        actual.setEuler(new ArrayList<>());
         
         Maquina maquinaQueTerminoDeMantenerse = new Maquina();
         
@@ -138,7 +138,7 @@ public class EventoFinMantenimiento extends Evento
 //                finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
 //            }
             FinMantenimiento finMantenimiento = new FinMantenimiento();
-            Distribuciones.calcularEuler(actual, finMantenimiento);
+            Distribuciones.calcularEuler(actual, finMantenimiento); //Se encarga de calcular cant de archivos tmb
             finMantenimiento.setFinMantenimiento(actual.getReloj() + finMantenimiento.getTMantenimiento());
             actual.setFinMantenimiento(finMantenimiento);
 //            actual.setFinMantenimiento(finMantenimiento);

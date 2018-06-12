@@ -37,7 +37,7 @@ public class EventoRegresoAlumno extends Evento
         actual.setInicioMantenimiento(anterior.getInicioMantenimiento().clone());
         actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
         actual.setMaquinas(clonarMaquinas(anterior.getMaquinasList()));
-        actual.setEuler(anterior.getEuler());
+        actual.setEuler(new ArrayList<>());
         
         Alumno alumnoQueVuelve = encontrarAlumnoQueVuelve(actual);
         

@@ -9,6 +9,7 @@ import control.ControladorSimulacion;
 import control.VectorEstado;
 import eventos.FinInscripcion;
 import eventos.FinMantenimiento;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import model.Configuracion;
@@ -48,7 +49,7 @@ public class EventoFinInscripcion extends Evento
         new ArrayList<>(listaAnterior); Pero los objetos tienen q tener impl el clone()
         */
         actual.setMaquinas(clonarMaquinas(anterior.getMaquinasList()));
-        actual.setEuler(anterior.getEuler());
+        actual.setEuler(new ArrayList<>());
         Maquina maquinaQueTerminoDeInscribir = null;
         for (Maquina maquina : actual.getMaquinasList())
         {
@@ -123,7 +124,7 @@ public class EventoFinInscripcion extends Evento
 //                    finMantenimiento.setTMatenimiento(tiempoMantenimiento);
 //                    finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
                     FinMantenimiento finMantenimiento = new FinMantenimiento();
-                    Distribuciones.calcularEuler(actual, finMantenimiento);
+                    Distribuciones.calcularEuler(actual, finMantenimiento); //se encarga de calcular cant archivos tmb
                     finMantenimiento.setFinMantenimiento(actual.getReloj() + finMantenimiento.getTMantenimiento());
                     actual.setFinMantenimiento(finMantenimiento);
 //                }

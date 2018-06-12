@@ -5,6 +5,10 @@
  */
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+import objects.CantidadDeArchivos;
+
 /**
  *
  * @author heftyn
@@ -39,8 +43,8 @@ public class Configuracion {
     private int minutoDesde;
     private int iteracionesAMostrar;
     
-    private double cantidadArchivos;
     private double pasoEuler;
+    private List<CantidadDeArchivos> cantidadDeArchivosList;
     
     
     private Configuracion()
@@ -57,8 +61,12 @@ public class Configuracion {
         this.minutoDesde = 0;
         this.iteracionesAMostrar = 1000000;
         
-        this.cantidadArchivos = 1000;
         this.pasoEuler = 0.1;
+        this.cantidadDeArchivosList = new ArrayList<>();
+        cantidadDeArchivosList.add(new CantidadDeArchivos(1000, 0.3333333, 0.3333333));
+        cantidadDeArchivosList.add(new CantidadDeArchivos(1500, 0.3333333, 0.6666666));
+        cantidadDeArchivosList.add(new CantidadDeArchivos(2000, 0.3333333, 0.9999999));
+        
     }
 
     public double getTiempoInscripcionDesde() {
@@ -157,19 +165,14 @@ public class Configuracion {
         this.iteracionesAMostrar = iteracionesAMostrar;
     }
 
-    public String[] getArchivos() 
+    public List<CantidadDeArchivos> getCantidadArchivos() 
     {
-        return new String[] {"1000", "1500", "2000"};
-    }
-
-    public double getCantidadArchivos() 
-    {
-        return this.cantidadArchivos;
+        return this.cantidadDeArchivosList;
     }
     
-    public void setCantidadArchivos(double cant)
+    public void setCantidadArchivos(List<CantidadDeArchivos> cant)
     {
-        this.cantidadArchivos = cant;
+        this.cantidadDeArchivosList = cant;
     }
 
     public void setPasoEulerH(Double pasoEuler) {

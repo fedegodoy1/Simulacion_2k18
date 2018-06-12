@@ -9,10 +9,8 @@ import control.ControladorSimulacion;
 import control.VectorEstado;
 import eventos.FinMantenimiento;
 import eventos.InicioMantenimiento;
-import java.util.Random;
-import model.Configuracion;
+import java.util.ArrayList;
 import objects.Distribuciones;
-import static objects.Distribuciones.COS;
 import objects.Encargado;
 import objects.Maquina;
 
@@ -44,7 +42,7 @@ public class EventoInicioMantenimiento extends Evento
         
         actual.setLlegadaAlumno(anterior.getLlegadaAlumno().clone());
         actual.setMaquinas(clonarMaquinas(anterior.getMaquinasList()));
-        actual.setEuler(anterior.getEuler());
+        actual.setEuler(new ArrayList<>());
         
         boolean hayMaquinaLibre = false;
         Maquina maquinaLibre = null;
@@ -76,7 +74,7 @@ public class EventoInicioMantenimiento extends Evento
 //            finMantenimiento.setTMatenimiento(tiempoMantenimiento);
 //            finMantenimiento.setFinMantenimiento(actual.getReloj() + tiempoMantenimiento);
             FinMantenimiento finMantenimiento = new FinMantenimiento();
-            Distribuciones.calcularEuler(actual, finMantenimiento);
+            Distribuciones.calcularEuler(actual, finMantenimiento); //Se encarga de calcular la cantidad de archivos tmb
             finMantenimiento.setFinMantenimiento(actual.getReloj() + finMantenimiento.getTMantenimiento());
             actual.setFinMantenimiento(finMantenimiento);
             
