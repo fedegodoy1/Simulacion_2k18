@@ -5,4 +5,4 @@
 /simulaciones-tp5/build/
 simulaciones-tp5/nbproject/
 
-*.xml
+/simulaciones-tp5/dist/
