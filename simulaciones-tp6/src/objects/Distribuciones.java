@@ -62,6 +62,7 @@ public class Distribuciones {
         // t + h
         euler.setTiempoSiguiente(euler.getTiempoActual() + Configuracion.getConfiguracion().getPasoEuler());
         // A(t+1) = A + h * (dA/dt)
+        // y(t+1) = y + h * y'
         euler.set_A_sigiente(A + (Configuracion.getConfiguracion().getPasoEuler() * euler.getDerivada()));
         
     }

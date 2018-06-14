@@ -5,12 +5,14 @@
         <group>
             <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/control/eventos/EventoRegresoAlumno.java</file>
             <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/objects/Distribuciones.java</file>
+            <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/front/Estadisticas.java</file>
             <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/control/eventos/EventoLlegadaAlumno.java</file>
             <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/control/eventos/EventoFinInscripcion.java</file>
             <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/control/ControladorSimulacion.java</file>
             <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/front/tablemodel/VectorEstadoTableModel.java</file>
             <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/model/Configuracion.java</file>
             <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/objects/CantidadDeArchivos.java</file>
+            <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/objects/Euler.java</file>
             <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/model/VectorEstadoUI.java</file>
             <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/front/PopUpEuler.java</file>
             <file>file:/C:/Users/heftyn/Documents/NetBeansProjects/Simulacion_2k18/simulaciones-tp6/src/model/VectorEstadoConstants.java</file>
